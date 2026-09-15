@@ -455,16 +455,42 @@ html.intro-ativa .intro {
 
 .trabalho__imagem {
   display: block;
-  max-width: 390px;
-  padding: var(--s2);
+  max-width: 410px; /* 390px de tela + 10px de bezel de cada lado */
 }
 
-/* O mockup já traz fundo branco e a moldura do celular: sem borda, sem corte. */
-.trabalho__imagem img {
+/* Moldura de celular em CSS puro: bezel preto arredondado com notch fino.
+   O print (390px reais) fica inteiro na tela, sem corte nem escala forçada. */
+.celular {
+  display: block;
+  padding: 10px;
+  border-radius: 36px;
+  background: var(--tinta);
+}
+
+.celular__tela {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 26px;
+  background: var(--papel);
+}
+
+.celular__tela::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 34%;
+  height: 8px;
+  border-radius: 0 0 8px 8px;
+  background: var(--tinta);
+  transform: translateX(-50%);
+}
+
+.celular__tela img {
   display: block;
   width: 100%;
   height: auto;
-  object-fit: contain;
 }
 
 .trabalho__titulo + p {
@@ -484,7 +510,7 @@ html.intro-ativa .intro {
 
   .trabalho:only-child {
     grid-column: 1 / -1;
-    grid-template-columns: 390px 1fr;
+    grid-template-columns: 410px 1fr;
     gap: var(--s5);
     align-items: start;
   }
