@@ -29,6 +29,7 @@
     const monograma = document.getElementById('intro-monograma');
     const svg = monograma.querySelector('svg');
     const nome = document.getElementById('intro-nome');
+    const traco = intro.querySelector('.intro__traco');
     const clipB = document.getElementById('clip-b-rect');
     const clipX = document.getElementById('clip-x-rect');
     const alvoMonograma = document.getElementById('topo-monograma');
@@ -41,19 +42,24 @@
     gsap.set(svg, { scale: 1.02, transformOrigin: '50% 50%' });
 
     // Coreografia (posições em segundos, absolutas na timeline):
-    //   0,00–0,50  B impresso de cima para baixo
-    //   0,42–0,87  X entra pela perna grossa, de baixo-direita para cima-esquerda
-    //   0,87–1,07  assentamento (scale 1.02 → 1)
-    //   0,90–1,30  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
-    //   1,30–1,65  pausa
-    //   1,65–2,25  voo (FLIP) até o cabeçalho
+    //   0,00–0,65  B impresso de cima para baixo
+    //   0,55–1,05  X entra pela perna grossa, de baixo-direita para cima-esquerda
+    //   1,05–1,30  assentamento (scale 1.02 → 1)
+    //   1,30–1,60  traço de 2px se desenha da esquerda para a direita sob o monograma
+    //   1,60–1,90  o traço sai pela direita (sublinhado momentâneo)
+    //   1,60–2,05  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
+    //   2,05–2,50  pausa
+    //   2,50–3,10  voo (FLIP) até o cabeçalho
     const tl = gsap.timeline({ onComplete: () => voar(0.6) });
-    tl.to(clipB, { attr: { height: 72 }, duration: 0.5, ease: 'expo.out' }, 0)
-      .to(clipX, { attr: { x: -47, width: 94 }, duration: 0.45, ease: 'power3.out' }, 0.42)
-      .to(svg, { scale: 1, duration: 0.2, ease: 'power2.out' }, 0.87)
-      .set(nome, { visibility: 'visible' }, 0.9)
-      .to(nome, { letterSpacing: trackingFinal, duration: 0.4, ease: 'expo.out' }, 0.9)
-      .to({}, { duration: 0.35 }, 1.3); // segura a pausa antes do voo
+    tl.to(clipB, { attr: { height: 72 }, duration: 0.65, ease: 'expo.out' }, 0)
+      .to(clipX, { attr: { x: -47, width: 94 }, duration: 0.5, ease: 'power3.out' }, 0.55)
+      .to(svg, { scale: 1, duration: 0.25, ease: 'power2.out' }, 1.05)
+      .to(traco, { scaleX: 1, duration: 0.3, ease: 'power2.out' }, 1.3)
+      .set(traco, { transformOrigin: 'right center' }, 1.6)
+      .to(traco, { scaleX: 0, duration: 0.3, ease: 'power2.in' }, 1.6)
+      .set(nome, { visibility: 'visible' }, 1.6)
+      .to(nome, { letterSpacing: trackingFinal, duration: 0.45, ease: 'expo.out' }, 1.6)
+      .to({}, { duration: 0.45 }, 2.05); // segura a pausa antes do voo
 
     // Clique, toque ou tecla: vai direto ao voo, mais curto, a partir do estado final.
     function pular() {
@@ -109,6 +115,6 @@
     }
 
     // Rede de segurança: aconteça o que acontecer, o site aparece.
-    setTimeout(() => { if (intro.isConnected) pousar(); }, 4000);
+    setTimeout(() => { if (intro.isConnected) pousar(); }, 5000);
   }
 })();

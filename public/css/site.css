@@ -226,6 +226,19 @@ html.intro-ativa .intro {
   will-change: transform;
 }
 
+/* Traço momentâneo sob o monograma: nasce da esquerda, sai pela direita (intro.js). */
+.intro__traco {
+  position: absolute;
+  top: calc(var(--intro-monograma) * 100 / 93.6 + 12px);
+  left: calc(50% - var(--intro-monograma) / 2);
+  width: var(--intro-monograma);
+  height: 2px;
+  background: var(--tinta);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
 /* O nome entra já opaco, só com o tracking fechando (intro.js). */
 .intro__nome {
   visibility: hidden;
@@ -443,13 +456,15 @@ html.intro-ativa .intro {
 .trabalho__imagem {
   display: block;
   max-width: 390px;
-  border: 1px solid var(--linha);
+  padding: var(--s2);
 }
 
+/* O mockup já traz fundo branco e a moldura do celular: sem borda, sem corte. */
 .trabalho__imagem img {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: contain;
 }
 
 .trabalho__titulo + p {
