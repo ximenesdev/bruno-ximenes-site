@@ -75,24 +75,47 @@
 
     <section class="secao" id="servicos">
       <h2 class="secao__titulo">O que eu faço</h2>
+      <table class="tabela tabela--servicos">
+        <thead>
+          <tr>
+            <th scope="col">serviço</th>
+            <th scope="col" class="tabela__valor">preço</th>
+            <th scope="col">prazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Perfil no Google completo</td>
+            <td class="tabela__valor">R$ 150</td>
+            <td>feito na hora, na sua loja</td>
+          </tr>
+          <tr>
+            <td>Sistemas sob medida</td>
+            <td class="tabela__valor">A partir de R$ 1.200</td>
+            <td>a partir de 6 semanas</td>
+          </tr>
+          <tr>
+            <td>Site da empresa</td>
+            <td class="tabela__valor">A partir de R$ 897</td>
+            <td>10 dias após receber as fotos</td>
+          </tr>
+        </tbody>
+      </table>
       <div class="servicos">
         <article class="servico">
           <h3 class="servico__titulo">Perfil no Google completo</h3>
-          <p class="servico__preco">R$ 150 · feito na hora, na sua loja</p>
           <p>Quando alguém pesquisa o seu tipo de negócio na região, o Google mostra primeiro quem tem o perfil preenchido. A maioria dos comércios de Brasília está pela metade: sem horário, sem fotos, categoria errada. Eu arrumo isso em 40 minutos, com você do lado, e você já sai com a plaquinha para os clientes te avaliarem.</p>
           <p>Entra: categoria certa, horário, telefone, serviços com preço, descrição com as palavras que o seu cliente digita, 10 a 15 fotos tiradas na hora, link de avaliação configurado.</p>
           <p class="servico__acao"><a class="botao botao--secundario" data-wa="google" href="#">Quero o perfil</a></p>
         </article>
         <article class="servico">
           <h3 class="servico__titulo">Sistemas sob medida</h3>
-          <p class="servico__preco">A partir de R$ 1.200 · a partir de 6 semanas</p>
           <p>Estoque, agendamento de clientes, ordem de serviço, controle financeiro, caixa. Desenvolvido para o jeito que a sua empresa trabalha, não o contrário. Eu vou até a loja, entendo a rotina, e você recebe um sistema que a sua equipe aprende a usar no mesmo dia. Hospedagem, atualização e suporte ficam comigo.</p>
           <p>O sistema é meu, você usa. Quer dizer: se eu melhorar alguma coisa para outro cliente, você recebe a melhoria também.</p>
           <p class="servico__acao"><a class="botao botao--secundario" data-wa="sistema" href="#">Quero conversar sobre um sistema</a></p>
         </article>
         <article class="servico">
           <h3 class="servico__titulo">Site da empresa</h3>
-          <p class="servico__preco">A partir de R$ 897 · 10 dias após receber as fotos</p>
           <p>Uma página, rápida, que abre bonita no WhatsApp e mostra o que você faz, quanto custa e onde você atende. Com domínio próprio (seusite.com.br), botão de WhatsApp e configurado para o Google encontrar. Você manda o link em vez de mandar foto solta.</p>
           <p>Entra: galeria dos seus trabalhos, serviços e preços, área de atendimento, horário, mapa e botão de contato.</p>
           <p class="servico__acao"><a class="botao botao--secundario" data-wa="site" href="#">Quero um site</a></p>
@@ -133,12 +156,7 @@
       <div class="trabalhos">
         <article class="trabalho">
           <a class="trabalho__imagem" href="https://manducakes-cardapio.contatoxm.workers.dev/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
-            <!-- Moldura de celular em CSS puro (bezel, notch) em volta do print real a 390px. -->
-            <span class="celular">
-              <span class="celular__tela">
-                <img src="assets/trabalhos/manducakes.png" width="780" height="1280" loading="lazy" alt="">
-              </span>
-            </span>
+            <img src="assets/trabalhos/manducakes-mockup.png" width="700" height="1024" loading="lazy" alt="">
           </a>
           <div class="trabalho__corpo">
             <h3 class="trabalho__titulo">Manducakes — cardápio digital</h3>
@@ -156,21 +174,21 @@
         <thead>
           <tr>
             <th scope="col"><span class="visualmente-oculto">Plano</span></th>
-            <th scope="col">por mês</th>
+            <th scope="col" class="tabela__valor">por mês</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>Site no ar e atualizado — hospedagem, domínio, certificado, até 2 atualizações de conteúdo por mês</td>
-            <td>R$ 149</td>
+            <td class="tabela__valor">R$ 149</td>
           </tr>
           <tr>
             <td>Sistema — licença de uso, hospedagem, backup, correções e atualizações, suporte</td>
-            <td>R$ 149</td>
+            <td class="tabela__valor">R$ 149</td>
           </tr>
           <tr>
             <td>Site + sistema</td>
-            <td>R$ 249</td>
+            <td class="tabela__valor">R$ 249</td>
           </tr>
         </tbody>
       </table>

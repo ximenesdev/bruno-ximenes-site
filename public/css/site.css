@@ -13,13 +13,13 @@
   --fonte: "Poppins", sans-serif;
 
   /* Escala tipográfica (mobile → desktop) */
-  --t-display: clamp(2rem, 5.5vw, 3.5rem);
-  --t-h2: clamp(1.5rem, 3vw, 2rem);
-  --t-h3: 1.25rem;
-  --t-corpo: 1.0625rem;
+  --t-display: clamp(2rem, 5.5vw, 3rem);
+  --t-h2: clamp(1.375rem, 2.6vw, 1.75rem);
+  --t-h3: 1.125rem;
+  --t-corpo: 1rem; /* piso de legibilidade no celular */
   --t-small: 0.875rem;
   --t-botao: 0.9375rem;
-  --t-numeral: clamp(3rem, 6vw, 4.5rem);
+  --t-numeral: clamp(2.75rem, 5.5vw, 4rem);
   --t-marca: 0.875rem;
   --tracking-marca: 0.18em;
 
@@ -30,7 +30,7 @@
   --s4: 40px;
   --s5: 64px;
   --s6: 104px;
-  --secao: clamp(56px, 8vw, 96px);
+  --secao: clamp(48px, 7vw, 88px);
   --gutter: 20px;
 
   /* Medidas */
@@ -338,6 +338,7 @@ html.intro-ativa .intro {
 /* --- Serviços -------------------------------------------------------------- */
 .servicos {
   display: grid;
+  margin-top: var(--s5);
 }
 
 .servico {
@@ -364,13 +365,8 @@ html.intro-ativa .intro {
   line-height: 1.3;
 }
 
-.servico__preco {
-  margin-top: var(--s1);
-  font-weight: 500;
-}
-
-.servico__preco + p {
-  margin-top: var(--s3);
+.servico__titulo + p {
+  margin-top: var(--s2);
 }
 
 .servico p + p:not(.servico__acao) {
@@ -413,9 +409,7 @@ html.intro-ativa .intro {
 
 .passo {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--s3);
-  align-items: start;
+  gap: var(--s2);
 }
 
 .passo__numero {
@@ -435,7 +429,6 @@ html.intro-ativa .intro {
   }
 
   .passo {
-    grid-template-columns: 1fr;
     gap: var(--s3);
     padding-right: var(--s4);
   }
@@ -455,42 +448,16 @@ html.intro-ativa .intro {
 
 .trabalho__imagem {
   display: block;
-  max-width: 410px; /* 390px de tela + 10px de bezel de cada lado */
+  max-width: 410px;
+  padding: var(--s2);
 }
 
-/* Moldura de celular em CSS puro: bezel preto arredondado com notch fino.
-   O print (390px reais) fica inteiro na tela, sem corte nem escala forçada. */
-.celular {
-  display: block;
-  padding: 10px;
-  border-radius: 36px;
-  background: var(--tinta);
-}
-
-.celular__tela {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  border-radius: 26px;
-  background: var(--papel);
-}
-
-.celular__tela::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 34%;
-  height: 8px;
-  border-radius: 0 0 8px 8px;
-  background: var(--tinta);
-  transform: translateX(-50%);
-}
-
-.celular__tela img {
+/* O mockup já traz fundo branco e a moldura do celular: sem borda, sem corte. */
+.trabalho__imagem img {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: contain;
 }
 
 .trabalho__titulo + p {
@@ -537,12 +504,52 @@ html.intro-ativa .intro {
   font-weight: 500;
 }
 
-.tabela th:last-child,
-.tabela td:last-child {
+.tabela .tabela__valor {
   padding-left: var(--s3);
   font-weight: 500;
   text-align: right;
   white-space: nowrap;
+}
+
+.tabela td + td:not(.tabela__valor),
+.tabela th + th:not(.tabela__valor) {
+  padding-left: var(--s3);
+}
+
+/* Tabela-resumo dos serviços: em telas estreitas cada linha vira um bloco,
+   com o preço abaixo do nome — nada rola na horizontal. */
+@media (max-width: 599px) {
+  .tabela--servicos thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .tabela--servicos tr,
+  .tabela--servicos td,
+  .tabela.tabela--servicos td + td,
+  .tabela.tabela--servicos .tabela__valor {
+    display: block;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .tabela--servicos tr {
+    padding: var(--s2) 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .tabela--servicos td:first-child {
+    font-weight: 500;
+  }
+
+  .tabela--servicos .tabela__valor {
+    font-weight: 400;
+  }
 }
 
 .tabela + .small {
@@ -576,7 +583,7 @@ html.intro-ativa .intro {
 
 @media (min-width: 900px) {
   .quem {
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 410px 1fr;
     gap: var(--s5);
     align-items: start;
   }
@@ -609,17 +616,16 @@ html.intro-ativa .intro {
 
 .rodape__conteudo {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--s4);
+  gap: var(--s3);
   max-width: var(--largura);
   margin: 0 auto;
 }
 
 .rodape__marca {
   display: block;
-  width: 200px;
+  width: 180px;
   height: auto;
 }
 
@@ -648,6 +654,12 @@ html.intro-ativa .intro {
 }
 
 @media (min-width: 768px) {
+  .rodape__conteudo {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--s4);
+  }
+
   .rodape__marca {
     width: 248px;
   }
