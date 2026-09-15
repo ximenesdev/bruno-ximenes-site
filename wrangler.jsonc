@@ -1,6 +1,6 @@
 {
   "name": "bruno-ximenes",
-  "compatibility_date": "2026-09-15",
+  "compatibility_date": "2026-05-03",
   "assets": {
     "directory": "./public",
     // Rotas sem arquivo (ex.: /qualquer) caem no 404 padrão, sem SPA.
