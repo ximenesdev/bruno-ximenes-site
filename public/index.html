@@ -48,20 +48,22 @@
   </div>
 
   <header class="topo">
-    <a class="marca" href="#" aria-label="Bruno Ximenes — início">
-      <svg class="marca__monograma" id="topo-monograma" viewBox="0 0 93.6 100" aria-hidden="true">
-        <g fill="currentColor" transform="scale(0.103093 -0.103093) translate(-22 -660)">
-          <path d="M22 0V10L40 17Q60 25 67.5 37.0Q75 49 75 69V591Q75 612 67.5 624.0Q60 636 40 643L22 650V660H309Q431 660 485.0 615.5Q539 571 539 503Q539 452 499.5 410.5Q460 369 364 352Q474 340 525.0 294.5Q576 249 576 184Q576 152 562.0 119.5Q548 87 514.5 60.0Q481 33 423.0 16.5Q365 0 276 0ZM223 353H266Q333 353 362.5 384.0Q392 415 392 492Q392 572 365.0 606.0Q338 640 277 640H223ZM223 20H273Q348 20 384.5 60.0Q421 100 421 185Q421 265 386.0 299.0Q351 333 271 333H223Z"/>
-          <path transform="translate(320 -310)" d="M10 0V10L27 15Q48 22 60.0 33.5Q72 45 84 63L238 301L63 599Q53 616 46.0 625.5Q39 635 20 643L4 650V660H272V650L249 643Q228 636 226.0 621.0Q224 606 236 585L339 410L449 584Q462 605 464.5 622.0Q467 639 444 645L424 650V660H563V650L537 642Q518 637 507.5 625.5Q497 614 486 597L352 388L542 63Q553 45 563.0 35.5Q573 26 591 18L610 10V0H330V10L353 16Q377 22 380.0 38.0Q383 54 370 75L251 278L120 71Q107 51 109.5 35.0Q112 19 131 14L145 10V0Z"/>
-        </g>
-      </svg>
-      <span class="marca__nome" id="topo-nome">BRUNO XIMENES</span>
-    </a>
-    <a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a>
+    <div class="topo__conteudo">
+      <a class="marca" href="#" aria-label="Bruno Ximenes — início">
+        <svg class="marca__monograma" id="topo-monograma" viewBox="0 0 93.6 100" aria-hidden="true">
+          <g fill="currentColor" transform="scale(0.103093 -0.103093) translate(-22 -660)">
+            <path d="M22 0V10L40 17Q60 25 67.5 37.0Q75 49 75 69V591Q75 612 67.5 624.0Q60 636 40 643L22 650V660H309Q431 660 485.0 615.5Q539 571 539 503Q539 452 499.5 410.5Q460 369 364 352Q474 340 525.0 294.5Q576 249 576 184Q576 152 562.0 119.5Q548 87 514.5 60.0Q481 33 423.0 16.5Q365 0 276 0ZM223 353H266Q333 353 362.5 384.0Q392 415 392 492Q392 572 365.0 606.0Q338 640 277 640H223ZM223 20H273Q348 20 384.5 60.0Q421 100 421 185Q421 265 386.0 299.0Q351 333 271 333H223Z"/>
+            <path transform="translate(320 -310)" d="M10 0V10L27 15Q48 22 60.0 33.5Q72 45 84 63L238 301L63 599Q53 616 46.0 625.5Q39 635 20 643L4 650V660H272V650L249 643Q228 636 226.0 621.0Q224 606 236 585L339 410L449 584Q462 605 464.5 622.0Q467 639 444 645L424 650V660H563V650L537 642Q518 637 507.5 625.5Q497 614 486 597L352 388L542 63Q553 45 563.0 35.5Q573 26 591 18L610 10V0H330V10L353 16Q377 22 380.0 38.0Q383 54 370 75L251 278L120 71Q107 51 109.5 35.0Q112 19 131 14L145 10V0Z"/>
+          </g>
+        </svg>
+        <span class="marca__nome" id="topo-nome">BRUNO XIMENES</span>
+      </a>
+      <a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a>
+    </div>
   </header>
 
-  <main>
-    <section class="hero" id="inicio">
+  <main class="pagina">
+    <section class="secao hero" id="inicio">
       <h1 class="hero__titulo">Seu negócio no Google, com site próprio e sistema que funciona do seu jeito.</h1>
       <p class="hero__texto">Eu atendo comércios e prestadores de serviço em Brasília. Vou até a sua loja, vejo como você trabalha hoje e entrego o que resolve: presença no Google, site com preço na tela e sistema feito para a sua rotina, não o contrário.</p>
       <p class="hero__acao">
@@ -69,7 +71,147 @@
         <span class="hero__nota">Resposta no mesmo dia útil.</span>
       </p>
     </section>
+
+    <section class="secao" id="servicos">
+      <h2 class="secao__titulo">O que eu faço</h2>
+      <div class="servicos">
+        <article class="servico">
+          <h3 class="servico__titulo">Perfil no Google completo</h3>
+          <p class="servico__preco">R$ 150 · feito na hora, na sua loja</p>
+          <p>Quando alguém pesquisa o seu tipo de negócio na região, o Google mostra primeiro quem tem o perfil preenchido. A maioria dos comércios de Brasília está pela metade: sem horário, sem fotos, categoria errada. Eu arrumo isso em 40 minutos, com você do lado, e você já sai com a plaquinha para os clientes te avaliarem.</p>
+          <p>Entra: categoria certa, horário, telefone, serviços com preço, descrição com as palavras que o seu cliente digita, 10 a 15 fotos tiradas na hora, link de avaliação configurado.</p>
+          <p class="servico__acao"><a class="botao botao--secundario" data-wa="google" href="#">Quero o perfil</a></p>
+        </article>
+        <article class="servico">
+          <h3 class="servico__titulo">Sistemas sob medida</h3>
+          <p class="servico__preco">A partir de R$ 1.200 · a partir de 6 semanas</p>
+          <p>Estoque, agendamento de clientes, ordem de serviço, controle financeiro, caixa. Desenvolvido para o jeito que a sua empresa trabalha, não o contrário. Eu vou até a loja, entendo a rotina, e você recebe um sistema que a sua equipe aprende a usar no mesmo dia. Hospedagem, atualização e suporte ficam comigo.</p>
+          <p>O sistema é meu, você usa. Quer dizer: se eu melhorar alguma coisa para outro cliente, você recebe a melhoria também.</p>
+          <p class="servico__acao"><a class="botao botao--secundario" data-wa="sistema" href="#">Quero conversar sobre um sistema</a></p>
+        </article>
+        <article class="servico">
+          <h3 class="servico__titulo">Site da empresa</h3>
+          <p class="servico__preco">A partir de R$ 897 · 10 dias após receber as fotos</p>
+          <p>Uma página, rápida, que abre bonita no WhatsApp e mostra o que você faz, quanto custa e onde você atende. Com domínio próprio (seusite.com.br), botão de WhatsApp e configurado para o Google encontrar. Você manda o link em vez de mandar foto solta.</p>
+          <p>Entra: galeria dos seus trabalhos, serviços e preços, área de atendimento, horário, mapa e botão de contato.</p>
+          <p class="servico__acao"><a class="botao botao--secundario" data-wa="site" href="#">Quero um site</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="secao" id="como-funciona">
+      <h2 class="secao__titulo">Como funciona</h2>
+      <ol class="passos">
+        <li class="passo">
+          <span class="passo__numero" aria-hidden="true">1</span>
+          <div class="passo__corpo">
+            <h3 class="passo__titulo">Eu vou até você.</h3>
+            <p>Visito a loja, vejo como você atende hoje e te mostro na hora o que está faltando. Sem custo, sem compromisso.</p>
+          </div>
+        </li>
+        <li class="passo">
+          <span class="passo__numero" aria-hidden="true">2</span>
+          <div class="passo__corpo">
+            <h3 class="passo__titulo">Preço fechado antes de começar.</h3>
+            <p>Você recebe o valor final, o que entra, o que não entra e o prazo, por escrito. Não existe surpresa no fim.</p>
+          </div>
+        </li>
+        <li class="passo">
+          <span class="passo__numero" aria-hidden="true">3</span>
+          <div class="passo__corpo">
+            <h3 class="passo__titulo">Entrega, treino e suporte.</h3>
+            <p>Eu entrego funcionando, ensino você e a equipe, e continuo do outro lado do WhatsApp.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="secao" id="trabalhos">
+      <h2 class="secao__titulo">Trabalhos</h2>
+      <!-- Grade preparada para três cards; com um filho só, o card vira duas colunas (:only-child). -->
+      <div class="trabalhos">
+        <article class="trabalho">
+          <a class="trabalho__imagem" href="https://manducakes-cardapio.contatoxm.workers.dev/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+            <img src="assets/trabalhos/manducakes.png" width="780" height="1280" loading="lazy" alt="">
+          </a>
+          <div class="trabalho__corpo">
+            <h3 class="trabalho__titulo">Manducakes — cardápio digital</h3>
+            <p>Cardápio que abre no WhatsApp, com fotos, preços e pedido direto.</p>
+            <p class="trabalho__acao"><a class="link" href="https://manducakes-cardapio.contatoxm.workers.dev/" target="_blank" rel="noopener">Ver ao vivo</a></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="secao" id="mensalidades">
+      <h2 class="secao__titulo">Para continuar no ar</h2>
+      <p class="secao__texto">Site e sistema não são entrega única. Eles ficam no ar, atualizados e com alguém respondendo. A mensalidade paga isso.</p>
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th scope="col"><span class="visualmente-oculto">Plano</span></th>
+            <th scope="col">por mês</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Site no ar e atualizado — hospedagem, domínio, certificado, até 2 atualizações de conteúdo por mês</td>
+            <td>R$ 149</td>
+          </tr>
+          <tr>
+            <td>Sistema — licença de uso, hospedagem, backup, correções e atualizações, suporte</td>
+            <td>R$ 149</td>
+          </tr>
+          <tr>
+            <td>Site + sistema</td>
+            <td>R$ 249</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="small">Suporte de segunda a sexta, 14h às 18h, pelo WhatsApp. Fora desse horário, resposta no próximo dia útil.</p>
+    </section>
+
+    <section class="secao" id="quem-faz">
+      <h2 class="secao__titulo">Quem faz</h2>
+      <div class="quem">
+        <div class="quem__marca">
+          <img src="assets/logo/bx-logo-vertical.svg" width="260" height="237" alt="Bruno Ximenes — Site, Google e sistemas para o seu negócio">
+        </div>
+        <div class="quem__texto">
+          <p>Sou o Bruno. Estudo Ciência da Computação, trabalho com tecnologia na administração pública e desenvolvo sistemas em Java. Antes disso passei por atendimento, vendas e administrativo em comércio, então sei como é o dia a dia de quem está no balcão.</p>
+          <p>Não vendo pacote pronto. Vou até a loja, entendo como você trabalha e entrego o que faz diferença de verdade. Se não fizer, eu falo.</p>
+          <p class="small">GitHub: <a class="link" data-cfg="github-url" href="#"></a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="atendimento">
+      <h2 class="secao__titulo">Onde eu atendo</h2>
+      <p class="secao__texto">Brasília e todo o Distrito Federal. Visita presencial para diagnóstico, sem custo.</p>
+      <p class="chamada">Quer ver o que está faltando no seu negócio?</p>
+      <p class="secao__texto">Me chama no WhatsApp. Eu respondo no mesmo dia útil.</p>
+      <p class="secao__acao"><a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a></p>
+    </section>
   </main>
+
+  <footer class="rodape">
+    <div class="rodape__conteudo">
+      <img class="rodape__marca" src="assets/logo/bx-logo-horizontal-branco.svg" width="248" height="70" alt="Bruno Ximenes — Site, Google e sistemas para o seu negócio">
+      <address class="rodape__contato">
+        <p data-cfg="whatsapp-linha" hidden>WhatsApp · <span data-cfg="whatsapp"></span></p>
+        <p>E-mail · <a data-cfg="email" href="#"></a></p>
+        <p>GitHub · <a data-cfg="github" href="#"></a></p>
+        <p>Brasília, DF</p>
+      </address>
+    </div>
+    <p class="rodape__copy">© 2026 Bruno Ximenes</p>
+  </footer>
+
+  <!-- CTA fixo: sempre visível, com a mensagem do topo. O glifo é o único ícone do site (funcional). -->
+  <a class="whats-fixo" data-wa="topo" href="#">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <span>WhatsApp</span>
+  </a>
 
   <script src="js/config.js"></script>
   <script src="js/vendor/gsap.min.js" defer onerror="document.documentElement.classList.remove('intro-ativa')"></script>

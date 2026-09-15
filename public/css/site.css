@@ -30,7 +30,7 @@
   --s4: 40px;
   --s5: 64px;
   --s6: 104px;
-  --secao: clamp(64px, 10vw, 120px);
+  --secao: clamp(56px, 8vw, 96px);
   --gutter: 20px;
 
   /* Medidas */
@@ -40,6 +40,7 @@
   --toque: 48px;
 
   --raio: 2px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --topo-altura: 56px;
   --topo-monograma: 32px;
   --intro-monograma: clamp(140px, 24vw, 200px);
@@ -117,7 +118,7 @@ html.intro-ativa {
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  transition: background-color 200ms ease, color 200ms ease;
+  transition: background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
 }
 
 .botao:hover {
@@ -137,13 +138,18 @@ html.intro-ativa {
 
 /* --- Cabeçalho ------------------------------------------------------------- */
 .topo {
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--linha);
+}
+
+.topo__conteudo {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--s2);
+  max-width: var(--largura);
   height: var(--topo-altura);
-  padding: 0 var(--gutter);
-  border-bottom: 1px solid var(--linha);
+  margin: 0 auto;
 }
 
 .marca {
@@ -231,14 +237,70 @@ html.intro-ativa .intro {
   will-change: transform, letter-spacing;
 }
 
-/* --- Hero ------------------------------------------------------------------ */
-.hero {
-  max-width: var(--largura);
-  margin: 0 auto;
-  padding: var(--secao) var(--gutter);
-  border-bottom: 1px solid var(--linha);
+/* --- Página e seções ------------------------------------------------------- */
+.pagina {
+  padding: 0 var(--gutter);
 }
 
+.secao {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: var(--secao) 0;
+  border-top: 1px solid var(--linha);
+}
+
+.secao:first-child {
+  border-top: 0;
+}
+
+.secao__titulo {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.secao__titulo + * {
+  margin-top: var(--s4);
+}
+
+.secao__texto {
+  max-width: var(--medida);
+}
+
+.secao__texto + .secao__texto {
+  margin-top: var(--s2);
+}
+
+.secao__acao {
+  margin-top: var(--s4);
+}
+
+.small {
+  font-size: var(--t-small);
+  line-height: 1.5;
+}
+
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- Hero ------------------------------------------------------------------ */
 .hero__titulo {
   max-width: var(--medida-display);
   font-size: var(--t-display);
@@ -258,4 +320,326 @@ html.intro-ativa .intro {
   align-items: center;
   gap: var(--s2) var(--s3);
   margin-top: var(--s4);
+}
+
+/* --- Serviços -------------------------------------------------------------- */
+.servicos {
+  display: grid;
+}
+
+.servico {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s4) 0;
+  border-top: 1px solid var(--linha);
+}
+
+.servico:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.servico:last-child {
+  padding-bottom: 0;
+}
+
+.servico__titulo,
+.passo__titulo,
+.trabalho__titulo {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.servico__preco {
+  margin-top: var(--s1);
+  font-weight: 500;
+}
+
+.servico__preco + p {
+  margin-top: var(--s3);
+}
+
+.servico p + p:not(.servico__acao) {
+  margin-top: var(--s2);
+}
+
+.servico__acao {
+  margin-top: auto;
+  padding-top: var(--s4);
+}
+
+@media (min-width: 900px) {
+  .servicos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .servico {
+    padding: 0 var(--s4) 0 0;
+    border-top: 0;
+  }
+
+  .servico + .servico {
+    padding-left: var(--s4);
+    border-left: 1px solid var(--linha);
+  }
+
+  .servico:last-child {
+    padding-right: 0;
+  }
+}
+
+/* --- Como funciona --------------------------------------------------------- */
+.passos {
+  display: grid;
+  gap: var(--s4);
+  margin: var(--s4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.passo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s3);
+  align-items: start;
+}
+
+.passo__numero {
+  min-width: 1.1ch;
+  font-size: var(--t-numeral);
+  font-weight: 600;
+  line-height: 0.85;
+}
+
+.passo__titulo + p {
+  margin-top: var(--s1);
+}
+
+@media (min-width: 900px) {
+  .passos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .passo {
+    grid-template-columns: 1fr;
+    gap: var(--s3);
+    padding-right: var(--s4);
+  }
+}
+
+/* --- Trabalhos ------------------------------------------------------------- */
+.trabalhos {
+  display: grid;
+  gap: var(--s5);
+}
+
+.trabalho {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+}
+
+.trabalho__imagem {
+  display: block;
+  max-width: 390px;
+  border: 1px solid var(--linha);
+}
+
+.trabalho__imagem img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.trabalho__titulo + p {
+  margin-top: var(--s1);
+}
+
+.trabalho__acao {
+  margin-top: var(--s2);
+}
+
+@media (min-width: 900px) {
+  /* Grade de três quando houver três; com um só, o card ocupa a linha em duas colunas. */
+  .trabalhos {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--s4);
+  }
+
+  .trabalho:only-child {
+    grid-column: 1 / -1;
+    grid-template-columns: 390px 1fr;
+    gap: var(--s5);
+    align-items: start;
+  }
+}
+
+/* --- Mensalidades ---------------------------------------------------------- */
+.tabela {
+  width: 100%;
+  max-width: 760px;
+  margin-top: var(--s4);
+  border-collapse: collapse;
+}
+
+.tabela th,
+.tabela td {
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--linha);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabela th {
+  font-size: var(--t-small);
+  font-weight: 500;
+}
+
+.tabela th:last-child,
+.tabela td:last-child {
+  padding-left: var(--s3);
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tabela + .small {
+  max-width: var(--medida);
+  margin-top: var(--s3);
+}
+
+/* --- Quem faz -------------------------------------------------------------- */
+.quem {
+  display: grid;
+  gap: var(--s4);
+}
+
+.quem__marca img {
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+.quem__texto {
+  max-width: var(--medida);
+}
+
+.quem__texto p + p {
+  margin-top: var(--s2);
+}
+
+.quem__texto .small {
+  margin-top: var(--s3);
+}
+
+@media (min-width: 900px) {
+  .quem {
+    grid-template-columns: 260px 1fr;
+    gap: var(--s5);
+    align-items: start;
+  }
+
+  .quem__marca img {
+    width: 260px;
+  }
+}
+
+/* --- Onde eu atendo -------------------------------------------------------- */
+.chamada {
+  max-width: var(--medida-display);
+  margin-top: var(--s5);
+  font-size: var(--t-h2);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.chamada + .secao__texto {
+  margin-top: var(--s2);
+}
+
+/* --- Rodapé ---------------------------------------------------------------- */
+.rodape {
+  padding: var(--s5) var(--gutter) calc(var(--s5) + 56px);
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+.rodape__conteudo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s4);
+  max-width: var(--largura);
+  margin: 0 auto;
+}
+
+.rodape__marca {
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+.rodape__contato {
+  font-size: var(--t-small);
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.rodape__contato a {
+  text-decoration: none;
+}
+
+.rodape__contato a:hover {
+  text-decoration: underline;
+}
+
+.rodape__copy {
+  max-width: var(--largura);
+  margin: var(--s5) auto 0;
+  font-size: var(--t-small);
+}
+
+.rodape :focus-visible {
+  outline-color: var(--papel);
+}
+
+@media (min-width: 768px) {
+  .rodape__marca {
+    width: 248px;
+  }
+
+  .rodape__contato {
+    text-align: right;
+  }
+}
+
+/* --- WhatsApp fixo --------------------------------------------------------- */
+.whats-fixo {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--toque);
+  padding: 0 18px 0 14px;
+  border: 1px solid var(--papel); /* invisível no papel; contorna o botão sobre o rodapé preto */
+  border-radius: var(--raio);
+  background: var(--tinta);
+  color: var(--papel);
+  font-size: var(--t-botao);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
+}
+
+.whats-fixo:hover {
+  border-color: var(--tinta);
+  background: var(--papel);
+  color: var(--tinta);
 }
