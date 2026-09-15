@@ -1,0 +1,14 @@
+# Node
+node_modules/
+
+# Wrangler
+.wrangler/
+.dev.vars
+
+# Sistema operacional / editores
+.DS_Store
+.vscode/
+
+# Logs
+*.log
+

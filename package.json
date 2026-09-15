@@ -1,0 +1,12 @@
+{
+  "name": "bruno-ximenes-site",
+  "private": true,
+  "description": "Site de uma página do Bruno Ximenes — presença digital para comércios de Brasília.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.86.0"
+  }
+}
