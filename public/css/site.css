@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Site Bruno Ximenes — folha única.
+   Monocromático: tinta, papel e um cinza só para linhas. Hierarquia por
+   tamanho e peso, nunca por cor mais clara.
+   ========================================================================== */
+
+/* --- Tokens ---------------------------------------------------------------- */
+:root {
+  --tinta: #000;
+  --papel: #fff;
+  --linha: #e5e5e5;
+
+  --fonte: "Poppins", sans-serif;
+
+  /* Escala tipográfica (mobile → desktop) */
+  --t-display: clamp(2rem, 5.5vw, 3.5rem);
+  --t-h2: clamp(1.5rem, 3vw, 2rem);
+  --t-h3: 1.25rem;
+  --t-corpo: 1.0625rem;
+  --t-small: 0.875rem;
+  --t-botao: 0.9375rem;
+  --t-numeral: clamp(3rem, 6vw, 4.5rem);
+  --t-marca: 0.875rem;
+  --tracking-marca: 0.18em;
+
+  /* Espaço (base 8) */
+  --s1: 8px;
+  --s2: 16px;
+  --s3: 24px;
+  --s4: 40px;
+  --s5: 64px;
+  --s6: 104px;
+  --secao: clamp(64px, 10vw, 120px);
+  --gutter: 20px;
+
+  /* Medidas */
+  --medida: 62ch;
+  --medida-display: 22ch;
+  --largura: 1120px;
+  --toque: 48px;
+
+  --raio: 2px;
+  --topo-altura: 56px;
+  --topo-monograma: 32px;
+  --intro-monograma: clamp(140px, 24vw, 200px);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 40px;
+    --topo-altura: 64px;
+    --topo-monograma: 34px;
+  }
+}
+
+/* --- Base ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color: var(--tinta);
+  background: var(--papel);
+  font-family: var(--fonte);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-size: var(--t-corpo);
+  line-height: 1.6;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+svg {
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--tinta);
+  outline-offset: 3px;
+}
+
+/* Enquanto a intro roda, a página não rola. */
+html.intro-ativa {
+  overflow: hidden;
+}
+
+/* --- Botões ---------------------------------------------------------------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--toque);
+  padding: 0 var(--s3);
+  border: 1px solid var(--tinta);
+  border-radius: var(--raio);
+  background: var(--tinta);
+  color: var(--papel);
+  font-size: var(--t-botao);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.botao:hover {
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.botao--secundario {
+  background: var(--papel);
+  color: var(--tinta);
+}
+
+.botao--secundario:hover {
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+/* --- Cabeçalho ------------------------------------------------------------- */
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  height: var(--topo-altura);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--linha);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--toque);
+  text-decoration: none;
+}
+
+.marca__monograma {
+  height: var(--topo-monograma);
+  width: auto;
+  color: var(--tinta);
+}
+
+.marca__nome {
+  display: none;
+  font-size: var(--t-marca);
+  font-weight: 600;
+  letter-spacing: var(--tracking-marca);
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .marca__nome {
+    display: block;
+  }
+}
+
+/* A marca do cabeçalho só aparece quando a da intro pousa nela. */
+html.intro-ativa .marca__monograma,
+html.intro-ativa .marca__nome {
+  visibility: hidden;
+}
+
+/* --- Intro ----------------------------------------------------------------- */
+.intro {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+html.intro-ativa .intro {
+  display: flex;
+}
+
+.intro__fundo {
+  position: absolute;
+  inset: 0;
+  background: var(--papel);
+}
+
+.intro__marca {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.intro__monograma {
+  width: var(--intro-monograma);
+  aspect-ratio: 93.6 / 100;
+  will-change: transform;
+}
+
+.intro__monograma svg {
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+/* O nome entra já opaco, só com o tracking fechando (intro.js). */
+.intro__nome {
+  visibility: hidden;
+  font-size: clamp(1rem, 2.6vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.6em;
+  line-height: 1;
+  white-space: nowrap;
+  will-change: transform, letter-spacing;
+}
+
+/* --- Hero ------------------------------------------------------------------ */
+.hero {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: var(--secao) var(--gutter);
+  border-bottom: 1px solid var(--linha);
+}
+
+.hero__titulo {
+  max-width: var(--medida-display);
+  font-size: var(--t-display);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero__texto {
+  max-width: var(--medida);
+  margin-top: var(--s3);
+}
+
+.hero__acao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s3);
+  margin-top: var(--s4);
+}
