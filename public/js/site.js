@@ -1,9 +1,12 @@
-// Comportamento geral do site: links de WhatsApp a partir do config e rolagem suave.
+// Comportamento geral do site: contato a partir do config, reveal por seção e rolagem suave.
 (function () {
   const cfg = window.BX;
   const html = document.documentElement;
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Monta os links wa.me com a mensagem de cada botão (data-wa = chave em BX.MENSAGENS).
+  // --- Contato (tudo vem de config.js) --------------------------------------
+
+  // Links wa.me com a mensagem de cada botão (data-wa = chave em BX.MENSAGENS).
   document.querySelectorAll('[data-wa]').forEach((el) => {
     const msg = cfg.MENSAGENS[el.dataset.wa] || cfg.MENSAGENS.topo;
     el.href = 'https://wa.me/' + cfg.WHATSAPP + '?text=' + encodeURIComponent(msg);
@@ -11,12 +14,53 @@
     el.rel = 'noopener';
   });
 
-  // Rolagem suave só com mouse/trackpad e sem prefers-reduced-motion; no toque fica o nativo.
-  const suave = matchMedia('(pointer: fine)').matches
-    && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-cfg="email"]').forEach((el) => {
+    el.textContent = cfg.EMAIL;
+    el.href = 'mailto:' + cfg.EMAIL;
+  });
 
-  if (suave && window.Lenis && window.gsap && window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('[data-cfg="github"], [data-cfg="github-url"]').forEach((el) => {
+    el.textContent = el.dataset.cfg === 'github-url' ? 'github.com/' + cfg.GITHUB : cfg.GITHUB;
+    el.href = 'https://github.com/' + cfg.GITHUB;
+    el.target = '_blank';
+    el.rel = 'noopener';
+  });
+
+  // Número formatado no rodapé — só aparece quando o WHATSAPP estiver preenchido.
+  // "5561999999999" → "(61) 99999-9999"
+  const numero = cfg.WHATSAPP.replace(/\D/g, '');
+  if (numero.length >= 12) {
+    const ddd = numero.slice(2, 4);
+    const local = numero.slice(4);
+    const corte = local.length - 4;
+    document.querySelectorAll('[data-cfg="whatsapp"]').forEach((el) => {
+      el.textContent = '(' + ddd + ') ' + local.slice(0, corte) + '-' + local.slice(corte);
+    });
+    document.querySelectorAll('[data-cfg="whatsapp-linha"]').forEach((el) => { el.hidden = false; });
+  }
+
+  // --- Movimento fora da intro: uma regra só ---------------------------------
+
+  const animar = window.gsap && window.ScrollTrigger && !reduz;
+  if (animar) gsap.registerPlugin(ScrollTrigger);
+
+  // Reveal discreto por seção: opacidade + 12px, uma vez. O hero não entra.
+  if (animar) {
+    document.querySelectorAll('.secao:not(.hero)').forEach((secao) => {
+      gsap.from(secao, {
+        autoAlpha: 0,
+        y: 12,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: secao, start: 'top 85%', once: true },
+      });
+    });
+    // A intro trava a rolagem; quando ela acaba, as medidas mudam.
+    document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
+  }
+
+  // Rolagem suave só com mouse/trackpad; no toque fica o nativo.
+  if (animar && window.Lenis && matchMedia('(pointer: fine)').matches) {
     const lenis = new Lenis();
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
