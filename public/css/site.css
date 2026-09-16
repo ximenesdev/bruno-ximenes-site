@@ -178,6 +178,13 @@ html.intro-ativa {
   overflow: hidden;
 }
 
+/* Âncoras suaves só onde o Lenis não atua (toque) e sem reduced-motion. */
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* --- Botões ---------------------------------------------------------------- */
 .botao {
   display: inline-flex;
@@ -213,9 +220,20 @@ html.intro-ativa {
 }
 
 /* --- Cabeçalho ------------------------------------------------------------- */
+/* Fixo no topo. Nasce transparente e sem filete; site.js põe .topo--fixo assim
+   que a página sai do topo, e aí ele materializa com o fundo do tema. */
 .topo {
+  position: sticky;
+  top: 0;
+  z-index: 60;
   padding: 0 var(--gutter);
-  border-bottom: 1px solid var(--filete);
+  border-bottom: 1px solid transparent;
+  transition: background-color 250ms var(--ease), border-color 250ms var(--ease);
+}
+
+.topo--fixo {
+  border-bottom-color: var(--filete);
+  background: var(--papel);
 }
 
 .topo__conteudo {
@@ -263,10 +281,88 @@ html.intro-ativa .marca__nome {
   visibility: hidden;
 }
 
+/* Navegação: ocupa o espaço entre a marca e as ações; no mobile rola na
+   horizontal dentro de si mesma, sem barra visível e sem estourar a página. */
+.nav {
+  position: relative;
+  flex: 1 1 auto;
+  align-self: stretch; /* altura cheia: o indicador senta sobre o filete */
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav__lista {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Itens à direita quando cabem; quando não cabem, a margem auto zera e a lista
+   começa da esquerda (justify-content: flex-end esconderia o início). */
+.nav__lista > li:first-child {
+  margin-left: auto;
+}
+
+.nav__item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 var(--s2);
+  color: var(--tinta-fraca);
+  font-size: var(--t-small);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 250ms var(--ease);
+}
+
+.nav__item:hover,
+.nav__item[aria-current="true"] {
+  color: var(--tinta);
+}
+
+.nav__item:focus-visible {
+  outline-offset: -3px; /* o nav recorta o que sai dele */
+}
+
+/* Indicador de 2px: um só elemento que desliza e se estica até o item ativo
+   (FLIP em site.js: mede o item e anima só transform). */
+.nav__indicador {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 2px;
+  background: var(--tinta);
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: transform 450ms var(--ease);
+  will-change: transform;
+}
+
 .topo__acoes {
   display: flex;
   align-items: center;
   gap: var(--s1);
+}
+
+/* O CTA do cabeçalho só entra quando o container está na largura cheia e a
+   navegação cabe inteira ao lado dele; abaixo disso o hero e o botão fixo cobrem. */
+.topo .botao {
+  display: none;
+}
+
+@media (min-width: 1120px) {
+  .topo .botao {
+    display: inline-flex;
+  }
 }
 
 /* Botão de tema: alvo de toque cheio, glifo de 20px. */
@@ -393,6 +489,7 @@ html.intro-ativa .intro {
   margin: 0 auto;
   padding: var(--secao) 0;
   border-top: 1px solid var(--filete);
+  scroll-margin-top: var(--topo-altura);
 }
 
 .secao:first-child {
@@ -843,6 +940,8 @@ html.intro-ativa .intro {
 }
 
 /* --- WhatsApp fixo --------------------------------------------------------- */
+/* Em repouso é só o glifo (48px). O rótulo abre em largura (grid 0fr → 1fr) no
+   hover/foco e na apresentação, uma vez, logo depois de entrar. */
 .whats-fixo {
   position: fixed;
   right: 16px;
@@ -850,10 +949,9 @@ html.intro-ativa .intro {
   z-index: 50;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   min-height: var(--toque);
-  padding: 0 18px 0 14px;
-  border: 1px solid var(--papel); /* invisível no papel; contorna o botão sobre o rodapé preto */
+  padding: 0 13px;
+  border: 1px solid var(--papel); /* invisível no papel; contorna o botão sobre o rodapé */
   border-radius: var(--raio);
   background: var(--tinta);
   color: var(--papel);
@@ -861,7 +959,7 @@ html.intro-ativa .intro {
   font-weight: 500;
   line-height: 1;
   text-decoration: none;
-  transition: background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
+  transition: transform 500ms var(--ease), background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
 }
 
 .whats-fixo:hover {
@@ -870,6 +968,71 @@ html.intro-ativa .intro {
   color: var(--tinta);
 }
 
+/* Com script, começa fora da tela e entra uma vez quando o hero sai (site.js). */
+html.js .whats-fixo {
+  transform: translateY(calc(100% + 24px));
+}
+
+html.js .whats-fixo--visivel {
+  transform: none;
+  animation: whats-pulso 700ms var(--ease) 600ms 1; /* um pulso só, depois da entrada */
+}
+
+@keyframes whats-pulso {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.06);
+  }
+}
+
+.whats-fixo__rotulo {
+  display: grid;
+  grid-template-columns: 0fr;
+  transition: grid-template-columns 300ms var(--ease);
+}
+
+/* O respiro em volta do texto vai em pseudo-elementos: padding contaria no
+   track mesmo em 0fr; conteúdo, não. */
+.whats-fixo__rotulo > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.whats-fixo__rotulo > span::before,
+.whats-fixo__rotulo > span::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+}
+
+.whats-fixo__rotulo > span::after {
+  width: 5px;
+}
+
+.whats-fixo:hover .whats-fixo__rotulo,
+.whats-fixo:focus-visible .whats-fixo__rotulo,
+.whats-fixo--apresenta .whats-fixo__rotulo {
+  grid-template-columns: 1fr;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topo,
+  .nav__item,
+  .nav__indicador,
+  .whats-fixo,
+  .whats-fixo__rotulo {
+    transition: none;
+  }
+
+  html.js .whats-fixo--visivel {
+    animation: none;
+  }
+}
 /* --- TEMPORÁRIO: avaliação visual da mono ----------------------------------
    Aplicar pelo console: document.documentElement.classList.add('teste-mono-total')
    Joga JetBrains Mono no site inteiro (inclusive marca). Não usar em produção;

@@ -90,6 +90,23 @@
   const animar = window.gsap && window.ScrollTrigger && !reduz;
   if (animar) gsap.registerPlugin(ScrollTrigger);
 
+  // Rolagem suave só com mouse/trackpad; no toque fica o nativo (e as âncoras
+  // usam scroll-behavior do CSS). O offset das âncoras é a altura do cabeçalho.
+  const topoAltura = parseFloat(getComputedStyle(html).getPropertyValue('--topo-altura')) || 0;
+  let lenis = null;
+  if (animar && window.Lenis && matchMedia('(pointer: fine)').matches) {
+    lenis = new Lenis({ anchors: { offset: -topoAltura } });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // Durante a intro a página não rola.
+    if (html.classList.contains('intro-ativa')) {
+      lenis.stop();
+      document.addEventListener('bx:intro-fim', () => lenis.start(), { once: true });
+    }
+  }
+
   // Reveal discreto por seção: opacidade + 12px, uma vez. O hero não entra;
   // "Como funciona" tem o próprio reveal, em cascata (abaixo).
   if (animar) {
@@ -118,17 +135,81 @@
     document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
   }
 
-  // Rolagem suave só com mouse/trackpad; no toque fica o nativo.
-  if (animar && window.Lenis && matchMedia('(pointer: fine)').matches) {
-    const lenis = new Lenis();
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((t) => lenis.raf(t * 1000));
-    gsap.ticker.lagSmoothing(0);
+  // --- Cabeçalho, scrollspy e WhatsApp fixo: um leitor de rolagem só ----------
+  // Ligado ao Lenis quando ele existe (um evento por quadro); senão, ao scroll
+  // nativo. Tudo coalescido num rAF e sem animação fora de transform/opacity.
 
-    // Durante a intro a página não rola.
-    if (html.classList.contains('intro-ativa')) {
-      lenis.stop();
-      document.addEventListener('bx:intro-fim', () => lenis.start(), { once: true });
+  const topo = document.getElementById('topo');
+  const nav = document.getElementById('nav');
+  const indicador = nav.querySelector('.nav__indicador');
+  const itens = Array.from(nav.querySelectorAll('.nav__item'));
+  const itemPorSecao = new Map(itens.map((a) => [a.hash.slice(1), a]));
+  const secoes = Array.from(document.querySelectorAll('.secao'));
+  const hero = document.querySelector('.hero');
+  const whats = document.getElementById('whats-fixo');
+  let itemAtivo = null;
+  let whatsEntrou = false;
+
+  // FLIP do indicador: mede onde o item ativo está e anima só a transformação.
+  function posicionarIndicador() {
+    if (!itemAtivo) {
+      indicador.style.transform = 'scaleX(0)';
+      return;
+    }
+    indicador.style.transform = 'translateX(' + itemAtivo.offsetLeft + 'px) scaleX(' + itemAtivo.offsetWidth + ')';
+    // No mobile a barra rola sozinha até deixar o item ativo à vista.
+    if (nav.scrollWidth > nav.clientWidth) {
+      const alvo = itemAtivo.offsetLeft - (nav.clientWidth - itemAtivo.offsetWidth) / 2;
+      nav.scrollTo({ left: alvo, behavior: reduz ? 'auto' : 'smooth' });
     }
   }
+
+  function marcar(item) {
+    if (item === itemAtivo) return;
+    if (itemAtivo) itemAtivo.removeAttribute('aria-current');
+    itemAtivo = item;
+    if (itemAtivo) itemAtivo.setAttribute('aria-current', 'true');
+    posicionarIndicador();
+  }
+
+  function ler() {
+    // Cabeçalho materializa fora do topo.
+    topo.classList.toggle('topo--fixo', scrollY > 4);
+
+    // Seção "em leitura": a última cujo topo já passou de 35% da tela. Seções fora
+    // da navegação (hero, quem faz) contam, e nelas nenhum item fica marcado.
+    const linha = innerHeight * 0.35;
+    let atual = null;
+    for (const secao of secoes) {
+      if (secao.getBoundingClientRect().top <= linha) atual = secao;
+    }
+    marcar(atual ? itemPorSecao.get(atual.id) || null : null);
+
+    // WhatsApp fixo: entra uma vez quando o hero sai da tela, se apresenta com o
+    // rótulo aberto por 2,4 s e recolhe ao glifo.
+    if (!whatsEntrou && hero.getBoundingClientRect().bottom < 0) {
+      whatsEntrou = true;
+      whats.classList.add('whats-fixo--visivel', 'whats-fixo--apresenta');
+      setTimeout(() => whats.classList.remove('whats-fixo--apresenta'), 2400);
+    }
+  }
+
+  let agendado = false;
+  function aoRolar() {
+    if (agendado) return;
+    agendado = true;
+    requestAnimationFrame(() => { agendado = false; ler(); });
+  }
+
+  if (lenis) lenis.on('scroll', aoRolar);
+  else addEventListener('scroll', aoRolar, { passive: true });
+  addEventListener('resize', () => { posicionarIndicador(); aoRolar(); });
+  document.addEventListener('bx:intro-fim', aoRolar, { once: true });
+
+  // Com reduced-motion o botão fixo não tem entrada: já nasce visível.
+  if (reduz) {
+    whatsEntrou = true;
+    whats.classList.add('whats-fixo--visivel');
+  }
+  ler();
 })();
