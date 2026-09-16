@@ -5,14 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bruno Ximenes — Site, Google e sistemas para o seu negócio em Brasília</title>
 
+  <!-- A cor da barra do navegador segue o papel; site.js atualiza as duas ao trocar o tema. -->
+  <meta name="theme-color" content="#fff">
+  <meta name="theme-color" content="#000" media="(prefers-color-scheme: dark)">
+
   <script>
-    // Decide antes da primeira pintura se a intro roda: só na primeira abertura
-    // da sessão e nunca com prefers-reduced-motion. Sem a classe, o overlay nem aparece.
+    // Antes da primeira pintura, sem flash de tema errado:
+    // 1. tema — escolha salva > preferência do sistema > claro;
+    // 2. intro — só na primeira abertura da sessão e nunca com prefers-reduced-motion.
     (function () {
+      var raiz = document.documentElement;
       try {
-        var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!reduz && !sessionStorage.getItem('bx-intro')) {
-          document.documentElement.classList.add('intro-ativa');
+        var salvo = localStorage.getItem('bx-tema');
+        if (salvo ? salvo === 'escuro' : matchMedia('(prefers-color-scheme: dark)').matches) {
+          raiz.classList.add('tema-escuro');
+        }
+      } catch (e) {}
+      try {
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('bx-intro')) {
+          raiz.classList.add('intro-ativa');
         }
       } catch (e) {}
     })();

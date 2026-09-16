@@ -1,7 +1,8 @@
 /* ==========================================================================
    Site Bruno Ximenes — folha única.
-   Monocromático: tinta, papel e um cinza só para linhas. Hierarquia por
-   tamanho e peso, nunca por cor mais clara.
+   Monocromático: tinta, papel, um cinza para filetes e um para rótulos de
+   tabela. Hierarquia por tamanho e peso, nunca por cor mais clara.
+   Tema: as quatro cores vivem só no :root; html.tema-escuro inverte tudo.
    ========================================================================== */
 
 /* --- Fontes (vendorizadas de @fontsource, subconjunto latin) --------------- */
@@ -40,9 +41,12 @@
 
 /* --- Tokens ---------------------------------------------------------------- */
 :root {
-  --tinta: #000;
-  --papel: #fff;
-  --linha: #e5e5e5;
+  /* Cores semânticas — únicas cores literais da folha. */
+  --papel: #fff;        /* fundo */
+  --tinta: #000;        /* texto */
+  --filete: #e5e5e5;    /* linhas */
+  --tinta-fraca: #6b6b6b; /* rótulos de tabela; 5,3:1 sobre o papel */
+  color-scheme: light;
 
   /* Mesma pilha do portfólio: San Francisco nativa em Apple, Inter nos demais. */
   --fonte: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
@@ -80,6 +84,16 @@
   --topo-altura: 56px;
   --topo-monograma: 32px;
   --intro-monograma: clamp(140px, 24vw, 200px);
+}
+
+/* Tema escuro: exatamente o inverso (a classe vem do script no <head>, antes da
+   primeira pintura: escolha salva > prefers-color-scheme > claro). */
+html.tema-escuro {
+  --papel: #000;
+  --tinta: #fff;
+  --filete: #1a1a1a;
+  --tinta-fraca: #949494; /* 6,9:1 sobre o papel escuro */
+  color-scheme: dark;
 }
 
 @media (min-width: 768px) {
@@ -175,7 +189,7 @@ html.intro-ativa {
 /* --- Cabeçalho ------------------------------------------------------------- */
 .topo {
   padding: 0 var(--gutter);
-  border-bottom: 1px solid var(--linha);
+  border-bottom: 1px solid var(--filete);
 }
 
 .topo__conteudo {
@@ -297,7 +311,7 @@ html.intro-ativa .intro {
   max-width: var(--largura);
   margin: 0 auto;
   padding: var(--secao) 0;
-  border-top: 1px solid var(--linha);
+  border-top: 1px solid var(--filete);
 }
 
 .secao:first-child {
@@ -406,7 +420,7 @@ html.intro-ativa .intro {
   display: flex;
   flex-direction: column;
   padding: var(--s4) 0;
-  border-top: 1px solid var(--linha);
+  border-top: 1px solid var(--filete);
 }
 
 .servico:first-child {
@@ -451,7 +465,7 @@ html.intro-ativa .intro {
 
   .servico + .servico {
     padding-left: var(--s4);
-    border-left: 1px solid var(--linha);
+    border-left: 1px solid var(--filete);
   }
 
   .servico:last-child {
@@ -550,7 +564,7 @@ html.intro-ativa .intro {
   width: 100%;
   max-width: 760px;
   margin-top: var(--s4);
-  border: 1px solid var(--linha);
+  border: 1px solid var(--filete);
   border-radius: var(--raio);
   border-collapse: separate;
   border-spacing: 0;
@@ -560,7 +574,7 @@ html.intro-ativa .intro {
 .tabela th,
 .tabela td {
   padding: var(--s2) var(--s3);
-  border-bottom: 1px solid var(--linha);
+  border-bottom: 1px solid var(--filete);
   text-align: left;
   vertical-align: top;
 }
@@ -570,6 +584,7 @@ html.intro-ativa .intro {
 }
 
 .tabela th {
+  color: var(--tinta-fraca);
   font-size: var(--t-small);
   font-weight: 500;
 }
@@ -594,7 +609,7 @@ html.intro-ativa .intro {
   .tabela--servicos tr {
     display: block;
     padding: var(--s2) var(--s3);
-    border-bottom: 1px solid var(--linha);
+    border-bottom: 1px solid var(--filete);
   }
 
   .tabela--servicos tbody tr:last-child {
