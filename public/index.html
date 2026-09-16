@@ -68,7 +68,16 @@
         </svg>
         <span class="marca__nome" id="topo-nome">BRUNO XIMENES</span>
       </a>
-      <a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a>
+      <div class="topo__acoes">
+        <!-- Troca de tema: meio disco em currentColor, vira 180° no escuro. O rótulo vem de site.js. -->
+        <button class="tema" id="tema" type="button" aria-label="Mudar para o tema escuro">
+          <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+            <circle cx="10" cy="10" r="8.75" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10 1.25a8.75 8.75 0 0 1 0 17.5z" fill="currentColor"/>
+          </svg>
+        </button>
+        <a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a>
+      </div>
     </div>
   </header>
 

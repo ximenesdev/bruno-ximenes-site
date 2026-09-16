@@ -237,6 +237,61 @@ html.intro-ativa .marca__nome {
   visibility: hidden;
 }
 
+.topo__acoes {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+}
+
+/* Botão de tema: alvo de toque cheio, glifo de 20px. */
+.tema {
+  display: grid;
+  place-items: center;
+  width: var(--toque);
+  height: var(--toque);
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 250ms var(--ease);
+}
+
+.tema:hover {
+  background: var(--filete);
+}
+
+.tema svg {
+  transition: transform 500ms var(--ease);
+}
+
+html.tema-escuro .tema svg {
+  transform: rotate(180deg);
+}
+
+/* Troca de tema com View Transitions: o clip-path circular é animado em site.js
+   sobre a vista nova; aqui só desligamos o cross-fade padrão e pomos a nova por cima. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tema svg {
+    transition: none;
+  }
+}
+
 /* --- Intro ----------------------------------------------------------------- */
 .intro {
   display: none;

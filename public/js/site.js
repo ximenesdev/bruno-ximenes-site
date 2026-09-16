@@ -39,6 +39,52 @@
     document.querySelectorAll('[data-cfg="whatsapp-linha"]').forEach((el) => { el.hidden = false; });
   }
 
+  // --- Tema claro/escuro -----------------------------------------------------
+  // A decisão inicial já foi tomada no <head>; aqui só a troca pelo botão.
+
+  const botaoTema = document.getElementById('tema');
+  const metasCor = document.querySelectorAll('meta[name="theme-color"]');
+
+  function aplicarTema(escuro) {
+    html.classList.toggle('tema-escuro', escuro);
+    botaoTema.setAttribute('aria-label', escuro ? 'Mudar para o tema claro' : 'Mudar para o tema escuro');
+    const papel = getComputedStyle(html).getPropertyValue('--papel').trim();
+    metasCor.forEach((meta) => { meta.content = papel; });
+  }
+
+  botaoTema.addEventListener('click', () => {
+    const escuro = !html.classList.contains('tema-escuro');
+    try { localStorage.setItem('bx-tema', escuro ? 'escuro' : 'claro'); } catch (e) {}
+
+    // Sem View Transitions no navegador, ou com reduced-motion: troca seca.
+    if (reduz || typeof document.startViewTransition !== 'function') {
+      aplicarTema(escuro);
+      return;
+    }
+
+    // O tema novo entra como um círculo que cresce a partir do botão até cobrir
+    // o canto mais distante da tela — o site "vira ao contrário" a partir dali.
+    const r = botaoTema.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    const raio = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const ease = getComputedStyle(html).getPropertyValue('--ease').trim() || 'ease';
+    const transicao = document.startViewTransition(() => aplicarTema(escuro));
+    transicao.ready.then(() => {
+      html.animate(
+        { clipPath: ['circle(0 at ' + x + 'px ' + y + 'px)', 'circle(' + raio + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 600, easing: ease, pseudoElement: '::view-transition-new(root)' }
+      );
+    }).catch(() => {}); // se a transição for pulada, o tema já foi aplicado
+  });
+
+  // Sem escolha salva, acompanha o sistema se ele mudar com a página aberta.
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    try { if (localStorage.getItem('bx-tema')) return; } catch (err) {}
+    aplicarTema(e.matches);
+  });
+  aplicarTema(html.classList.contains('tema-escuro'));
+
   // --- Movimento fora da intro: uma regra só ---------------------------------
 
   const animar = window.gsap && window.ScrollTrigger && !reduz;
