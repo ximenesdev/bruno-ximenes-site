@@ -351,6 +351,29 @@ html.intro-ativa .intro {
   white-space: nowrap;
 }
 
+/* Lockups da marca: o SVG entra como máscara e a cor é a do texto ao redor.
+   Assim a mesma imagem serve ao tema claro, ao escuro e ao rodapé invertido. */
+.logo {
+  display: block;
+  background: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.logo--vertical {
+  aspect-ratio: 166.8 / 152;
+  -webkit-mask-image: url("../assets/logo/bx-logo-vertical.svg");
+  mask-image: url("../assets/logo/bx-logo-vertical.svg");
+}
+
+.logo--horizontal {
+  aspect-ratio: 330.5 / 94;
+  -webkit-mask-image: url("../assets/logo/bx-logo-horizontal.svg");
+  mask-image: url("../assets/logo/bx-logo-horizontal.svg");
+}
+
 /* --- Hero ------------------------------------------------------------------ */
 .hero__titulo {
   max-width: var(--medida-display);
@@ -607,10 +630,8 @@ html.intro-ativa .intro {
   gap: var(--s4);
 }
 
-.quem__marca img {
-  display: block;
+.quem__marca .logo {
   width: 200px;
-  height: auto;
 }
 
 .quem__texto {
@@ -632,7 +653,7 @@ html.intro-ativa .intro {
     align-items: start;
   }
 
-  .quem__marca img {
+  .quem__marca .logo {
     width: 260px;
   }
 }
@@ -668,9 +689,7 @@ html.intro-ativa .intro {
 }
 
 .rodape__marca {
-  display: block;
   width: 180px;
-  height: auto;
 }
 
 .rodape__contato {
