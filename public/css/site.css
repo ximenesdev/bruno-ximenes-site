@@ -4,13 +4,49 @@
    tamanho e peso, nunca por cor mais clara.
    ========================================================================== */
 
+/* --- Fontes (vendorizadas de @fontsource, subconjunto latin) --------------- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/inter-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/inter-latin-700-normal.woff2") format("woff2");
+}
+
+/* Poppins só no texto da marca ("BRUNO XIMENES"): é a fonte do wordmark do lockup. */
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/poppins-latin-600-normal.woff2") format("woff2");
+}
+
 /* --- Tokens ---------------------------------------------------------------- */
 :root {
   --tinta: #000;
   --papel: #fff;
   --linha: #e5e5e5;
 
-  --fonte: "Poppins", sans-serif;
+  /* Mesma pilha do portfólio: San Francisco nativa em Apple, Inter nos demais. */
+  --fonte: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  --fonte-marca: "Poppins", var(--fonte);
 
   /* Escala tipográfica (mobile → desktop) */
   --t-display: clamp(2rem, 5.5vw, 3rem);
@@ -168,6 +204,7 @@ html.intro-ativa {
 
 .marca__nome {
   display: none;
+  font-family: var(--fonte-marca);
   font-size: var(--t-marca);
   font-weight: 600;
   letter-spacing: var(--tracking-marca);
@@ -242,6 +279,7 @@ html.intro-ativa .intro {
 /* O nome entra já opaco, só com o tracking fechando (intro.js). */
 .intro__nome {
   visibility: hidden;
+  font-family: var(--fonte-marca);
   font-size: clamp(1rem, 2.6vw, 1.25rem);
   font-weight: 600;
   letter-spacing: 0.6em;
@@ -268,7 +306,7 @@ html.intro-ativa .intro {
 
 .secao__titulo {
   font-size: var(--t-h2);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
@@ -317,7 +355,7 @@ html.intro-ativa .intro {
 .hero__titulo {
   max-width: var(--medida-display);
   font-size: var(--t-display);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -361,7 +399,7 @@ html.intro-ativa .intro {
 .passo__titulo,
 .trabalho__titulo {
   font-size: var(--t-h3);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.3;
 }
 
@@ -415,7 +453,7 @@ html.intro-ativa .intro {
 .passo__numero {
   min-width: 1.1ch;
   font-size: var(--t-numeral);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 0.85;
 }
 
@@ -598,7 +636,7 @@ html.intro-ativa .intro {
   max-width: var(--medida-display);
   margin-top: var(--s5);
   font-size: var(--t-h2);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
