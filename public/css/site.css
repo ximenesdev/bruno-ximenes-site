@@ -39,6 +39,27 @@
   src: url("../fonts/poppins-latin-600-normal.woff2") format("woff2");
 }
 
+/* JetBrains Mono, subset próprio (pyftsubset): ASCII, acentos do português e
+   pontuação tipográfica — 149 glifos, ~5,7 KB por peso. Só acento: valores,
+   numerais e rótulos. O unicode-range espelha o subset. */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-subset-400-normal.woff2") format("woff2");
+  unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-subset-500-normal.woff2") format("woff2");
+  unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
+}
+
 /* --- Tokens ---------------------------------------------------------------- */
 :root {
   /* Cores semânticas — únicas cores literais da folha. */
@@ -51,6 +72,8 @@
   /* Mesma pilha do portfólio: San Francisco nativa em Apple, Inter nos demais. */
   --fonte: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
   --fonte-marca: "Poppins", var(--fonte);
+  /* Mesmo padrão: SF Mono nativa em Apple (nada baixa), JetBrains Mono nos demais. */
+  --fonte-mono: ui-monospace, "JetBrains Mono", monospace;
 
   /* Escala tipográfica (mobile → desktop) */
   --t-display: clamp(2rem, 5.5vw, 3rem);
@@ -61,7 +84,10 @@
   --t-botao: 0.9375rem;
   --t-numeral: clamp(2.75rem, 5.5vw, 4rem);
   --t-marca: 0.875rem;
+  --t-mono: 0.875rem;   /* valores em mono: um degrau abaixo do corpo, a mono é larga */
+  --t-rotulo: 0.75rem;  /* rótulos em caixa alta */
   --tracking-marca: 0.18em;
+  --tracking-rotulo: 0.08em;
 
   /* Espaço (base 8) */
   --s1: 8px;
@@ -544,8 +570,9 @@ html.intro-ativa .intro {
 
 .passo__numero {
   min-width: 1.1ch;
+  font-family: var(--fonte-mono);
   font-size: var(--t-numeral);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 0.85;
 }
 
@@ -639,10 +666,22 @@ html.intro-ativa .intro {
   border-bottom: 0;
 }
 
+/* Rótulos de coluna: mono, caixa alta, pequenos. */
 .tabela th {
   color: var(--tinta-fraca);
-  font-size: var(--t-small);
+  font-family: var(--fonte-mono);
+  font-size: var(--t-rotulo);
   font-weight: 500;
+  letter-spacing: var(--tracking-rotulo);
+  text-transform: uppercase;
+}
+
+/* Preços e prazos: mono com algarismos tabulares. */
+.tabela__valor,
+.tabela__prazo {
+  font-family: var(--fonte-mono);
+  font-size: var(--t-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 .tabela .tabela__valor {
@@ -829,4 +868,13 @@ html.intro-ativa .intro {
   border-color: var(--tinta);
   background: var(--papel);
   color: var(--tinta);
+}
+
+/* --- TEMPORÁRIO: avaliação visual da mono ----------------------------------
+   Aplicar pelo console: document.documentElement.classList.add('teste-mono-total')
+   Joga JetBrains Mono no site inteiro (inclusive marca). Não usar em produção;
+   remover esta regra quando a avaliação terminar. */
+html.teste-mono-total,
+html.teste-mono-total * {
+  font-family: "JetBrains Mono", monospace !important;
 }
