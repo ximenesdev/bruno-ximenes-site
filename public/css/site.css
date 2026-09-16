@@ -521,20 +521,29 @@ html.intro-ativa .intro {
   }
 }
 
-/* --- Mensalidades ---------------------------------------------------------- */
+/* --- Tabelas (serviços e mensalidades) ------------------------------------- */
+/* Caixa de linha fina com cantos arredondados; filetes internos entre as linhas. */
 .tabela {
   width: 100%;
   max-width: 760px;
   margin-top: var(--s4);
-  border-collapse: collapse;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
 }
 
 .tabela th,
 .tabela td {
-  padding: var(--s2) 0;
+  padding: var(--s2) var(--s3);
   border-bottom: 1px solid var(--linha);
   text-align: left;
   vertical-align: top;
+}
+
+.tabela tbody tr:last-child td {
+  border-bottom: 0;
 }
 
 .tabela th {
@@ -543,15 +552,9 @@ html.intro-ativa .intro {
 }
 
 .tabela .tabela__valor {
-  padding-left: var(--s3);
   font-weight: 500;
   text-align: right;
   white-space: nowrap;
-}
-
-.tabela td + td:not(.tabela__valor),
-.tabela th + th:not(.tabela__valor) {
-  padding-left: var(--s3);
 }
 
 /* Tabela-resumo dos serviços: em telas estreitas cada linha vira um bloco,
@@ -565,20 +568,23 @@ html.intro-ativa .intro {
     clip: rect(0 0 0 0);
   }
 
-  .tabela--servicos tr,
+  .tabela--servicos tr {
+    display: block;
+    padding: var(--s2) var(--s3);
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .tabela--servicos tbody tr:last-child {
+    border-bottom: 0;
+  }
+
   .tabela--servicos td,
-  .tabela.tabela--servicos td + td,
   .tabela.tabela--servicos .tabela__valor {
     display: block;
     padding: 0;
     border: 0;
     text-align: left;
     white-space: normal;
-  }
-
-  .tabela--servicos tr {
-    padding: var(--s2) 0;
-    border-bottom: 1px solid var(--linha);
   }
 
   .tabela--servicos td:first-child {
