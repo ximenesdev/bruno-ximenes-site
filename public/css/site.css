@@ -582,7 +582,8 @@ html.intro-ativa .intro {
   padding: var(--s2);
 }
 
-/* O mockup já traz fundo branco e a moldura do celular: sem borda, sem corte. */
+/* O mockup tem fundo transparente (sombra em alfa): flutua sobre o papel de
+   qualquer tema, com a tela acesa. Sem borda, sem filtro, sem corte. */
 .trabalho__imagem img {
   display: block;
   width: 100%;
