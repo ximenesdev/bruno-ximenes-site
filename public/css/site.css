@@ -75,7 +75,7 @@
   --largura: 1120px;
   --toque: 48px;
 
-  --raio: 2px;
+  --raio: 10px; /* token único de raio: o --radius-sm do portfólio */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --topo-altura: 56px;
   --topo-monograma: 32px;
