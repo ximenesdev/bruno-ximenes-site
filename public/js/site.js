@@ -44,9 +44,10 @@
   const animar = window.gsap && window.ScrollTrigger && !reduz;
   if (animar) gsap.registerPlugin(ScrollTrigger);
 
-  // Reveal discreto por seção: opacidade + 12px, uma vez. O hero não entra.
+  // Reveal discreto por seção: opacidade + 12px, uma vez. O hero não entra;
+  // "Como funciona" tem o próprio reveal, em cascata (abaixo).
   if (animar) {
-    document.querySelectorAll('.secao:not(.hero)').forEach((secao) => {
+    document.querySelectorAll('.secao:not(.hero):not(#como-funciona)').forEach((secao) => {
       gsap.from(secao, {
         autoAlpha: 0,
         y: 12,
@@ -54,6 +55,18 @@
         ease: 'power2.out',
         scrollTrigger: { trigger: secao, start: 'top 85%', once: true },
       });
+    });
+
+    // Níveis 1/2/3: mesma técnica do Reveal do portfólio — título e passos
+    // sobem 26px em cascata (stagger 0.1), uma vez, ao entrar na viewport.
+    const passos = document.getElementById('como-funciona');
+    gsap.from(passos.querySelectorAll('.secao__titulo, .passo'), {
+      opacity: 0,
+      y: 26,
+      duration: 0.9,
+      ease: 'power3.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: passos, start: 'top 85%', once: true },
     });
     // A intro trava a rolagem; quando ela acaba, as medidas mudam.
     document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
