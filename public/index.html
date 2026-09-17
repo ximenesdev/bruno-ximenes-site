@@ -231,26 +231,52 @@
     </section>
 
     <section class="secao" id="como-funciona">
-      <h2 class="secao__titulo">Como funciona</h2>
-      <ol class="passos" role="list">
-        <li class="passo">
-          <span class="passo__numero" aria-hidden="true">1</span>
-          <div class="passo__corpo">
-            <h3 class="passo__titulo">Eu vou até você.</h3>
+      <!-- Trilha vertical: a linha se desenha com a rolagem (scrub, site.js), o
+           marcador de cada etapa acende ao ser alcançado e fica aceso; o rótulo
+           e a barra acompanham a etapa atual. Ícones: trajeto, círculo que fecha,
+           linha que continua — traço único, no desenho do monograma. -->
+      <div class="etapas__cabeca">
+        <h2 class="secao__titulo">Como funciona</h2>
+        <p class="etapas__progresso">
+          <span aria-live="polite">Etapa <span class="etapas__num" id="etapa-atual">1</span> de 3</span>
+          <span class="etapas__barra" aria-hidden="true"><span class="etapas__barra-cheia" id="etapa-barra"></span></span>
+        </p>
+      </div>
+      <ol class="etapas" id="etapas" role="list">
+        <svg class="etapas__linha" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 2 100">
+          <line x1="1" y1="0" x2="1" y2="100" class="etapas__trilho" vector-effect="non-scaling-stroke"/>
+          <line x1="1" y1="0" x2="1" y2="100" class="etapas__traco" id="etapa-linha" pathLength="1" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <li class="etapa">
+          <span class="etapa__marcador" aria-hidden="true"></span>
+          <div class="etapa__cabeca" aria-hidden="true">
+            <span class="etapa__numero">1</span>
+            <svg class="etapa__icone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40Q6 24 22 26Q38 28 36 12"/><circle cx="37" cy="9" r="3" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <div class="etapa__corpo">
+            <h3 class="etapa__titulo">Eu vou até você.</h3>
             <p>Visito a loja, vejo como você atende hoje e te mostro na hora o que está faltando. Sem custo, sem compromisso.</p>
           </div>
         </li>
-        <li class="passo">
-          <span class="passo__numero" aria-hidden="true">2</span>
-          <div class="passo__corpo">
-            <h3 class="passo__titulo">Preço fechado antes de começar.</h3>
+        <li class="etapa">
+          <span class="etapa__marcador" aria-hidden="true"></span>
+          <div class="etapa__cabeca" aria-hidden="true">
+            <span class="etapa__numero">2</span>
+            <svg class="etapa__icone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 9A15 15 0 1 1 23.98 9"/></svg>
+          </div>
+          <div class="etapa__corpo">
+            <h3 class="etapa__titulo">Preço fechado antes de começar.</h3>
             <p>Você recebe o valor final, o que entra, o que não entra e o prazo, por escrito. Não existe surpresa no fim.</p>
           </div>
         </li>
-        <li class="passo">
-          <span class="passo__numero" aria-hidden="true">3</span>
-          <div class="passo__corpo">
-            <h3 class="passo__titulo">Entrega, treino e suporte.</h3>
+        <li class="etapa">
+          <span class="etapa__marcador" aria-hidden="true"></span>
+          <div class="etapa__cabeca" aria-hidden="true">
+            <span class="etapa__numero">3</span>
+            <svg class="etapa__icone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 32Q14 32 18 26Q22 18 30 16L46 16"/><path d="M30 26Q38 26 46 26"/></svg>
+          </div>
+          <div class="etapa__corpo">
+            <h3 class="etapa__titulo">Entrega, treino e suporte.</h3>
             <p>Eu entrego funcionando, ensino você e a equipe, e continuo do outro lado do WhatsApp.</p>
           </div>
         </li>

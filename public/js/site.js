@@ -179,16 +179,39 @@
       });
     });
 
-    // Níveis 1/2/3: mesma técnica do Reveal do portfólio — título e passos
-    // sobem 26px em cascata (stagger 0.1), uma vez, ao entrar na viewport.
-    const passos = document.getElementById('como-funciona');
-    gsap.from(passos.querySelectorAll('.secao__titulo, .passo'), {
+    // Como funciona: cabeça e etapas sobem 26px em cascata, uma vez.
+    const comoFunciona = document.getElementById('como-funciona');
+    gsap.from(comoFunciona.querySelectorAll('.etapas__cabeca, .etapa'), {
       opacity: 0,
       y: 26,
       duration: 0.9,
       ease: 'power3.out',
       stagger: 0.1,
-      scrollTrigger: { trigger: passos, start: 'top 85%', once: true },
+      scrollTrigger: { trigger: comoFunciona, start: 'top 85%', once: true },
+    });
+
+    // Trilha: a linha se desenha acompanhando a rolagem (scrub, via Lenis quando
+    // ele existe). Cada etapa acende ao cruzar 60% da tela e fica acesa; o
+    // rótulo "Etapa n de 3" e a barra seguem a etapa em leitura, nos dois sentidos.
+    const etapas = Array.from(comoFunciona.querySelectorAll('.etapa'));
+    const etapaAtual = document.getElementById('etapa-atual');
+    const etapaBarra = document.getElementById('etapa-barra');
+    gsap.to('#etapa-linha', {
+      strokeDashoffset: 0,
+      ease: 'none',
+      scrollTrigger: { trigger: '#etapas', start: 'top 60%', end: 'bottom 60%', scrub: 0.4 },
+    });
+    function marcarEtapa(n) {
+      etapaAtual.textContent = n;
+      etapaBarra.style.transform = 'scaleX(' + (n / etapas.length) + ')';
+    }
+    etapas.forEach((etapa, i) => {
+      ScrollTrigger.create({
+        trigger: etapa,
+        start: 'top 60%',
+        onEnter: () => { etapa.classList.add('etapa--ativa'); marcarEtapa(i + 1); },
+        onLeaveBack: () => marcarEtapa(Math.max(1, i)),
+      });
     });
     // Conversa do hero: um balão, depois o outro — como uma conversa de verdade.
     // Espera a intro pousar quando ela existe.

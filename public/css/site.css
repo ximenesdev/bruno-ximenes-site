@@ -601,45 +601,200 @@ html.intro-ativa .intro {
 }
 
 /* --- Como funciona --------------------------------------------------------- */
-.passo__titulo,
+.etapa__titulo,
 .trabalho__titulo {
   font-size: var(--t-h3);
   font-weight: 600;
   line-height: 1.3;
 }
 
-.passos {
+/* Cabeça: título à esquerda, "Etapa n de 3" com barra à direita. */
+.etapas__cabeca {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s2) var(--s4);
+}
+
+.etapas__progresso {
   display: grid;
-  gap: var(--s4);
-  margin: var(--s4) 0 0;
+  gap: var(--s1);
+  min-width: 180px;
+  color: var(--tinta-fraca);
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--tracking-rotulo);
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* O dígito muda (1 → 2 → 3) e a Poppins não tem algarismos tabulares:
+   caixa de largura fixa para o rótulo não tremer. */
+.etapas__num {
+  display: inline-block;
+  width: 0.7em;
+  color: var(--tinta);
+  text-align: center;
+}
+
+.etapas__barra {
+  display: block;
+  height: 2px;
+  background: var(--filete);
+}
+
+.etapas__barra-cheia {
+  display: block;
+  height: 100%;
+  background: var(--tinta);
+  transform: scaleX(0.3333);
+  transform-origin: left center;
+  transition: transform 500ms var(--ease);
+}
+
+/* Sem quem anime (sem JS/GSAP ou reduced-motion) o rótulo de progresso não
+   teria o que acompanhar: some, e tudo abaixo nasce no estado final. */
+html:not(.anima) .etapas__progresso {
+  display: none;
+}
+
+/* Trilha: um SVG esticado na altura da lista, com o trilho em filete e o traço
+   em tinta desenhado por stroke-dashoffset conforme a rolagem (site.js). */
+.etapas {
+  position: relative;
+  display: grid;
+  gap: var(--s5);
+  margin: var(--s5) 0 0;
   padding: 0;
   list-style: none;
 }
 
-.passo {
-  display: grid;
-  gap: var(--s2);
+.etapas__linha {
+  position: absolute;
+  top: 6px;
+  bottom: 0;
+  left: 11px;
+  width: 2px;
+  height: calc(100% - 6px);
+  overflow: visible;
 }
 
-.passo__numero {
+.etapas__trilho {
+  stroke: var(--filete);
+  stroke-width: 2;
+}
+
+.etapas__traco {
+  stroke: var(--tinta);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+html:not(.anima) .etapas__traco {
+  stroke-dashoffset: 0;
+}
+
+.etapa {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: var(--s2) var(--s3);
+}
+
+/* Marcador sobre a linha: anel vazio que se enche ao ser alcançado. */
+.etapa__marcador {
+  grid-row: 1 / span 2;
+  width: 12px;
+  height: 12px;
+  margin: 6px 0 0 6px;
+  border: 2px solid var(--tinta);
+  border-radius: 50%;
+  background: var(--papel);
+  transition: background-color 400ms var(--ease), transform 400ms var(--ease);
+}
+
+.etapa--ativa .etapa__marcador,
+html:not(.anima) .etapa__marcador {
+  background: var(--tinta);
+  transform: scale(1.3);
+}
+
+.etapa__cabeca {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+/* Número grande, apagado até a etapa ser alcançada; o tamanho nunca muda. */
+.etapa__numero {
   min-width: 1.1ch;
   font-size: var(--t-numeral);
   font-weight: 800;
   line-height: 0.85;
+  opacity: 0.2;
+  transition: opacity 600ms var(--ease);
 }
 
-.passo__titulo + p {
+.etapa--ativa .etapa__numero,
+html:not(.anima) .etapa__numero {
+  opacity: 1;
+}
+
+/* Ícone em traço único: se desenha ao ativar (o círculo "fecha"). */
+.etapa__icone {
+  width: 56px;
+  height: 56px;
+  overflow: visible;
+}
+
+.etapa__icone path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 900ms var(--ease) 150ms;
+}
+
+.etapa__icone circle {
+  opacity: 0;
+  transition: opacity 300ms var(--ease) 900ms;
+}
+
+.etapa--ativa .etapa__icone path,
+html:not(.anima) .etapa__icone path {
+  stroke-dashoffset: 0;
+}
+
+.etapa--ativa .etapa__icone circle,
+html:not(.anima) .etapa__icone circle {
+  opacity: 1;
+}
+
+.etapa__corpo {
+  max-width: var(--medida);
+}
+
+.etapa__titulo + p {
   margin-top: var(--s1);
 }
 
 @media (min-width: 900px) {
-  .passos {
-    grid-template-columns: repeat(3, 1fr);
+  /* Mais ar entre as etapas: a trilha precisa de percurso para se desenhar. */
+  .etapas {
+    gap: var(--s6);
   }
 
-  .passo {
-    gap: var(--s3);
-    padding-right: var(--s4);
+  .etapa {
+    grid-template-columns: 24px 200px minmax(0, 1fr);
+    column-gap: var(--s4);
+    min-height: 120px;
+  }
+
+  .etapa__marcador {
+    grid-row: 1;
+  }
+
+  .etapa__cabeca {
+    align-self: start;
   }
 }
 
