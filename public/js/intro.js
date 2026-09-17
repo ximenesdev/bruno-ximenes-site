@@ -29,40 +29,70 @@
     const monograma = document.getElementById('intro-monograma');
     const svg = monograma.querySelector('svg');
     const nome = document.getElementById('intro-nome');
-    const traco = intro.querySelector('.intro__traco');
-    const clipB = document.getElementById('clip-b-rect');
-    const clipX = document.getElementById('clip-x-rect');
+    const contornos = svg.querySelectorAll('.intro__contorno');
+    const pingos = svg.querySelector('.intro__pingos');
+    const clipTinta = document.getElementById('clip-tinta-rect');
+    const clipTraco = document.getElementById('clip-traco-rect');
     const alvoMonograma = document.getElementById('topo-monograma');
     const alvoNome = document.getElementById('topo-nome');
 
     const trackingFinal = getComputedStyle(html).getPropertyValue('--tracking-marca').trim() || '0.18em';
     let voando = false;
 
-    // O conjunto começa 2% maior e assenta depois que o X trava no B.
+    // O conjunto começa 2% maior e assenta quando a tinta entra. Os pingos nascem
+    // dentro da forma e só podem aparecer depois que a tinta os cobre.
     gsap.set(svg, { scale: 1.02, transformOrigin: '50% 50%' });
+    gsap.set(pingos, { opacity: 0 });
 
-    // Coreografia (posições em segundos, absolutas na timeline). B e X usam a
-    // mesma curva (power3.out) e se sobrepõem: o X parte com o B a ~65% e trava
-    // nele ainda em movimento — antes, o B (expo.out) já estava parado quando o
-    // X entrava, e a junção lia como sequência seca. Total: 3,35 s.
-    //   0,10–0,80  B impresso de cima para baixo
-    //   0,45–1,10  X entra pela perna grossa, de baixo-direita para cima-esquerda
-    //   1,10–1,40  assentamento (scale 1.02 → 1)
-    //   1,40–1,75  traço de 2px se desenha da esquerda para a direita sob o monograma
-    //   1,75–2,05  o traço sai pela direita (sublinhado momentâneo)
-    //   1,75–2,25  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
-    //   2,25–2,70  pausa
-    //   2,70–3,35  voo (FLIP) até o cabeçalho
+    // Velocidade do marcador em unidades do viewBox por segundo. As retas (contorno
+    // do B e X) correm; os laços fechados do B vão devagar — a diferença é para
+    // ser percebida. Cada contorno começa escondido por um dash do seu comprimento
+    // deslocado para antes do início (a folga de 6 u tira a ponta redonda que
+    // sobraria no ponto de partida) e aparece conforme o offset zera, sem easing:
+    // a velocidade dentro de cada contorno é constante, como a mão no papel.
+    const VELOCIDADE = { reta: 780, laco: 350 };
+    const LEVANTA = 0.05; // a caneta levanta entre um contorno e o outro
+
+    // Coreografia (posições em segundos, absolutas na timeline). Total ≈ 3,65 s.
+    //   0,10–0,55  contorno do B (350 u)
+    //   0,60–0,78  laço de cima (60 u)
+    //   0,83–1,07  laço de baixo (81 u)
+    //   1,12–1,67  X (426 u)
+    //   1,72–2,07  tinta desce e cobre o traço; o conjunto assenta (1.02 → 1)
+    //   2,02–2,58  pingos escorrem e param (tinta secando), 80 ms entre um e outro
+    //   2,07–2,57  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
+    //   2,57–3,00  pausa
+    //   3,00–3,65  voo (FLIP) até o cabeçalho; os pingos somem no começo dele
     const tl = gsap.timeline({ onComplete: () => voar(0.65) });
-    tl.to(clipB, { attr: { height: 72 }, duration: 0.7, ease: 'power3.out' }, 0.1)
-      .to(clipX, { attr: { x: -47, width: 94 }, duration: 0.65, ease: 'power3.out' }, 0.45)
-      .to(svg, { scale: 1, duration: 0.3, ease: 'power2.out' }, 1.1)
-      .to(traco, { scaleX: 1, duration: 0.35, ease: 'power2.out' }, 1.4)
-      .set(traco, { transformOrigin: 'right center' }, 1.75)
-      .to(traco, { scaleX: 0, duration: 0.3, ease: 'power2.in' }, 1.75)
-      .set(nome, { visibility: 'visible' }, 1.75)
-      .to(nome, { letterSpacing: trackingFinal, duration: 0.5, ease: 'expo.out' }, 1.75)
-      .to({}, { duration: 0.45 }, 2.25); // segura a pausa antes do voo
+    let t = 0.1;
+    contornos.forEach((contorno) => {
+      const comprimento = contorno.getTotalLength();
+      const duracao = (comprimento + 6) / VELOCIDADE[contorno.dataset.veloc];
+      gsap.set(contorno, { strokeDasharray: comprimento + 4, strokeDashoffset: comprimento + 6 });
+      tl.to(contorno, { strokeDashoffset: 0, duration: duracao, ease: 'none' }, t);
+      t += duracao + LEVANTA;
+    });
+
+    const tinta = t;
+    tl.to(clipTinta, { attr: { height: 116 }, duration: 0.35, ease: 'power2.out' }, tinta)
+      .to(clipTraco, { attr: { y: 108 }, duration: 0.35, ease: 'power2.out' }, tinta)
+      .to(svg, { scale: 1, duration: 0.3, ease: 'power2.out' }, tinta);
+
+    // Cada pingo escorre data-queda unidades para baixo e para (tinta secando).
+    // Só ficam visíveis quando a tinta já desceu até o pé das letras.
+    const pinga = tinta + 0.3;
+    tl.set(pingos, { opacity: 1 }, pinga);
+    pingos.querySelectorAll('.intro__pingo').forEach((pingo, i) => {
+      const linha = pingo.querySelector('line');
+      const fim = linha.y1.baseVal.value + Number(pingo.dataset.queda);
+      tl.to(linha, { attr: { y2: fim }, duration: 0.4, ease: 'power3.out' }, pinga + i * 0.08)
+        .to(pingo.querySelector('circle'), { attr: { cy: fim }, duration: 0.4, ease: 'power3.out' }, '<');
+    });
+
+    const nomeEntra = tinta + 0.35;
+    tl.set(nome, { visibility: 'visible' }, nomeEntra)
+      .to(nome, { letterSpacing: trackingFinal, duration: 0.5, ease: 'expo.out' }, nomeEntra)
+      .to({}, { duration: 0.43 }, nomeEntra + 0.5); // segura a pausa antes do voo
 
     // Pular: botão (visível desde o primeiro quadro; é o primeiro foco do Tab),
     // toque em qualquer lugar ou Enter/Espaço/Esc. Vai direto ao voo, mais
@@ -91,6 +121,9 @@
 
       const voo = gsap.timeline({ onComplete: pousar });
       voo.to(monograma, flip(monograma, alvoMonograma, duracao), 0);
+
+      // O cabeçalho não tem pingos: somem no primeiro terço do voo.
+      voo.to(pingos, { opacity: 0, duration: duracao * 0.35, ease: 'power2.out' }, 0);
 
       // No desktop o nome pousa no nome do cabeçalho; no mobile (sem nome lá) ele sai.
       // O nome parte um pouco depois e chega junto, para não cruzar com o monograma no fim.

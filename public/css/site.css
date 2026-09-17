@@ -103,7 +103,7 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --topo-altura: 56px;
   --topo-monograma: 32px;
-  --intro-monograma: clamp(140px, 24vw, 200px);
+  --intro-monograma: clamp(220px, 40vw, 300px);
 
   /* Marcador "certo": um traço em curva, no desenho do monograma. Vai como
      máscara, então a cor é sempre a do texto ao redor. */
@@ -446,26 +446,16 @@ html.intro-ativa .intro {
 
 .intro__monograma {
   width: var(--intro-monograma);
-  aspect-ratio: 93.6 / 100;
+  aspect-ratio: 155.4 / 100;
   will-change: transform;
 }
 
+/* overflow visível: o traço (meio fio para fora do contorno) e os pingos saem da
+   caixa sem mudar a medida que o voo usa para pousar no cabeçalho. */
 .intro__monograma svg {
   width: 100%;
   height: 100%;
-  will-change: transform;
-}
-
-/* Traço momentâneo sob o monograma: nasce da esquerda, sai pela direita (intro.js). */
-.intro__traco {
-  position: absolute;
-  top: calc(var(--intro-monograma) * 100 / 93.6 + 12px);
-  left: calc(50% - var(--intro-monograma) / 2);
-  width: var(--intro-monograma);
-  height: 2px;
-  background: var(--tinta);
-  transform: scaleX(0);
-  transform-origin: left center;
+  overflow: visible;
   will-change: transform;
 }
 
@@ -1081,7 +1071,7 @@ html:not(.anima) .etapa__icone circle {
   border: 2px solid var(--tinta);
 }
 
-/* Traço de cabeça: mesma gramática do traço da intro e do indicador da nav. */
+/* Traço de cabeça: mesma gramática do indicador da nav. */
 .cartao::before {
   content: "";
   display: block;
