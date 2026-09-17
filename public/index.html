@@ -4,6 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bruno Ximenes — Site, Google e sistemas para o seu negócio em Brasília</title>
+  <meta name="description" content="Perfil no Google completo (R$ 150), site da empresa (a partir de R$ 897) e sistema sob medida para comércios de Brasília. Preço fechado antes de começar, visita na loja sem custo, suporte pelo WhatsApp.">
+
+  <!-- Endereço público do site: trocar aqui e no sitemap.xml se entrar domínio próprio. -->
+  <link rel="canonical" href="https://bruno-ximenes.contatoxm.workers.dev/">
+
+  <!-- Compartilhamento (WhatsApp, Instagram, Facebook, LinkedIn): imagem 1200×630. -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Bruno Ximenes">
+  <meta property="og:title" content="Bruno Ximenes — Site, Google e sistemas para o seu negócio em Brasília">
+  <meta property="og:description" content="Perfil no Google, site com preço na tela e sistema feito para a sua rotina. Preço fechado antes de começar e suporte pelo WhatsApp.">
+  <meta property="og:url" content="https://bruno-ximenes.contatoxm.workers.dev/">
+  <meta property="og:image" content="https://bruno-ximenes.contatoxm.workers.dev/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Monograma BX — Bruno Ximenes, site, Google e sistemas para o seu negócio">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- A cor da barra do navegador segue o papel; site.js atualiza as duas ao trocar o tema. -->
   <meta name="theme-color" content="#fff">
@@ -39,6 +56,29 @@
   <link rel="preload" href="fonts/poppins-subset-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/poppins-subset-800-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/site.css">
+
+  <!-- Dados estruturados: negócio local com os três serviços e preços do site.
+       Telefone entra quando o WhatsApp for preenchido (config.js não chega ao robô). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Bruno Ximenes",
+    "description": "Perfil no Google completo, site da empresa e sistemas sob medida para comércios e prestadores de serviço em Brasília. Visita na loja sem custo e preço fechado antes de começar.",
+    "url": "https://bruno-ximenes.contatoxm.workers.dev/",
+    "image": "https://bruno-ximenes.contatoxm.workers.dev/assets/og.png",
+    "email": "brunoxmns7@gmail.com",
+    "sameAs": ["https://github.com/ximenesdev"],
+    "address": { "@type": "PostalAddress", "addressLocality": "Brasília", "addressRegion": "DF", "addressCountry": "BR" },
+    "areaServed": { "@type": "AdministrativeArea", "name": "Distrito Federal" },
+    "priceRange": "R$ 150 – R$ 1.200",
+    "makesOffer": [
+      { "@type": "Offer", "name": "Perfil no Google completo", "price": "150", "priceCurrency": "BRL" },
+      { "@type": "Offer", "name": "Site da empresa", "priceCurrency": "BRL", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "897", "priceCurrency": "BRL" } },
+      { "@type": "Offer", "name": "Sistemas sob medida", "priceCurrency": "BRL", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "1200", "priceCurrency": "BRL" } }
+    ]
+  }
+  </script>
 </head>
 <body>
 

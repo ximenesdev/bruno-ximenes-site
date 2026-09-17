@@ -150,7 +150,6 @@ body {
   font-size: var(--t-corpo);
   line-height: 1.6;
   font-weight: 400;
-  overflow-x: hidden;
 }
 
 h1,
