@@ -35,6 +35,14 @@
     const clipTraco = document.getElementById('clip-traco-rect');
     const alvoMonograma = document.getElementById('topo-monograma');
     const alvoNome = document.getElementById('topo-nome');
+    // Primeira dobra: entra encadeada com o voo (ver voar()).
+    const dobra = {
+      titulo: document.querySelector('.hero__titulo'),
+      texto: document.querySelector('.hero__texto'),
+      acao: document.querySelector('.hero__acao'),
+      cabecalho: [document.getElementById('nav'), document.querySelector('.topo__acoes')],
+    };
+    let entrada = null;
 
     const trackingFinal = getComputedStyle(html).getPropertyValue('--tracking-marca').trim() || '0.08em';
     let voando = false;
@@ -63,7 +71,7 @@
     //   2,07–2,57  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
     //   2,50–2,75  pingos secam (somem): o logo em repouso é o mesmo do cabeçalho
     //   2,75–3,00  pausa
-    //   3,00–3,65  voo (FLIP) até o cabeçalho
+    //   3,00–3,65  voo (FLIP) até o cabeçalho; a primeira dobra entra a partir de 3,27
     const tl = gsap.timeline({ onComplete: () => voar(0.65) });
     let t = 0.1;
     contornos.forEach((contorno) => {
@@ -118,8 +126,6 @@
       if (voando) return;
       voando = true;
       tl.kill();
-      window.removeEventListener('pointerdown', pular);
-      window.removeEventListener('keydown', pularPorTecla);
       botaoPular.remove(); // o botão não voa junto
 
       const voo = gsap.timeline({ onComplete: pousar });
@@ -136,6 +142,17 @@
 
       // O fundo branco some na segunda metade do voo, revelando o site por baixo.
       voo.to(fundo, { opacity: 0, duration: duracao * 0.58, ease: 'power2.inOut' }, duracao * 0.42);
+
+      // Primeira dobra: some agora — a primeira pintura já passou (o LCP está
+      // contado) e o fundo ainda cobre tudo — e entra enquanto o fundo se
+      // dissolve. Título, texto e botão sobem em sequência; navegação e ações do
+      // cabeçalho aparecem com o monograma pousando. A entrada continua depois
+      // do pouso: o fim da intro e o começo do site são um movimento só.
+      entrada = gsap.timeline({ delay: duracao * 0.42 });
+      entrada.fromTo(dobra.titulo, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 1, ease: 'power4.out' }, 0)
+        .fromTo(dobra.texto, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power4.out' }, 0.12)
+        .fromTo(dobra.acao, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, 0.24)
+        .fromTo(dobra.cabecalho, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }, duracao * 0.2);
     }
 
     function flip(de, para, duracao) {
@@ -153,12 +170,22 @@
 
     // Ao pousar: no mesmo quadro, some a intro e aparece a marca do cabeçalho.
     function pousar() {
+      if (!intro.isConnected) return; // a rede de segurança já pousou
+      voando = true; // e nenhum voo começa depois do pouso
+      tl.kill();
+      window.removeEventListener('pointerdown', pular);
+      window.removeEventListener('keydown', pularPorTecla);
       html.classList.remove('intro-ativa');
       intro.remove();
       document.dispatchEvent(new CustomEvent('bx:intro-fim'));
     }
 
-    // Rede de segurança: aconteça o que acontecer, o site aparece.
-    setTimeout(() => { if (intro.isConnected) pousar(); }, 5000);
+    // Rede de segurança: aconteça o que acontecer (aba escondida no meio, por
+    // exemplo), o site aparece — inteiro, com a primeira dobra no lugar.
+    setTimeout(() => {
+      if (!intro.isConnected) return;
+      if (entrada) entrada.progress(1);
+      pousar();
+    }, 5000);
   }
 })();

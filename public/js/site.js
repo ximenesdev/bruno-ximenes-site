@@ -1,4 +1,4 @@
-// Comportamento geral do site: contato a partir do config, reveal por seção e rolagem suave.
+// Comportamento geral do site: contato a partir do config, movimento ao rolar e rolagem suave.
 (function () {
   const cfg = window.BX;
   const html = document.documentElement;
@@ -165,100 +165,145 @@
     }
   }
 
-  // Reveal discreto por seção: opacidade + 12px, uma vez. O hero não entra;
-  // "Como funciona" tem o próprio reveal, em cascata (abaixo).
+  // --- Movimento ao rolar: uma gramática só ----------------------------------
+  // Cada bloco sobe 28px enquanto aparece (0,9 s, power3.out), uma vez; os que
+  // entram juntos vão em cascata de 0,1 s. "Como funciona" é o único trecho
+  // ligado à posição da rolagem, e o único que anda nos dois sentidos.
+
+  // Blocos que entram ao rolar, em ordem de documento. O hero entra com a
+  // intro (intro.js); com × sem e as etapas têm coreografia própria, abaixo.
+  const BLOCOS = [
+    '#com-e-sem .secao__titulo', '.busca__titulo', '.busca__texto', '.tela', '#com-e-sem .secao__acao',
+    '#servicos .secao__titulo', '.cartao',
+    '.etapas__cabeca',
+    '#trabalhos .secao__titulo', '.trabalho',
+    '#mensalidades .secao__titulo', '#mensalidades .secao__texto', '#mensalidades .small',
+    '#quem-faz .secao__titulo', '.quem__marca', '.quem__texto > *',
+    '#atendimento > *',
+  ].join(',');
+
   if (animar) {
-    document.querySelectorAll('.secao:not(.hero):not(#como-funciona):not(#com-e-sem)').forEach((secao) => {
-      // Só opacidade (não autoAlpha): visibility:hidden tiraria os botões da
-      // ordem do Tab. E se o foco chegar antes da rolagem, a seção aparece na hora.
-      const reveal = gsap.from(secao, {
+    const blocos = gsap.utils.toArray(BLOCOS);
+    const etapas = gsap.utils.toArray('.etapa');
+    const textosEtapas = etapas.map((etapa) => Array.from(etapa.querySelectorAll('.etapa__corpo > *')));
+
+    // Estado inicial já na carga, para nada piscar quando o fundo da intro sair.
+    // Só opacidade (não autoAlpha): visibility:hidden tiraria os botões da
+    // ordem do Tab. Se o foco chegar antes da rolagem, o bloco aparece na hora.
+    gsap.set(blocos, { opacity: 0, y: 28 });
+    gsap.set(textosEtapas.flat(), { opacity: 0, y: 24 });
+    document.addEventListener('focusin', (e) => {
+      const bloco = e.target.closest(BLOCOS);
+      if (bloco) gsap.to(bloco, { opacity: 1, y: 0, duration: 0.3, overwrite: true });
+    });
+
+    // Os gatilhos nascem quando a página pode rolar: com a intro no ar, no
+    // pouso — assim o que já está na primeira tela entra emendado com o hero.
+    function ligar() {
+      ScrollTrigger.batch(blocos, {
+        start: 'top 85%',
+        once: true,
+        onEnter: (entrando) => {
+          gsap.to(entrando, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, overwrite: true });
+          // Cartões: o traço de cabeça se desenha (scaleX 0 → 1, no CSS) assim
+          // que o cartão assenta; os que sobem juntos desenham em cascata.
+          entrando.forEach((bloco, i) => {
+            if (!bloco.classList.contains('cartao')) return;
+            bloco.style.setProperty('--atraso', (0.25 + i * 0.1) + 's'); // o ::before lê a variável
+            bloco.classList.add('cartao--visto');
+          });
+        },
+      });
+
+      // Como funciona. A trilha se desenha entre o primeiro e o último marcador
+      // acompanhando a rolagem (scrub, via Lenis quando ele existe): chega em
+      // cada marcador no instante em que a etapa acende. Uma etapa acende quando
+      // o topo dela cruza 60% da tela e apaga se a pessoa volta: marcador cheio
+      // e ícone com tinta ficam nas etapas já alcançadas (.etapa--ativa), o
+      // número em destaque é só o da etapa atual (.etapa--atual) — ganha e perde
+      // — e o texto sobe em cascata, e desce de volta. O rótulo "Etapa n de 3"
+      // e a barra acompanham.
+      const linha = document.querySelector('.etapas__linha');
+      const etapaAtual = document.getElementById('etapa-atual');
+      const etapaBarra = document.getElementById('etapa-barra');
+      // Centro do marcador de uma etapa ao longo da linha, de 0 a 1. Medido a
+      // cada refresh (invalidateOnRefresh): muda com a largura e com as fontes.
+      const noMarcador = (etapa) => {
+        const l = linha.getBoundingClientRect();
+        const m = etapa.querySelector('.etapa__marcador').getBoundingClientRect();
+        return (m.top + m.height / 2 - l.top) / l.height;
+      };
+      const primeira = etapas[0];
+      const ultima = etapas[etapas.length - 1];
+      gsap.fromTo('#etapa-linha', { strokeDashoffset: () => 1 - noMarcador(primeira) }, {
+        strokeDashoffset: () => 1 - noMarcador(ultima),
+        ease: 'none',
+        scrollTrigger: { trigger: primeira, start: 'top 60%', endTrigger: ultima, end: 'top 60%', scrub: 0.4, invalidateOnRefresh: true },
+      });
+
+      function irPara(n) { // n = índice da etapa atual; -1 = nenhuma alcançada
+        etapas.forEach((etapa, i) => {
+          etapa.classList.toggle('etapa--ativa', i <= n);
+          etapa.classList.toggle('etapa--atual', i === n);
+        });
+        const rotulo = Math.max(1, n + 1);
+        etapaAtual.textContent = rotulo;
+        etapaBarra.style.transform = 'scaleX(' + (rotulo / etapas.length) + ')';
+      }
+      etapas.forEach((etapa, i) => {
+        gsap.to(textosEtapas[i], {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: etapa,
+            start: 'top 60%',
+            toggleActions: 'play none none reverse',
+            onEnter: () => irPara(i),
+            onLeaveBack: () => irPara(i - 1),
+          },
+        });
+      });
+
+      // Conversa (a prova, em #com-e-sem): um balão, depois o outro — como uma
+      // conversa de verdade — quando a figura entra na tela. Uma vez só.
+      gsap.from('.conversa__balao', {
         opacity: 0,
-        y: 12,
+        y: 10,
         duration: 0.5,
         ease: 'power2.out',
-        scrollTrigger: { trigger: secao, start: 'top 85%', once: true },
+        stagger: 0.7,
+        scrollTrigger: { trigger: '.comparativo__conversa', start: 'top 80%', once: true },
       });
-      secao.addEventListener('focusin', () => reveal.progress(1), { once: true });
-    });
 
-    // Como funciona: cabeça e etapas sobem 26px em cascata, uma vez.
-    const comoFunciona = document.getElementById('como-funciona');
-    gsap.from(comoFunciona.querySelectorAll('.etapas__cabeca, .etapa'), {
-      opacity: 0,
-      y: 26,
-      duration: 0.9,
-      ease: 'power3.out',
-      stagger: 0.1,
-      scrollTrigger: { trigger: comoFunciona, start: 'top 85%', once: true },
-    });
-
-    // Trilha: a linha se desenha acompanhando a rolagem (scrub, via Lenis quando
-    // ele existe). Cada etapa acende ao cruzar 60% da tela e fica acesa; o
-    // rótulo "Etapa n de 3" e a barra seguem a etapa em leitura, nos dois sentidos.
-    const etapas = Array.from(comoFunciona.querySelectorAll('.etapa'));
-    const etapaAtual = document.getElementById('etapa-atual');
-    const etapaBarra = document.getElementById('etapa-barra');
-    gsap.to('#etapa-linha', {
-      strokeDashoffset: 0,
-      ease: 'none',
-      scrollTrigger: { trigger: '#etapas', start: 'top 60%', end: 'bottom 60%', scrub: 0.4 },
-    });
-    function marcarEtapa(n) {
-      etapaAtual.textContent = n;
-      etapaBarra.style.transform = 'scaleX(' + (n / etapas.length) + ')';
-    }
-    etapas.forEach((etapa, i) => {
-      ScrollTrigger.create({
-        trigger: etapa,
-        start: 'top 60%',
-        onEnter: () => { etapa.classList.add('etapa--ativa'); marcarEtapa(i + 1); },
-        onLeaveBack: () => marcarEtapa(Math.max(1, i)),
+      // Com × sem: os itens entram em cascata alternada (esquerda, direita,
+      // esquerda…) quando as colunas estão lado a lado; empilhadas, cada coluna
+      // entra na sua vez, na ordem de leitura. Uma vez só.
+      const comparativo = document.getElementById('com-e-sem');
+      const colunas = comparativo.querySelectorAll('.comparativo__coluna');
+      const ladoALado = getComputedStyle(comparativo.querySelector('.comparativo__colunas')).gridTemplateColumns.split(' ').length > 1;
+      const entrar = (alvos, gatilho) => gsap.from(alvos, {
+        opacity: 0,
+        y: 14,
+        duration: 0.6,
+        ease: 'power2.out',
+        stagger: 0.08,
+        scrollTrigger: { trigger: gatilho, start: 'top 80%', once: true },
       });
-    });
-    // Conversa (a prova, em #com-e-sem): um balão, depois o outro — como uma
-    // conversa de verdade — quando a figura entra na tela. Uma vez só.
-    gsap.from('.conversa__balao', {
-      opacity: 0,
-      y: 10,
-      duration: 0.5,
-      ease: 'power2.out',
-      stagger: 0.7,
-      scrollTrigger: { trigger: '.comparativo__conversa', start: 'top 80%', once: true },
-    });
-
-    // Com × sem: os itens entram em cascata alternada (esquerda, direita,
-    // esquerda…) quando as colunas estão lado a lado; empilhadas, cada coluna
-    // entra na sua vez, na ordem de leitura. Uma vez só.
-    const comparativo = document.getElementById('com-e-sem');
-    const colunas = comparativo.querySelectorAll('.comparativo__coluna');
-    const ladoALado = getComputedStyle(comparativo.querySelector('.comparativo__colunas')).gridTemplateColumns.split(' ').length > 1;
-    const entrar = (alvos, gatilho) => gsap.from(alvos, {
-      opacity: 0,
-      y: 14,
-      duration: 0.6,
-      ease: 'power2.out',
-      stagger: 0.08,
-      scrollTrigger: { trigger: gatilho, start: 'top 80%', once: true },
-    });
-    if (ladoALado) {
-      const [esq, dir] = Array.from(colunas, (c) => Array.from(c.querySelectorAll('.comparativo__rotulo, li')));
-      entrar(esq.flatMap((el, i) => [el, dir[i]]), comparativo);
-    } else {
-      colunas.forEach((coluna) => entrar(coluna.querySelectorAll('.comparativo__rotulo, li'), coluna));
+      if (ladoALado) {
+        const [esq, dir] = Array.from(colunas, (c) => Array.from(c.querySelectorAll('.comparativo__rotulo, li')));
+        entrar(esq.flatMap((el, i) => [el, dir[i]]), comparativo);
+      } else {
+        colunas.forEach((coluna) => entrar(coluna.querySelectorAll('.comparativo__rotulo, li'), coluna));
+      }
     }
 
-    // Cartões: o traço de cabeça se desenha (scaleX 0 → 1, no CSS) uma vez, ao
-    // entrar na tela. Os que entram juntos (lado a lado) desenham em cascata.
-    ScrollTrigger.batch('.cartao', {
-      start: 'top 85%',
-      once: true,
-      onEnter: (cartoes) => cartoes.forEach((cartao, i) => {
-        cartao.style.setProperty('--atraso', (i * 0.12) + 's'); // o ::before lê a variável
-        cartao.classList.add('cartao--visto');
-      }),
-    });
-    // A intro trava a rolagem; quando ela acaba, as medidas mudam.
-    document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
+    if (html.classList.contains('intro-ativa')) document.addEventListener('bx:intro-fim', ligar, { once: true });
+    else ligar();
+    // Fontes chegando depois mudam as medidas.
+    if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
 
   // --- Cabeçalho, scrollspy e WhatsApp fixo: um leitor de rolagem só ----------

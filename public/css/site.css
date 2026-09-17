@@ -665,8 +665,11 @@ html:not(.anima) .etapas__progresso {
   display: none;
 }
 
-/* Trilha: um SVG esticado na altura da lista, com o trilho em filete e o traço
-   em tinta desenhado por stroke-dashoffset conforme a rolagem (site.js). */
+/* Trilha: um SVG esticado na altura da lista (só em y: a largura é 2px para
+   2 unidades, então o traço de 2 sai com 2px sem non-scaling-stroke — que
+   faria o Chrome medir o dasharray em pixels de tela), com o trilho em filete
+   e o traço em tinta desenhado por stroke-dashoffset conforme a rolagem
+   (site.js), do primeiro ao último marcador. */
 .etapas {
   position: relative;
   display: grid;
@@ -732,7 +735,8 @@ html:not(.anima) .etapa__marcador {
   gap: var(--s3);
 }
 
-/* Número grande, apagado até a etapa ser alcançada; o tamanho nunca muda. */
+/* Número grande: só o da etapa atual fica aceso — ganha ao ser alcançada e
+   perde quando a próxima chega (.etapa--atual, site.js). O tamanho nunca muda. */
 .etapa__numero {
   min-width: 1.1ch;
   font-size: var(--t-numeral);
@@ -742,7 +746,7 @@ html:not(.anima) .etapa__marcador {
   transition: opacity 600ms var(--ease);
 }
 
-.etapa--ativa .etapa__numero,
+.etapa--atual .etapa__numero,
 html:not(.anima) .etapa__numero {
   opacity: 1;
 }

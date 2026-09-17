@@ -340,10 +340,11 @@
     </section>
 
     <section class="secao" id="como-funciona">
-      <!-- Trilha vertical: a linha se desenha com a rolagem (scrub, site.js), o
-           marcador de cada etapa acende ao ser alcançado e fica aceso; o rótulo
-           e a barra acompanham a etapa atual. Ícones (Phosphor): loja, recibo e
-           headset — cada um nasce como traço do contorno e ganha tinta ao ativar. -->
+      <!-- Trilha vertical: a linha se desenha com a rolagem entre o primeiro e o
+           último marcador (scrub, site.js); o marcador de cada etapa acende ao ser
+           alcançado e apaga se a pessoa volta; só o número da etapa atual fica em
+           destaque; o rótulo e a barra acompanham. Ícones (Phosphor): loja, recibo
+           e headset — cada um nasce como traço do contorno e ganha tinta ao ativar. -->
       <div class="etapas__cabeca">
         <h2 class="secao__titulo">Como funciona</h2>
         <p class="etapas__progresso">
@@ -353,8 +354,8 @@
       </div>
       <ol class="etapas" id="etapas" role="list">
         <svg class="etapas__linha" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 2 100">
-          <line x1="1" y1="0" x2="1" y2="100" class="etapas__trilho" vector-effect="non-scaling-stroke"/>
-          <line x1="1" y1="0" x2="1" y2="100" class="etapas__traco" id="etapa-linha" pathLength="1" vector-effect="non-scaling-stroke"/>
+          <line x1="1" y1="0" x2="1" y2="100" class="etapas__trilho"/>
+          <line x1="1" y1="0" x2="1" y2="100" class="etapas__traco" id="etapa-linha" pathLength="1"/>
         </svg>
         <li class="etapa">
           <span class="etapa__marcador" aria-hidden="true"></span>
