@@ -170,13 +170,16 @@
   // "Como funciona" tem o próprio reveal, em cascata (abaixo).
   if (animar) {
     document.querySelectorAll('.secao:not(.hero):not(#como-funciona):not(#com-e-sem)').forEach((secao) => {
-      gsap.from(secao, {
-        autoAlpha: 0,
+      // Só opacidade (não autoAlpha): visibility:hidden tiraria os botões da
+      // ordem do Tab. E se o foco chegar antes da rolagem, a seção aparece na hora.
+      const reveal = gsap.from(secao, {
+        opacity: 0,
         y: 12,
         duration: 0.5,
         ease: 'power2.out',
         scrollTrigger: { trigger: secao, start: 'top 85%', once: true },
       });
+      secao.addEventListener('focusin', () => reveal.progress(1), { once: true });
     });
 
     // Como funciona: cabeça e etapas sobem 26px em cascata, uma vez.

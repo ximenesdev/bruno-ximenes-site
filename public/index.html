@@ -426,7 +426,8 @@
     <span class="whats-fixo__rotulo"><span aria-live="polite">WhatsApp</span></span>
   </a>
 
-  <script src="js/config.js"></script>
+  <!-- Todos deferidos e em ordem: config.js roda antes de intro.js e site.js. -->
+  <script src="js/config.js" defer></script>
   <script src="js/vendor/gsap.min.js" defer onerror="document.documentElement.classList.remove('intro-ativa')"></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/lenis.min.js" defer></script>

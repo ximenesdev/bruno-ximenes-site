@@ -245,11 +245,15 @@ html.intro-ativa {
   margin: 0 auto;
 }
 
+/* Alvo de toque de 48px também no mobile, onde só o monograma (30px) aparece:
+   a margem negativa compensa o padding e o desenho continua no gutter. */
 .marca {
   display: flex;
   align-items: center;
   gap: 12px;
   min-height: var(--toque);
+  margin-left: -9px;
+  padding: 0 9px;
   text-decoration: none;
 }
 
@@ -543,7 +547,13 @@ html.intro-ativa .intro {
   line-height: 1.5;
 }
 
-.link {
+/* Links de texto: a área de toque cresce para 44px sem mudar o layout
+   (padding vertical compensado por margem negativa). */
+.link,
+.rodape__contato a {
+  display: inline-block;
+  margin: -12px 0;
+  padding: 12px 0;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
