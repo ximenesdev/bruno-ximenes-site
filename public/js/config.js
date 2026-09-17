@@ -3,7 +3,7 @@ window.BX = Object.freeze({
   // Número do WhatsApp: só dígitos, com o 55 do Brasil na frente. Ex.: "5561999999999".
   WHATSAPP: "5561986110999",
 
-  EMAIL: "brunoxmns7@gmail.com",
+  EMAIL: "brunoximenes71@gmail.com",
   GITHUB: "ximenesdev",
 
   // Mensagens pré-preenchidas do WhatsApp. A chave é o valor do atributo

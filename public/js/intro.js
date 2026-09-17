@@ -59,10 +59,11 @@
     //   0,83–1,07  laço de baixo (81 u)
     //   1,12–1,67  X (426 u)
     //   1,72–2,07  tinta desce e cobre o traço; o conjunto assenta (1.02 → 1)
-    //   2,02–2,58  pingos escorrem e param (tinta secando), 80 ms entre um e outro
+    //   2,02–2,58  pingos escorrem e param, 80 ms entre um e outro
     //   2,07–2,57  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
-    //   2,57–3,00  pausa
-    //   3,00–3,65  voo (FLIP) até o cabeçalho; os pingos somem no começo dele
+    //   2,50–2,75  pingos secam (somem): o logo em repouso é o mesmo do cabeçalho
+    //   2,75–3,00  pausa
+    //   3,00–3,65  voo (FLIP) até o cabeçalho
     const tl = gsap.timeline({ onComplete: () => voar(0.65) });
     let t = 0.1;
     contornos.forEach((contorno) => {
@@ -78,8 +79,9 @@
       .to(clipTraco, { attr: { y: 108 }, duration: 0.35, ease: 'power2.out' }, tinta)
       .to(svg, { scale: 1, duration: 0.3, ease: 'power2.out' }, tinta);
 
-    // Cada pingo escorre data-queda unidades para baixo e para (tinta secando).
-    // Só ficam visíveis quando a tinta já desceu até o pé das letras.
+    // Cada pingo escorre data-queda unidades para baixo e para. Só ficam visíveis
+    // quando a tinta já desceu até o pé das letras, e secam antes do repouso: o
+    // logo que fica parado (e voa) é exatamente o do cabeçalho, sem pingo.
     const pinga = tinta + 0.3;
     tl.set(pingos, { opacity: 1 }, pinga);
     pingos.querySelectorAll('.intro__pingo').forEach((pingo, i) => {
@@ -88,6 +90,7 @@
       tl.to(linha, { attr: { y2: fim }, duration: 0.4, ease: 'power3.out' }, pinga + i * 0.08)
         .to(pingo.querySelector('circle'), { attr: { cy: fim }, duration: 0.4, ease: 'power3.out' }, '<');
     });
+    tl.to(pingos, { opacity: 0, duration: 0.25, ease: 'power2.out' }, pinga + 0.48);
 
     const nomeEntra = tinta + 0.35;
     tl.set(nome, { visibility: 'visible' }, nomeEntra)
@@ -121,9 +124,6 @@
 
       const voo = gsap.timeline({ onComplete: pousar });
       voo.to(monograma, flip(monograma, alvoMonograma, duracao), 0);
-
-      // O cabeçalho não tem pingos: somem no primeiro terço do voo.
-      voo.to(pingos, { opacity: 0, duration: duracao * 0.35, ease: 'power2.out' }, 0);
 
       // No desktop o nome pousa no nome do cabeçalho; no mobile (sem nome lá) ele sai.
       // O nome parte um pouco depois e chega junto, para não cruzar com o monograma no fim.

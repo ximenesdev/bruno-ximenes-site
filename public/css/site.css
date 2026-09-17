@@ -983,69 +983,6 @@ html:not(.anima) .etapa__icone circle {
   }
 }
 
-/* Calculadora: controles nativos pintados com a tinta (accent-color), resultado
-   grande. Nada anima; o número só muda. */
-.calculo {
-  max-width: 560px;
-  margin-top: var(--s5);
-  padding-top: var(--s4);
-  border-top: 1px solid var(--filete);
-}
-
-.calculo__pergunta {
-  font-weight: 600;
-}
-
-.calculo__controles {
-  display: grid;
-  gap: var(--s3);
-  margin-top: var(--s3);
-}
-
-.calculo__campo {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--s1) var(--s2);
-  align-items: center;
-  font-size: var(--t-small);
-}
-
-.calculo__rotulo {
-  grid-column: 1 / -1;
-}
-
-.calculo__campo input {
-  width: 100%;
-  height: var(--toque); /* alvo de toque cheio; o trilho continua fino */
-  margin: 0;
-  accent-color: var(--tinta);
-  cursor: pointer;
-}
-
-.calculo__campo output {
-  min-width: 2ch;
-  font-weight: 700;
-  text-align: right;
-}
-
-.calculo__resultado {
-  margin-top: var(--s3);
-  line-height: 1.3;
-}
-
-.calculo__horas {
-  display: block;
-  font-size: var(--t-preco);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.calculo .small {
-  margin-top: var(--s2);
-  color: var(--tinta-fraca);
-}
-
 /* --- Cartões (serviços e mensalidades) ------------------------------------ */
 /* Caixa de linha fina; o mais completo leva borda grossa em tinta — o único
    destaque visual do site. O traço de 2px acima do nome nasce com scaleX

@@ -257,22 +257,6 @@
     document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
   }
 
-  // --- Calculadora de tempo ---------------------------------------------------
-  // mensagens × minutos × 26 dias de loja aberta. Só aritmética, nada de promessa.
-
-  const calcMensagens = document.getElementById('calc-mensagens');
-  const calcMinutos = document.getElementById('calc-minutos');
-  const calcHoras = document.getElementById('calc-horas');
-  function calcular() {
-    document.getElementById('calc-mensagens-valor').textContent = calcMensagens.value;
-    document.getElementById('calc-minutos-valor').textContent = calcMinutos.value;
-    const minutos = calcMensagens.value * calcMinutos.value * 26;
-    calcHoras.textContent = minutos < 60 ? minutos + ' min' : Math.round(minutos / 60) + ' h';
-  }
-  calcMensagens.addEventListener('input', calcular);
-  calcMinutos.addEventListener('input', calcular);
-  calcular();
-
   // --- Cabeçalho, scrollspy e WhatsApp fixo: um leitor de rolagem só ----------
   // Ligado ao Lenis quando ele existe (um evento por quadro); senão, ao scroll
   // nativo. Tudo coalescido num rAF e sem animação fora de transform/opacity.
