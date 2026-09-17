@@ -565,6 +565,20 @@ html.intro-ativa .intro {
 }
 
 /* --- Hero ------------------------------------------------------------------ */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s5);
+}
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: center;
+    column-gap: var(--s6);
+  }
+}
+
 .hero__titulo {
   max-width: var(--medida-display);
   font-size: var(--t-display);
@@ -677,6 +691,44 @@ html.intro-ativa .intro {
     gap: var(--s5);
     align-items: start;
   }
+}
+
+/* Conversa: balão do cliente contornado à esquerda, resposta da loja em tinta
+   à direita. Os balões entram um depois do outro (site.js), uma vez. */
+.conversa {
+  display: grid;
+  gap: var(--s2);
+  max-width: 420px;
+  margin: 0;
+}
+
+.conversa__balao {
+  max-width: 88%;
+  padding: 12px var(--s2);
+  border-radius: var(--raio);
+  font-size: var(--t-corpo);
+  line-height: 1.45;
+}
+
+.conversa__balao--cliente {
+  justify-self: start;
+  border: 1px solid var(--tinta);
+  border-bottom-left-radius: 2px;
+}
+
+.conversa__balao--loja {
+  justify-self: end;
+  border-bottom-right-radius: 2px;
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+.conversa__legenda {
+  margin-top: var(--s1);
+  color: var(--tinta-fraca);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--tracking-rotulo);
+  text-transform: uppercase;
 }
 
 /* --- Com × sem ------------------------------------------------------------- */
