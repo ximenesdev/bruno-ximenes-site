@@ -31,6 +31,13 @@
   </script>
 
   <link rel="icon" href="assets/logo/bx-favicon.svg" type="image/svg+xml">
+  <!-- Os cinco pesos da Poppins (~6 KB cada) aparecem já na primeira tela
+       (intro, cabeçalho e hero): pré-carregar evita a troca de fonte à vista. -->
+  <link rel="preload" href="fonts/poppins-subset-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/poppins-subset-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/poppins-subset-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/poppins-subset-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/poppins-subset-800-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/site.css">
 </head>
 <body>

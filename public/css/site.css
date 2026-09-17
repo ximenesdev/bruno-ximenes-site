@@ -1,62 +1,59 @@
 /* ==========================================================================
    Site Bruno Ximenes — folha única.
    Monocromático: tinta, papel, um cinza para filetes e um para rótulos de
-   tabela. Hierarquia por tamanho e peso, nunca por cor mais clara.
+   tabela. Uma família só (Poppins); hierarquia por tamanho e peso, nunca
+   por cor mais clara.
    Tema: as quatro cores vivem só no :root; html.tema-escuro inverte tudo.
    ========================================================================== */
 
-/* --- Fontes (vendorizadas de @fontsource, subconjunto latin) --------------- */
+/* --- Fonte ---------------------------------------------------------------
+   Poppins, e só ela, em subset próprio (pyftsubset): ASCII, acentos do
+   português e pontuação tipográfica — 164 glifos, ~6 KB por peso. O
+   unicode-range espelha o subset; o que estiver fora cai na system-ui.
+   Pesos: 400/500 corpo, 600 subtítulos, 700/800 títulos, botões e preços. */
+
 @font-face {
-  font-family: "Inter";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../fonts/inter-latin-400-normal.woff2") format("woff2");
+  src: url("../fonts/poppins-subset-400-normal.woff2") format("woff2");
+  unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
 }
 
 @font-face {
-  font-family: "Inter";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("../fonts/inter-latin-500-normal.woff2") format("woff2");
+  src: url("../fonts/poppins-subset-500-normal.woff2") format("woff2");
+  unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
 }
 
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("../fonts/inter-latin-700-normal.woff2") format("woff2");
-}
-
-/* Poppins só no texto da marca ("BRUNO XIMENES"): é a fonte do wordmark do lockup. */
 @font-face {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("../fonts/poppins-latin-600-normal.woff2") format("woff2");
-}
-
-/* JetBrains Mono, subset próprio (pyftsubset): ASCII, acentos do português e
-   pontuação tipográfica — 149 glifos, ~5,7 KB por peso. Só acento: valores,
-   numerais e rótulos. O unicode-range espelha o subset. */
-@font-face {
-  font-family: "JetBrains Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../fonts/jetbrains-mono-subset-400-normal.woff2") format("woff2");
+  src: url("../fonts/poppins-subset-600-normal.woff2") format("woff2");
   unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
 }
 
 @font-face {
-  font-family: "JetBrains Mono";
+  font-family: "Poppins";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-display: swap;
-  src: url("../fonts/jetbrains-mono-subset-500-normal.woff2") format("woff2");
+  src: url("../fonts/poppins-subset-700-normal.woff2") format("woff2");
+  unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../fonts/poppins-subset-800-normal.woff2") format("woff2");
   unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AA, U+00B0, U+00B7, U+00BA, U+00C0-00C3, U+00C7, U+00C9, U+00CA, U+00CD, U+00D3-00D5, U+00D7, U+00DA, U+00DC, U+00E0-00E3, U+00E7, U+00E9, U+00EA, U+00ED, U+00F3-00F5, U+00FA, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026;
 }
 
@@ -69,11 +66,8 @@
   --tinta-fraca: #6b6b6b; /* rótulos de tabela; 5,3:1 sobre o papel */
   color-scheme: light;
 
-  /* Mesma pilha do portfólio: San Francisco nativa em Apple, Inter nos demais. */
-  --fonte: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
-  --fonte-marca: "Poppins", var(--fonte);
-  /* Mesmo padrão: SF Mono nativa em Apple (nada baixa), JetBrains Mono nos demais. */
-  --fonte-mono: ui-monospace, "JetBrains Mono", monospace;
+  /* Poppins na frente de tudo: a system-ui só entra enquanto ela baixa. */
+  --fonte: "Poppins", system-ui, sans-serif;
 
   /* Escala tipográfica (mobile → desktop) */
   --t-display: clamp(2rem, 5.5vw, 3rem);
@@ -84,7 +78,6 @@
   --t-botao: 0.9375rem;
   --t-numeral: clamp(2.75rem, 5.5vw, 4rem);
   --t-marca: 0.875rem;
-  --t-mono: 0.875rem;   /* valores em mono: um degrau abaixo do corpo, a mono é larga */
   --t-rotulo: 0.75rem;  /* rótulos em caixa alta */
   --tracking-marca: 0.18em;
   --tracking-rotulo: 0.08em;
@@ -197,7 +190,7 @@ html.intro-ativa {
   background: var(--tinta);
   color: var(--papel);
   font-size: var(--t-botao);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
@@ -262,7 +255,6 @@ html.intro-ativa {
 
 .marca__nome {
   display: none;
-  font-family: var(--fonte-marca);
   font-size: var(--t-marca);
   font-weight: 600;
   letter-spacing: var(--tracking-marca);
@@ -470,7 +462,6 @@ html.intro-ativa .intro {
 /* O nome entra já opaco, só com o tracking fechando (intro.js). */
 .intro__nome {
   visibility: hidden;
-  font-family: var(--fonte-marca);
   font-size: clamp(1rem, 2.6vw, 1.25rem);
   font-weight: 600;
   letter-spacing: 0.6em;
@@ -570,7 +561,7 @@ html.intro-ativa .intro {
 .hero__titulo {
   max-width: var(--medida-display);
   font-size: var(--t-display);
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -614,7 +605,7 @@ html.intro-ativa .intro {
 .passo__titulo,
 .trabalho__titulo {
   font-size: var(--t-h3);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
 }
 
@@ -667,9 +658,8 @@ html.intro-ativa .intro {
 
 .passo__numero {
   min-width: 1.1ch;
-  font-family: var(--fonte-mono);
   font-size: var(--t-numeral);
-  font-weight: 500;
+  font-weight: 800;
   line-height: 0.85;
 }
 
@@ -763,26 +753,20 @@ html.intro-ativa .intro {
   border-bottom: 0;
 }
 
-/* Rótulos de coluna: mono, caixa alta, pequenos. */
+/* Rótulos de coluna: caixa alta, pequenos. */
 .tabela th {
   color: var(--tinta-fraca);
-  font-family: var(--fonte-mono);
   font-size: var(--t-rotulo);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: var(--tracking-rotulo);
   text-transform: uppercase;
 }
 
-/* Preços e prazos: mono com algarismos tabulares. */
-.tabela__valor,
-.tabela__prazo {
-  font-family: var(--fonte-mono);
-  font-size: var(--t-mono);
-  font-variant-numeric: tabular-nums;
-}
-
+/* Preços: a Poppins não tem algarismos tabulares, então a coluna tem largura
+   fixa e o texto encosta à direita — a borda direita alinha, o resto não importa. */
 .tabela .tabela__valor {
-  font-weight: 500;
+  width: 12ch;
+  font-weight: 700;
   text-align: right;
   white-space: nowrap;
 }
@@ -822,7 +806,8 @@ html.intro-ativa .intro {
   }
 
   .tabela--servicos .tabela__valor {
-    font-weight: 400;
+    width: auto;
+    font-weight: 700;
   }
 }
 
@@ -956,7 +941,7 @@ html.intro-ativa .intro {
   background: var(--tinta);
   color: var(--papel);
   font-size: var(--t-botao);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1;
   text-decoration: none;
   transition: transform 500ms var(--ease), background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
@@ -1032,12 +1017,4 @@ html.js .whats-fixo--visivel {
   html.js .whats-fixo--visivel {
     animation: none;
   }
-}
-/* --- TEMPORÁRIO: avaliação visual da mono ----------------------------------
-   Aplicar pelo console: document.documentElement.classList.add('teste-mono-total')
-   Joga JetBrains Mono no site inteiro (inclusive marca). Não usar em produção;
-   remover esta regra quando a avaliação terminar. */
-html.teste-mono-total,
-html.teste-mono-total * {
-  font-family: "JetBrains Mono", monospace !important;
 }
