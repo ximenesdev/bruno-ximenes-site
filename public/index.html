@@ -114,52 +114,58 @@
 
     <section class="secao" id="servicos">
       <h2 class="secao__titulo">O que eu faço</h2>
-      <table class="tabela tabela--servicos">
-        <thead>
-          <tr>
-            <th scope="col">serviço</th>
-            <th scope="col" class="tabela__valor">preço</th>
-            <th scope="col">prazo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Perfil no Google completo</td>
-            <td class="tabela__valor">R$ 150</td>
-            <td class="tabela__prazo">feito na hora, na sua loja</td>
-          </tr>
-          <tr>
-            <td>Sistemas sob medida</td>
-            <td class="tabela__valor">A partir de R$ 1.200</td>
-            <td class="tabela__prazo">a partir de 6 semanas</td>
-          </tr>
-          <tr>
-            <td>Site da empresa</td>
-            <td class="tabela__valor">A partir de R$ 897</td>
-            <td class="tabela__prazo">10 dias após receber as fotos</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="servicos">
-        <article class="servico">
-          <h3 class="servico__titulo">Perfil no Google completo</h3>
-          <p>Quando alguém pesquisa o seu tipo de negócio na região, o Google mostra primeiro quem tem o perfil preenchido. A maioria dos comércios de Brasília está pela metade: sem horário, sem fotos, categoria errada. Eu arrumo isso em 40 minutos, com você do lado, e você já sai com a plaquinha para os clientes te avaliarem.</p>
-          <p>Entra: categoria certa, horário, telefone, serviços com preço, descrição com as palavras que o seu cliente digita, 10 a 15 fotos tiradas na hora, link de avaliação configurado.</p>
-          <p class="servico__acao"><a class="botao botao--secundario" data-wa="google" href="#">Quero o perfil</a></p>
-        </article>
-        <article class="servico">
-          <h3 class="servico__titulo">Sistemas sob medida</h3>
-          <p>Estoque, agendamento de clientes, ordem de serviço, controle financeiro, caixa. Desenvolvido para o jeito que a sua empresa trabalha, não o contrário. Eu vou até a loja, entendo a rotina, e você recebe um sistema que a sua equipe aprende a usar no mesmo dia. Hospedagem, atualização e suporte ficam comigo.</p>
-          <p>O sistema é meu, você usa. Quer dizer: se eu melhorar alguma coisa para outro cliente, você recebe a melhoria também.</p>
-          <p class="servico__acao"><a class="botao botao--secundario" data-wa="sistema" href="#">Quero conversar sobre um sistema</a></p>
-        </article>
-        <article class="servico">
-          <h3 class="servico__titulo">Site da empresa</h3>
-          <p>Uma página, rápida, que abre bonita no WhatsApp e mostra o que você faz, quanto custa e onde você atende. Com domínio próprio (seusite.com.br), botão de WhatsApp e configurado para o Google encontrar. Você manda o link em vez de mandar foto solta.</p>
-          <p>Entra: galeria dos seus trabalhos, serviços e preços, área de atendimento, horário, mapa e botão de contato.</p>
-          <p class="servico__acao"><a class="botao botao--secundario" data-wa="site" href="#">Quero um site</a></p>
-        </article>
-      </div>
+      <!-- Cada serviço é um cartão: nome, preço, o que entra, prazo e pagamento.
+           O do meio (sistemas) é o mais completo e leva a única borda grossa do site. -->
+      <ul class="cartoes" role="list">
+        <li class="cartao">
+          <h3 class="cartao__nome">Perfil no Google completo</h3>
+          <p class="cartao__preco"><strong class="cartao__valor">R$ 150</strong></p>
+          <ul class="cartao__lista" role="list">
+            <li>Categoria certa, horário e telefone</li>
+            <li>Serviços com preço</li>
+            <li>Descrição com as palavras que o seu cliente digita</li>
+            <li>10 a 15 fotos tiradas na hora</li>
+            <li>Link de avaliação configurado e plaquinha para os clientes</li>
+          </ul>
+          <dl class="cartao__rodape">
+            <div><dt>Prazo</dt><dd>Feito na hora, na sua loja: 40 minutos, com você do lado.</dd></div>
+            <div><dt>Pagamento</dt><dd>Dinheiro, Pix, cartão de débito e crédito (maquininha própria). Parcelamento no crédito combinado na hora.</dd></div>
+          </dl>
+          <p class="cartao__acao"><a class="botao botao--secundario" data-wa="google" href="#">Quero o perfil</a></p>
+        </li>
+        <li class="cartao cartao--destaque">
+          <h3 class="cartao__nome">Sistemas sob medida</h3>
+          <p class="cartao__preco"><span class="cartao__desde">A partir de</span> <strong class="cartao__valor">R$ 1.200</strong></p>
+          <ul class="cartao__lista" role="list">
+            <li>Estoque, agendamento, ordem de serviço, controle financeiro ou caixa</li>
+            <li>Feito para o jeito que a sua empresa trabalha, não o contrário</li>
+            <li>Sua equipe aprende a usar no mesmo dia</li>
+            <li>Hospedagem, atualização e suporte ficam comigo</li>
+            <li>Melhoria feita para outro cliente chega para você também</li>
+          </ul>
+          <dl class="cartao__rodape">
+            <div><dt>Prazo</dt><dd>A partir de 6 semanas.</dd></div>
+            <div><dt>Pagamento</dt><dd>Dinheiro, Pix, cartão de débito e crédito (maquininha própria). Parcelamento no crédito combinado na hora.</dd></div>
+          </dl>
+          <p class="cartao__acao"><a class="botao botao--secundario" data-wa="sistema" href="#">Quero conversar sobre um sistema</a></p>
+        </li>
+        <li class="cartao">
+          <h3 class="cartao__nome">Site da empresa</h3>
+          <p class="cartao__preco"><span class="cartao__desde">A partir de</span> <strong class="cartao__valor">R$ 897</strong></p>
+          <ul class="cartao__lista" role="list">
+            <li>Uma página, rápida, que abre bonita no WhatsApp</li>
+            <li>Domínio próprio (seusite.com.br)</li>
+            <li>Galeria dos seus trabalhos, serviços e preços</li>
+            <li>Área de atendimento, horário e mapa</li>
+            <li>Botão de WhatsApp e configurado para o Google encontrar</li>
+          </ul>
+          <dl class="cartao__rodape">
+            <div><dt>Prazo</dt><dd>10 dias após receber as fotos.</dd></div>
+            <div><dt>Pagamento</dt><dd>Dinheiro, Pix, cartão de débito e crédito (maquininha própria). Parcelamento no crédito combinado na hora.</dd></div>
+          </dl>
+          <p class="cartao__acao"><a class="botao botao--secundario" data-wa="site" href="#">Quero um site</a></p>
+        </li>
+      </ul>
     </section>
 
     <section class="secao" id="como-funciona">
@@ -209,28 +215,36 @@
     <section class="secao" id="mensalidades">
       <h2 class="secao__titulo">Para continuar no ar</h2>
       <p class="secao__texto">Site e sistema não são entrega única. Eles ficam no ar, atualizados e com alguém respondendo. A mensalidade paga isso.</p>
-      <table class="tabela">
-        <thead>
-          <tr>
-            <th scope="col"><span class="visualmente-oculto">Plano</span></th>
-            <th scope="col" class="tabela__valor">por mês</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Site no ar e atualizado — hospedagem, domínio, certificado, até 2 atualizações de conteúdo por mês</td>
-            <td class="tabela__valor">R$ 149</td>
-          </tr>
-          <tr>
-            <td>Sistema — licença de uso, hospedagem, backup, correções e atualizações, suporte</td>
-            <td class="tabela__valor">R$ 149</td>
-          </tr>
-          <tr>
-            <td>Site + sistema</td>
-            <td class="tabela__valor">R$ 249</td>
-          </tr>
-        </tbody>
-      </table>
+      <ul class="cartoes" role="list">
+        <li class="cartao cartao--mensal">
+          <h3 class="cartao__nome">Site no ar e atualizado</h3>
+          <p class="cartao__preco"><strong class="cartao__valor">R$ 149</strong> <span class="cartao__periodo">por mês</span></p>
+          <ul class="cartao__lista" role="list">
+            <li>Hospedagem, domínio e certificado</li>
+            <li>Até 2 atualizações de conteúdo por mês</li>
+          </ul>
+        </li>
+        <li class="cartao cartao--mensal">
+          <h3 class="cartao__nome">Sistema</h3>
+          <p class="cartao__preco"><strong class="cartao__valor">R$ 149</strong> <span class="cartao__periodo">por mês</span></p>
+          <ul class="cartao__lista" role="list">
+            <li>Licença de uso e hospedagem</li>
+            <li>Backup, correções e atualizações</li>
+            <li>Suporte</li>
+          </ul>
+        </li>
+        <li class="cartao cartao--mensal cartao--destaque">
+          <h3 class="cartao__nome">Site + sistema</h3>
+          <p class="cartao__preco"><strong class="cartao__valor">R$ 249</strong> <span class="cartao__periodo">por mês</span></p>
+          <ul class="cartao__lista" role="list">
+            <li>Hospedagem, domínio e certificado</li>
+            <li>Até 2 atualizações de conteúdo por mês</li>
+            <li>Licença de uso do sistema</li>
+            <li>Backup, correções e atualizações</li>
+            <li>Suporte</li>
+          </ul>
+        </li>
+      </ul>
       <p class="small">Suporte de segunda a sexta, 14h às 18h, pelo WhatsApp. Fora desse horário, resposta no próximo dia útil.</p>
     </section>
 

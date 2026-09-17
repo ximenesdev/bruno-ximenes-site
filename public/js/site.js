@@ -88,7 +88,10 @@
   // --- Movimento fora da intro: uma regra só ---------------------------------
 
   const animar = window.gsap && window.ScrollTrigger && !reduz;
-  if (animar) gsap.registerPlugin(ScrollTrigger);
+  if (animar) {
+    gsap.registerPlugin(ScrollTrigger);
+    html.classList.add('anima'); // o CSS só esconde o que vai animar quando há quem anime
+  }
 
   // Rolagem suave só com mouse/trackpad; no toque fica o nativo (e as âncoras
   // usam scroll-behavior do CSS). O offset das âncoras é a altura do cabeçalho.
@@ -130,6 +133,16 @@
       ease: 'power3.out',
       stagger: 0.1,
       scrollTrigger: { trigger: passos, start: 'top 85%', once: true },
+    });
+    // Cartões: o traço de cabeça se desenha (scaleX 0 → 1, no CSS) uma vez, ao
+    // entrar na tela. Os que entram juntos (lado a lado) desenham em cascata.
+    ScrollTrigger.batch('.cartao', {
+      start: 'top 85%',
+      once: true,
+      onEnter: (cartoes) => cartoes.forEach((cartao, i) => {
+        cartao.style.setProperty('--atraso', (i * 0.12) + 's'); // o ::before lê a variável
+        cartao.classList.add('cartao--visto');
+      }),
     });
     // A intro trava a rolagem; quando ela acaba, as medidas mudam.
     document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
