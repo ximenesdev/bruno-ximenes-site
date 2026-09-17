@@ -1,7 +1,7 @@
 // Tudo que muda fica aqui. Nenhum destes valores aparece solto em outro arquivo.
 window.BX = Object.freeze({
   // Número do WhatsApp: só dígitos, com o 55 do Brasil na frente. Ex.: "5561999999999".
-  WHATSAPP: "55", // preencher
+  WHATSAPP: "5561986110999",
 
   EMAIL: "brunoxmns7@gmail.com",
   GITHUB: "ximenesdev",
