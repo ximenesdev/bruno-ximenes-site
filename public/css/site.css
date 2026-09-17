@@ -586,20 +586,6 @@ html.intro-ativa .intro {
 }
 
 /* --- Hero ------------------------------------------------------------------ */
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--s5);
-}
-
-@media (min-width: 900px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) 380px;
-    align-items: center;
-    column-gap: var(--s6);
-  }
-}
-
 .hero__titulo {
   max-width: var(--medida-display);
   font-size: var(--t-display);
@@ -870,7 +856,7 @@ html:not(.anima) .etapa__icone circle {
 }
 
 /* Conversa: balão do cliente contornado à esquerda, resposta da loja em tinta
-   à direita. Os balões entram um depois do outro (site.js), uma vez. */
+   à direita. Os balões entram um depois do outro ao rolar (site.js), uma vez. */
 .conversa {
   display: grid;
   gap: var(--s2);
@@ -911,9 +897,29 @@ html:not(.anima) .etapa__icone circle {
 /* Duas colunas; a de hoje é apagada (--tinta-fraca, peso 400, marca leve), a
    do site tem contraste cheio (peso 500, marca sólida). Diferença por peso e
    opacidade, nunca por cor. */
+/* Cabeça: a promessa (título) e a prova (conversa) num bloco só. Empilhados no
+   celular; lado a lado a partir de 900px, o título centrado na altura da conversa. */
+.comparativo__cabeca {
+  display: grid;
+  gap: var(--s4);
+}
+
+@media (min-width: 900px) {
+  .comparativo__cabeca {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: center;
+    column-gap: var(--s6);
+  }
+
+  .secao__titulo + .comparativo__conversa {
+    margin-top: 0;
+  }
+}
+
 .comparativo__colunas {
   display: grid;
   gap: var(--s4);
+  margin-top: var(--s5);
 }
 
 .comparativo__rotulo {
@@ -981,6 +987,187 @@ html:not(.anima) .etapa__icone circle {
     border-top: 0;
     border-left: 1px solid var(--filete);
   }
+}
+
+/* Busca no Google: duas telas desenhadas, hoje × depois. Mesma regra das
+   colunas — a de hoje apagada, a de depois com contraste cheio — e nada de
+   cor: só tinta, papel e filete. */
+.busca {
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--filete);
+}
+
+.busca__titulo {
+  font-size: var(--t-h3);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.busca__texto {
+  max-width: var(--medida);
+  margin-top: var(--s1);
+}
+
+.busca__telas {
+  display: grid;
+  gap: var(--s4);
+  margin-top: var(--s4);
+}
+
+@media (min-width: 700px) {
+  .busca__telas {
+    grid-template-columns: repeat(2, minmax(0, 340px));
+    gap: var(--s5);
+  }
+}
+
+/* Sprite dos ícones (Phosphor): fora do fluxo; os <use> continuam funcionando. */
+.icones {
+  display: none;
+}
+
+/* Ícone inline: do tamanho do texto, alinhado à linha. */
+.icone {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
+.tela {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* barra, conteúdo, legenda no pé — as duas telas alinham */
+  gap: var(--s2);
+  max-width: 340px;
+  margin: 0;
+  padding: var(--s2);
+  border: 1px solid var(--filete);
+  border-radius: var(--raio);
+  font-size: var(--t-small);
+  line-height: 1.4;
+}
+
+.tela--hoje {
+  color: var(--tinta-fraca);
+}
+
+.tela__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  padding: 10px 12px;
+  border: 1px solid currentColor;
+  border-radius: var(--raio);
+}
+
+.tela__resultados {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resultado {
+  display: grid;
+  gap: 2px;
+  padding: var(--s2) 4px;
+  border-top: 1px solid var(--filete);
+}
+
+.resultado:first-child {
+  border-top: 0;
+}
+
+.resultado__nome {
+  font-weight: 600;
+}
+
+/* O resultado pobre é o da própria loja: nome solto, sem nada em volta. */
+.resultado--pobre .resultado__nome {
+  font-weight: 500;
+}
+
+.resultado__nota {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.tela__legenda {
+  color: var(--tinta-fraca);
+  font-size: var(--t-rotulo);
+  letter-spacing: var(--tracking-rotulo);
+  text-transform: uppercase;
+}
+
+/* Perfil completo: nome, avaliações, fotos, horário, botões e endereço. */
+.perfil {
+  display: grid;
+  gap: var(--s1);
+  padding: 4px;
+}
+
+.perfil__nome {
+  font-size: var(--t-corpo);
+  font-weight: 700;
+}
+
+.perfil__nota {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.perfil__estrelas {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.perfil__fotos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s1);
+  margin: var(--s1) 0;
+}
+
+.perfil__fotos span {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--filete);
+  border-radius: var(--raio);
+  color: var(--tinta-fraca);
+  font-size: 1.5rem;
+}
+
+.perfil__aberto,
+.perfil__linha {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.perfil__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin: var(--s1) 0;
+}
+
+.perfil__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--tinta);
+  border-radius: var(--raio);
+  font-weight: 600;
+}
+
+.perfil__linha {
+  color: var(--tinta-fraca);
 }
 
 /* --- Cartões (serviços e mensalidades) ------------------------------------ */

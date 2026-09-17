@@ -216,11 +216,16 @@
         onLeaveBack: () => marcarEtapa(Math.max(1, i)),
       });
     });
-    // Conversa do hero: um balão, depois o outro — como uma conversa de verdade.
-    // Espera a intro pousar quando ela existe.
-    const conversa = gsap.from('.conversa__balao', { opacity: 0, y: 10, duration: 0.5, ease: 'power2.out', stagger: 0.7, delay: 0.4, paused: true });
-    if (html.classList.contains('intro-ativa')) document.addEventListener('bx:intro-fim', () => conversa.play(), { once: true });
-    else conversa.play();
+    // Conversa (a prova, em #com-e-sem): um balão, depois o outro — como uma
+    // conversa de verdade — quando a figura entra na tela. Uma vez só.
+    gsap.from('.conversa__balao', {
+      opacity: 0,
+      y: 10,
+      duration: 0.5,
+      ease: 'power2.out',
+      stagger: 0.7,
+      scrollTrigger: { trigger: '.comparativo__conversa', start: 'top 80%', once: true },
+    });
 
     // Com × sem: os itens entram em cascata alternada (esquerda, direita,
     // esquerda…) quando as colunas estão lado a lado; empilhadas, cada coluna

@@ -83,6 +83,19 @@
 </head>
 <body>
 
+  <!-- Ícones: Phosphor Icons (MIT, phosphoricons.com), pesos Bold/Fill, copiados
+       como <symbol> e usados com <use>. Todos em viewBox 0 0 256 256 e currentColor.
+       (display:none via classe: o atributo hidden não vale para <svg> inline.) -->
+  <svg class="icones" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ph-lupa" viewBox="0 0 256 256"><path d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"/></symbol>
+    <symbol id="ph-estrela" viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"/></symbol>
+    <symbol id="ph-relogio" viewBox="0 0 256 256"><path d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm68-84a12,12,0,0,1-12,12H128a12,12,0,0,1-12-12V72a12,12,0,0,1,24,0v44h44A12,12,0,0,1,196,128Z"/></symbol>
+    <symbol id="ph-telefone" viewBox="0 0 256 256"><path d="M224,154.8l-47.09-21.11-.18-.08a19.94,19.94,0,0,0-19,1.75,13.08,13.08,0,0,0-1.12.84l-22.31,19c-13-7.05-26.43-20.37-33.49-33.21l19.06-22.66a11.76,11.76,0,0,0,.85-1.15,20,20,0,0,0,1.66-18.83,1.42,1.42,0,0,1-.08-.18L101.2,32A20.06,20.06,0,0,0,80.42,20.15,60.27,60.27,0,0,0,28,80c0,81.61,66.39,148,148,148a60.27,60.27,0,0,0,59.85-52.42A20.06,20.06,0,0,0,224,154.8ZM176,204A124.15,124.15,0,0,1,52,80,36.29,36.29,0,0,1,80.48,44.46l18.82,42L80.14,109.28a12,12,0,0,0-.86,1.16A20,20,0,0,0,78,130.08c9.42,19.28,28.83,38.56,48.31,48A20,20,0,0,0,146,176.63a11.63,11.63,0,0,0,1.11-.85l22.43-19.07,42,18.81A36.29,36.29,0,0,1,176,204Z"/></symbol>
+    <symbol id="ph-rota" viewBox="0 0 256 256"><path d="M238.7,102.46,62.81,37.21l-.25-.09A20,20,0,0,0,37.12,62.56l.09.25L102.46,238.7A20,20,0,0,0,121.3,252h.35a20,20,0,0,0,18.77-14.12l.09-.29,21.23-75.85,75.85-21.23.29-.09a20,20,0,0,0,.82-38Zm-89.93,38a12,12,0,0,0-8.32,8.32l-19.68,70.29L62.8,62.8l156.26,58Z"/></symbol>
+    <symbol id="ph-whatsapp" viewBox="0 0 256 256"><path d="M187.3,159.06A36.09,36.09,0,0,1,152,188a84.09,84.09,0,0,1-84-84A36.09,36.09,0,0,1,96.94,68.7,12,12,0,0,1,110,75.1l11.48,23a12,12,0,0,1-.75,12l-8.52,12.78a44.56,44.56,0,0,0,20.91,20.91l12.78-8.52a12,12,0,0,1,12-.75l23,11.48A12,12,0,0,1,187.3,159.06ZM236,128A108,108,0,0,1,78.77,224.15L46.34,235A20,20,0,0,1,21,209.66l10.81-32.43A108,108,0,1,1,236,128Zm-24,0A84,84,0,1,0,55.27,170.06a12,12,0,0,1,1,9.81l-9.93,29.79,29.79-9.93a12.1,12.1,0,0,1,3.8-.62,12,12,0,0,1,6,1.62A84,84,0,0,0,212,128Z"/></symbol>
+    <symbol id="ph-foto" viewBox="0 0 256 256"><path d="M144,96a16,16,0,1,1,16,16A16,16,0,0,1,144,96Zm92-40V200a20,20,0,0,1-20,20H40a20,20,0,0,1-20-20V56A20,20,0,0,1,40,36H216A20,20,0,0,1,236,56ZM44,60v79.72l33.86-33.86a20,20,0,0,1,28.28,0L147.31,147l17.18-17.17a20,20,0,0,1,28.28,0L212,149.09V60Zm0,136H162.34L92,125.66l-48,48Zm168,0V183l-33.37-33.37L164.28,164l32,32Z"/></symbol>
+  </svg>
+
   <!-- Intro da marca: só existe visualmente com html.intro-ativa (ver script no head).
        Fundo e marca ficam em camadas separadas para o fundo sumir sem levar a marca.
        O monograma nasce como traço de marcador (contorno do B, laços, X), ganha tinta
@@ -177,20 +190,23 @@
           <span class="hero__nota">Resposta no mesmo dia útil.</span>
         </p>
       </div>
-      <!-- Conversa em preto e branco: mostra em dois balões o que o site faz, no
-           meio que a pessoa usa. Nome e endereço são ilustrativos. -->
-      <figure class="conversa hero__conversa">
-        <p class="conversa__balao conversa__balao--cliente">Oi! Quanto custa um armário planejado de 3 portas?</p>
-        <p class="conversa__balao conversa__balao--loja">Oi! Tem preço, prazo e fotos aqui: <strong>marcenariaexemplo.com.br</strong></p>
-        <figcaption class="conversa__legenda">Exemplo ilustrativo · Marcenaria Exemplo</figcaption>
-      </figure>
     </section>
 
     <!-- Com × sem: a seção que vende. A diferença entre as colunas é peso e
          opacidade, nunca cor. No celular "Com o site funcionando" fica por
          último — é o argumento de fechamento, logo antes do botão. -->
     <section class="secao comparativo" id="com-e-sem">
-      <h2 class="secao__titulo">O cliente chega sabendo. Você só fecha.</h2>
+      <!-- Promessa e prova num bloco só: o título de um lado e, do outro, a conversa
+           em dois balões que mostra a promessa acontecendo no meio que a pessoa usa.
+           Nome e endereço são ilustrativos. -->
+      <div class="comparativo__cabeca">
+        <h2 class="secao__titulo">O cliente chega sabendo. Você só fecha.</h2>
+        <figure class="conversa comparativo__conversa">
+          <p class="conversa__balao conversa__balao--cliente">Oi! Quanto custa um armário planejado de 3 portas?</p>
+          <p class="conversa__balao conversa__balao--loja">Oi! Tem preço, prazo e fotos aqui: <strong>marcenariaexemplo.com.br</strong></p>
+          <figcaption class="conversa__legenda">Exemplo ilustrativo · Marcenaria Exemplo</figcaption>
+        </figure>
+      </div>
       <div class="comparativo__colunas">
         <div class="comparativo__coluna comparativo__coluna--hoje">
           <h3 class="comparativo__rotulo">Como está hoje</h3>
@@ -211,6 +227,47 @@
             <li>Sistema feito para a sua rotina, que a equipe aprende no mesmo dia.</li>
             <li>Hospedagem, backup, correções e suporte de segunda a sexta, comigo.</li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Busca no Google, hoje × depois: duas telas desenhadas em HTML (sem logotipo,
+           sem marca de terceiros, nome fictício). A pessoa pega o celular, busca o
+           próprio negócio e vê sozinha em qual lado está. -->
+      <div class="busca">
+        <h3 class="busca__titulo">Busque o seu negócio no Google agora</h3>
+        <p class="busca__texto">Pelo celular mesmo. Qual dos dois lados aparece?</p>
+        <div class="busca__telas">
+          <figure class="tela tela--hoje">
+            <div class="tela__barra"><svg class="icone" aria-hidden="true"><use href="#ph-lupa"/></svg><span>marcenaria exemplo</span></div>
+            <ol class="tela__resultados" role="list">
+              <li class="resultado">
+                <span class="resultado__nome">Marcenaria Vizinha</span>
+                <span class="resultado__meta"><span class="resultado__nota"><svg class="icone" aria-hidden="true"><use href="#ph-estrela"/></svg>4,7 (86)</span> · Aberto agora · Ligar · Rotas</span>
+              </li>
+              <li class="resultado resultado--pobre">
+                <span class="resultado__nome">Marcenaria Exemplo</span>
+                <span class="resultado__meta">Sem foto · sem horário · sem telefone</span>
+              </li>
+              <li class="resultado">
+                <span class="resultado__nome">Marcenarias em Brasília – lista</span>
+                <span class="resultado__meta">Diretório · 40 resultados</span>
+              </li>
+            </ol>
+            <figcaption class="tela__legenda">Hoje</figcaption>
+          </figure>
+          <figure class="tela tela--depois">
+            <div class="tela__barra"><svg class="icone" aria-hidden="true"><use href="#ph-lupa"/></svg><span>marcenaria exemplo</span></div>
+            <div class="perfil">
+              <p class="perfil__nome">Marcenaria Exemplo</p>
+              <p class="perfil__nota"><strong>4,9</strong> <span class="perfil__estrelas" aria-label="5 estrelas"><svg class="icone icone--estrela" aria-hidden="true"><use href="#ph-estrela"/></svg><svg class="icone icone--estrela" aria-hidden="true"><use href="#ph-estrela"/></svg><svg class="icone icone--estrela" aria-hidden="true"><use href="#ph-estrela"/></svg><svg class="icone icone--estrela" aria-hidden="true"><use href="#ph-estrela"/></svg><svg class="icone icone--estrela" aria-hidden="true"><use href="#ph-estrela"/></svg></span> (128) · Marcenaria</p>
+              <div class="perfil__fotos" aria-hidden="true"><span><svg class="icone" aria-hidden="true"><use href="#ph-foto"/></svg></span><span><svg class="icone" aria-hidden="true"><use href="#ph-foto"/></svg></span><span><svg class="icone" aria-hidden="true"><use href="#ph-foto"/></svg></span></div>
+              <p class="perfil__aberto"><svg class="icone" aria-hidden="true"><use href="#ph-relogio"/></svg><strong>Aberto agora</strong> · fecha às 18h</p>
+              <p class="perfil__acoes"><span class="perfil__botao"><svg class="icone" aria-hidden="true"><use href="#ph-telefone"/></svg>Ligar</span><span class="perfil__botao"><svg class="icone" aria-hidden="true"><use href="#ph-rota"/></svg>Rotas</span><span class="perfil__botao"><svg class="icone" aria-hidden="true"><use href="#ph-whatsapp"/></svg>WhatsApp</span></p>
+              <p class="perfil__linha">Rua Exemplo, 123 · 1,2 km</p>
+              <p class="perfil__linha">marcenariaexemplo.com.br</p>
+            </div>
+            <figcaption class="tela__legenda">Depois</figcaption>
+          </figure>
         </div>
       </div>
 
