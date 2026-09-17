@@ -6,12 +6,11 @@ window.BX = Object.freeze({
   EMAIL: "brunoxmns7@gmail.com",
   GITHUB: "ximenesdev",
 
-  // Mensagens pré-preenchidas do WhatsApp (seção 9 do doc).
-  // A chave é o valor do atributo data-wa de cada botão.
+  // Mensagens pré-preenchidas do WhatsApp. A chave é o valor do atributo
+  // data-wa de cada botão; "comanda" substitui todas quando há itens marcados
+  // ({itens} vira a lista, ex.: "Site da empresa (a partir de R$ 897)").
   MENSAGENS: Object.freeze({
     topo: "Oi Bruno, vi seu site e quero saber o que está faltando no meu negócio.",
-    google: "Oi Bruno, quero o Perfil no Google completo. Meu negócio é: ",
-    sistema: "Oi Bruno, quero conversar sobre um sistema. Meu negócio é: ",
-    site: "Oi Bruno, quero um site para o meu negócio. Ele é: ",
+    comanda: "Oi Bruno, quero fechar: {itens}. Meu negócio é: ",
   }),
 });

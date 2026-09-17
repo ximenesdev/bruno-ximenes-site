@@ -115,7 +115,9 @@
     <section class="secao" id="servicos">
       <h2 class="secao__titulo">O que eu faço</h2>
       <!-- Cada serviço é um cartão: nome, preço, o que entra, prazo e pagamento.
-           O do meio (sistemas) é o mais completo e leva a única borda grossa do site. -->
+           O do meio (sistemas) é o mais completo e leva a única borda grossa do site.
+           "Quero…" põe o item na comanda (site.js): o botão fixo de WhatsApp passa a
+           mostrar o total e a mensagem já vai com a lista. -->
       <ul class="cartoes" role="list">
         <li class="cartao">
           <h3 class="cartao__nome">Perfil no Google completo</h3>
@@ -131,7 +133,7 @@
             <div><dt>Prazo</dt><dd>Feito na hora, na sua loja: 40 minutos, com você do lado.</dd></div>
             <div><dt>Pagamento</dt><dd>Dinheiro, Pix, cartão de débito e crédito (maquininha própria). Parcelamento no crédito combinado na hora.</dd></div>
           </dl>
-          <p class="cartao__acao"><a class="botao botao--secundario" data-wa="google" href="#">Quero o perfil</a></p>
+          <p class="cartao__acao"><button class="botao botao--secundario cartao__quero" type="button" aria-pressed="false" data-item="Perfil no Google completo" data-valor="150">Quero o perfil</button></p>
         </li>
         <li class="cartao cartao--destaque">
           <h3 class="cartao__nome">Sistemas sob medida</h3>
@@ -147,7 +149,7 @@
             <div><dt>Prazo</dt><dd>A partir de 6 semanas.</dd></div>
             <div><dt>Pagamento</dt><dd>Dinheiro, Pix, cartão de débito e crédito (maquininha própria). Parcelamento no crédito combinado na hora.</dd></div>
           </dl>
-          <p class="cartao__acao"><a class="botao botao--secundario" data-wa="sistema" href="#">Quero conversar sobre um sistema</a></p>
+          <p class="cartao__acao"><button class="botao botao--secundario cartao__quero" type="button" aria-pressed="false" data-item="Sistemas sob medida" data-valor="1200" data-desde>Quero um sistema</button></p>
         </li>
         <li class="cartao">
           <h3 class="cartao__nome">Site da empresa</h3>
@@ -163,7 +165,7 @@
             <div><dt>Prazo</dt><dd>10 dias após receber as fotos.</dd></div>
             <div><dt>Pagamento</dt><dd>Dinheiro, Pix, cartão de débito e crédito (maquininha própria). Parcelamento no crédito combinado na hora.</dd></div>
           </dl>
-          <p class="cartao__acao"><a class="botao botao--secundario" data-wa="site" href="#">Quero um site</a></p>
+          <p class="cartao__acao"><button class="botao botao--secundario cartao__quero" type="button" aria-pressed="false" data-item="Site da empresa" data-valor="897" data-desde>Quero um site</button></p>
         </li>
       </ul>
     </section>
@@ -223,6 +225,7 @@
             <li>Hospedagem, domínio e certificado</li>
             <li>Até 2 atualizações de conteúdo por mês</li>
           </ul>
+          <p class="cartao__acao"><button class="botao botao--secundario cartao__quero" type="button" aria-pressed="false" data-item="Site no ar e atualizado" data-valor="149" data-mensal>Quero este plano</button></p>
         </li>
         <li class="cartao cartao--mensal">
           <h3 class="cartao__nome">Sistema</h3>
@@ -232,6 +235,7 @@
             <li>Backup, correções e atualizações</li>
             <li>Suporte</li>
           </ul>
+          <p class="cartao__acao"><button class="botao botao--secundario cartao__quero" type="button" aria-pressed="false" data-item="Sistema" data-valor="149" data-mensal>Quero este plano</button></p>
         </li>
         <li class="cartao cartao--mensal cartao--destaque">
           <h3 class="cartao__nome">Site + sistema</h3>
@@ -243,6 +247,7 @@
             <li>Backup, correções e atualizações</li>
             <li>Suporte</li>
           </ul>
+          <p class="cartao__acao"><button class="botao botao--secundario cartao__quero" type="button" aria-pressed="false" data-item="Site + sistema" data-valor="249" data-mensal>Quero este plano</button></p>
         </li>
       </ul>
       <p class="small">Suporte de segunda a sexta, 14h às 18h, pelo WhatsApp. Fora desse horário, resposta no próximo dia útil.</p>
@@ -290,7 +295,7 @@
        O glifo é o único ícone do site (funcional). -->
   <a class="whats-fixo" id="whats-fixo" data-wa="topo" href="#" aria-label="Chamar no WhatsApp">
     <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-    <span class="whats-fixo__rotulo"><span>WhatsApp</span></span>
+    <span class="whats-fixo__rotulo"><span aria-live="polite">WhatsApp</span></span>
   </a>
 
   <script src="js/config.js"></script>

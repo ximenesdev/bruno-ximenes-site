@@ -7,12 +7,68 @@
   // --- Contato (tudo vem de config.js) --------------------------------------
 
   // Links wa.me com a mensagem de cada botão (data-wa = chave em BX.MENSAGENS).
-  document.querySelectorAll('[data-wa]').forEach((el) => {
-    const msg = cfg.MENSAGENS[el.dataset.wa] || cfg.MENSAGENS.topo;
-    el.href = 'https://wa.me/' + cfg.WHATSAPP + '?text=' + encodeURIComponent(msg);
-    el.target = '_blank';
-    el.rel = 'noopener';
-  });
+  // Com itens na comanda, todos levam a lista no lugar da mensagem padrão.
+  const linksWa = document.querySelectorAll('[data-wa]');
+  function ligarWhatsApp(mensagemComanda) {
+    linksWa.forEach((el) => {
+      const msg = mensagemComanda || cfg.MENSAGENS[el.dataset.wa] || cfg.MENSAGENS.topo;
+      el.href = 'https://wa.me/' + cfg.WHATSAPP + '?text=' + encodeURIComponent(msg);
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+  }
+  ligarWhatsApp();
+
+  // --- Comanda ---------------------------------------------------------------
+  // "Quero…" marca o item no cartão. O botão fixo passa a mostrar o total e a
+  // mensagem do WhatsApp já vai com a lista — a pessoa chama para fechar.
+
+  const queros = Array.from(document.querySelectorAll('.cartao__quero'));
+  const whatsRotulo = document.querySelector('#whats-fixo .whats-fixo__rotulo > span');
+  const reais = (n) => 'R$ ' + n.toLocaleString('pt-BR');
+
+  function atualizarComanda() {
+    const marcados = queros.filter((b) => b.getAttribute('aria-pressed') === 'true');
+    const whats = document.getElementById('whats-fixo');
+    try { sessionStorage.setItem('bx-comanda', JSON.stringify(marcados.map((b) => b.dataset.item))); } catch (e) {}
+
+    if (!marcados.length) {
+      whats.classList.remove('whats-fixo--comanda');
+      whatsRotulo.textContent = 'WhatsApp';
+      ligarWhatsApp();
+      return;
+    }
+
+    let unico = 0, mensal = 0;
+    const itens = marcados.map((b) => {
+      const valor = Number(b.dataset.valor);
+      if ('mensal' in b.dataset) { mensal += valor; return b.dataset.item + ' (' + reais(valor) + '/mês)'; }
+      unico += valor;
+      if ('desde' in b.dataset) return b.dataset.item + ' (a partir de ' + reais(valor) + ')';
+      return b.dataset.item + ' (' + reais(valor) + ')';
+    });
+    // No rótulo do botão o total vai curto ("R$ 897 + R$ 149/mês"); o "a partir
+    // de" já está em cada item da mensagem.
+    const partes = [];
+    if (unico) partes.push(reais(unico));
+    if (mensal) partes.push(reais(mensal) + '/mês');
+
+    whats.classList.add('whats-fixo--comanda');
+    whatsRotulo.textContent = 'Fechar · ' + partes.join(' + ');
+    ligarWhatsApp(cfg.MENSAGENS.comanda.replace('{itens}', itens.join(' + ')));
+  }
+
+  queros.forEach((b) => b.addEventListener('click', () => {
+    b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true');
+    atualizarComanda();
+  }));
+
+  // Recarregou a página no meio: a comanda continua.
+  try {
+    const salva = JSON.parse(sessionStorage.getItem('bx-comanda') || '[]');
+    queros.forEach((b) => { if (salva.includes(b.dataset.item)) b.setAttribute('aria-pressed', 'true'); });
+    if (salva.length) atualizarComanda();
+  } catch (e) {}
 
   document.querySelectorAll('[data-cfg="email"]').forEach((el) => {
     el.textContent = cfg.EMAIL;

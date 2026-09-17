@@ -820,6 +820,28 @@ html.anima .cartao--visto::before {
   white-space: normal;
 }
 
+/* Marcado na comanda: o botão vira cheio e ganha o marcador em curva. */
+.cartao__quero {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.cartao__quero[aria-pressed="true"] {
+  background: var(--tinta);
+  color: var(--papel);
+}
+
+.cartao__quero[aria-pressed="true"]::before {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-right: var(--s1);
+  background: currentColor;
+  -webkit-mask: var(--marca-certo) center / contain no-repeat;
+  mask: var(--marca-certo) center / contain no-repeat;
+}
+
 .cartoes + .small {
   max-width: var(--medida);
   margin-top: var(--s3);
@@ -961,6 +983,7 @@ html.anima .cartao--visto::before {
   z-index: 50;
   display: inline-flex;
   align-items: center;
+  max-width: calc(100vw - 32px); /* o rótulo com total nunca passa da tela */
   min-height: var(--toque);
   padding: 0 13px;
   border: 1px solid var(--papel); /* invisível no papel; contorna o botão sobre o rodapé */
@@ -1028,8 +1051,14 @@ html.js .whats-fixo--visivel {
 
 .whats-fixo:hover .whats-fixo__rotulo,
 .whats-fixo:focus-visible .whats-fixo__rotulo,
-.whats-fixo--apresenta .whats-fixo__rotulo {
+.whats-fixo--apresenta .whats-fixo__rotulo,
+.whats-fixo--comanda .whats-fixo__rotulo {
   grid-template-columns: 1fr;
+}
+
+/* Com itens na comanda o botão fixo entra mesmo no hero, para o total aparecer. */
+html.js .whats-fixo--comanda {
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
