@@ -41,34 +41,44 @@
     // O conjunto começa 2% maior e assenta depois que o X trava no B.
     gsap.set(svg, { scale: 1.02, transformOrigin: '50% 50%' });
 
-    // Coreografia (posições em segundos, absolutas na timeline):
-    //   0,00–0,65  B impresso de cima para baixo
-    //   0,55–1,05  X entra pela perna grossa, de baixo-direita para cima-esquerda
-    //   1,05–1,30  assentamento (scale 1.02 → 1)
-    //   1,30–1,60  traço de 2px se desenha da esquerda para a direita sob o monograma
-    //   1,60–1,90  o traço sai pela direita (sublinhado momentâneo)
-    //   1,60–2,05  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
-    //   2,05–2,50  pausa
-    //   2,50–3,10  voo (FLIP) até o cabeçalho
-    const tl = gsap.timeline({ onComplete: () => voar(0.6) });
-    tl.to(clipB, { attr: { height: 72 }, duration: 0.65, ease: 'expo.out' }, 0)
-      .to(clipX, { attr: { x: -47, width: 94 }, duration: 0.5, ease: 'power3.out' }, 0.55)
-      .to(svg, { scale: 1, duration: 0.25, ease: 'power2.out' }, 1.05)
-      .to(traco, { scaleX: 1, duration: 0.3, ease: 'power2.out' }, 1.3)
-      .set(traco, { transformOrigin: 'right center' }, 1.6)
-      .to(traco, { scaleX: 0, duration: 0.3, ease: 'power2.in' }, 1.6)
-      .set(nome, { visibility: 'visible' }, 1.6)
-      .to(nome, { letterSpacing: trackingFinal, duration: 0.45, ease: 'expo.out' }, 1.6)
-      .to({}, { duration: 0.45 }, 2.05); // segura a pausa antes do voo
+    // Coreografia (posições em segundos, absolutas na timeline). B e X usam a
+    // mesma curva (power3.out) e se sobrepõem: o X parte com o B a ~65% e trava
+    // nele ainda em movimento — antes, o B (expo.out) já estava parado quando o
+    // X entrava, e a junção lia como sequência seca. Total: 3,35 s.
+    //   0,10–0,80  B impresso de cima para baixo
+    //   0,45–1,10  X entra pela perna grossa, de baixo-direita para cima-esquerda
+    //   1,10–1,40  assentamento (scale 1.02 → 1)
+    //   1,40–1,75  traço de 2px se desenha da esquerda para a direita sob o monograma
+    //   1,75–2,05  o traço sai pela direita (sublinhado momentâneo)
+    //   1,75–2,25  "BRUNO XIMENES" com o tracking fechando (0.6em → final)
+    //   2,25–2,70  pausa
+    //   2,70–3,35  voo (FLIP) até o cabeçalho
+    const tl = gsap.timeline({ onComplete: () => voar(0.65) });
+    tl.to(clipB, { attr: { height: 72 }, duration: 0.7, ease: 'power3.out' }, 0.1)
+      .to(clipX, { attr: { x: -47, width: 94 }, duration: 0.65, ease: 'power3.out' }, 0.45)
+      .to(svg, { scale: 1, duration: 0.3, ease: 'power2.out' }, 1.1)
+      .to(traco, { scaleX: 1, duration: 0.35, ease: 'power2.out' }, 1.4)
+      .set(traco, { transformOrigin: 'right center' }, 1.75)
+      .to(traco, { scaleX: 0, duration: 0.3, ease: 'power2.in' }, 1.75)
+      .set(nome, { visibility: 'visible' }, 1.75)
+      .to(nome, { letterSpacing: trackingFinal, duration: 0.5, ease: 'expo.out' }, 1.75)
+      .to({}, { duration: 0.45 }, 2.25); // segura a pausa antes do voo
 
-    // Clique, toque ou tecla: vai direto ao voo, mais curto, a partir do estado final.
+    // Pular: botão (visível desde o primeiro quadro; é o primeiro foco do Tab),
+    // toque em qualquer lugar ou Enter/Espaço/Esc. Vai direto ao voo, mais
+    // curto, a partir do estado final.
+    const botaoPular = intro.querySelector('.intro__pular');
     function pular() {
       if (voando) return;
       tl.pause().progress(1, true);
       voar(0.3);
     }
+    function pularPorTecla(e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { e.preventDefault(); pular(); }
+    }
+    botaoPular.addEventListener('click', pular);
     window.addEventListener('pointerdown', pular);
-    window.addEventListener('keydown', pular);
+    window.addEventListener('keydown', pularPorTecla);
 
     // FLIP manual: mede onde a marca está e onde deve pousar, e anima a diferença.
     function voar(duracao) {
@@ -76,7 +86,8 @@
       voando = true;
       tl.kill();
       window.removeEventListener('pointerdown', pular);
-      window.removeEventListener('keydown', pular);
+      window.removeEventListener('keydown', pularPorTecla);
+      botaoPular.remove(); // o botão não voa junto
 
       const voo = gsap.timeline({ onComplete: pousar });
       voo.to(monograma, flip(monograma, alvoMonograma, duracao), 0);

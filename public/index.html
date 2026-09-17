@@ -44,9 +44,9 @@
 
   <!-- Intro da marca: só existe visualmente com html.intro-ativa (ver script no head).
        Fundo e marca ficam em camadas separadas para o fundo sumir sem levar a marca. -->
-  <div class="intro" id="intro" aria-hidden="true">
+  <div class="intro" id="intro">
     <div class="intro__fundo"></div>
-    <div class="intro__marca">
+    <div class="intro__marca" aria-hidden="true">
       <div class="intro__monograma" id="intro-monograma">
         <svg viewBox="0 0 93.6 100" aria-hidden="true">
           <defs>
@@ -63,6 +63,7 @@
       <div class="intro__traco"></div>
       <p class="intro__nome" id="intro-nome">BRUNO XIMENES</p>
     </div>
+    <button class="intro__pular" type="button">Pular intro</button>
   </div>
 
   <!-- Cabeçalho fixo: transparente no topo, ganha fundo e filete ao rolar (site.js). -->

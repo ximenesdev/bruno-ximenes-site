@@ -477,6 +477,28 @@ html.intro-ativa .intro {
   will-change: transform, letter-spacing;
 }
 
+/* Pular: canto inferior direito, visível desde o primeiro quadro, alvo de 48px. */
+.intro__pular {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  min-height: var(--toque);
+  padding: 0 var(--s2);
+  border: 1px solid var(--filete);
+  border-radius: var(--raio);
+  background: var(--papel);
+  color: var(--tinta-fraca);
+  font: 500 var(--t-small) / 1 var(--fonte);
+  cursor: pointer;
+  transition: color 250ms var(--ease), border-color 250ms var(--ease);
+}
+
+.intro__pular:hover,
+.intro__pular:focus-visible {
+  border-color: var(--tinta);
+  color: var(--tinta);
+}
+
 /* --- Página e seções ------------------------------------------------------- */
 .pagina {
   padding: 0 var(--gutter);
