@@ -169,7 +169,7 @@
   // Reveal discreto por seção: opacidade + 12px, uma vez. O hero não entra;
   // "Como funciona" tem o próprio reveal, em cascata (abaixo).
   if (animar) {
-    document.querySelectorAll('.secao:not(.hero):not(#como-funciona)').forEach((secao) => {
+    document.querySelectorAll('.secao:not(.hero):not(#como-funciona):not(#com-e-sem)').forEach((secao) => {
       gsap.from(secao, {
         autoAlpha: 0,
         y: 12,
@@ -190,6 +190,27 @@
       stagger: 0.1,
       scrollTrigger: { trigger: passos, start: 'top 85%', once: true },
     });
+    // Com × sem: os itens entram em cascata alternada (esquerda, direita,
+    // esquerda…) quando as colunas estão lado a lado; empilhadas, cada coluna
+    // entra na sua vez, na ordem de leitura. Uma vez só.
+    const comparativo = document.getElementById('com-e-sem');
+    const colunas = comparativo.querySelectorAll('.comparativo__coluna');
+    const ladoALado = getComputedStyle(comparativo.querySelector('.comparativo__colunas')).gridTemplateColumns.split(' ').length > 1;
+    const entrar = (alvos, gatilho) => gsap.from(alvos, {
+      opacity: 0,
+      y: 14,
+      duration: 0.6,
+      ease: 'power2.out',
+      stagger: 0.08,
+      scrollTrigger: { trigger: gatilho, start: 'top 80%', once: true },
+    });
+    if (ladoALado) {
+      const [esq, dir] = Array.from(colunas, (c) => Array.from(c.querySelectorAll('.comparativo__rotulo, li')));
+      entrar(esq.flatMap((el, i) => [el, dir[i]]), comparativo);
+    } else {
+      colunas.forEach((coluna) => entrar(coluna.querySelectorAll('.comparativo__rotulo, li'), coluna));
+    }
+
     // Cartões: o traço de cabeça se desenha (scaleX 0 → 1, no CSS) uma vez, ao
     // entrar na tela. Os que entram juntos (lado a lado) desenham em cascata.
     ScrollTrigger.batch('.cartao', {
@@ -203,6 +224,22 @@
     // A intro trava a rolagem; quando ela acaba, as medidas mudam.
     document.addEventListener('bx:intro-fim', () => ScrollTrigger.refresh(), { once: true });
   }
+
+  // --- Calculadora de tempo ---------------------------------------------------
+  // mensagens × minutos × 26 dias de loja aberta. Só aritmética, nada de promessa.
+
+  const calcMensagens = document.getElementById('calc-mensagens');
+  const calcMinutos = document.getElementById('calc-minutos');
+  const calcHoras = document.getElementById('calc-horas');
+  function calcular() {
+    document.getElementById('calc-mensagens-valor').textContent = calcMensagens.value;
+    document.getElementById('calc-minutos-valor').textContent = calcMinutos.value;
+    const minutos = calcMensagens.value * calcMinutos.value * 26;
+    calcHoras.textContent = minutos < 60 ? minutos + ' min' : Math.round(minutos / 60) + ' h';
+  }
+  calcMensagens.addEventListener('input', calcular);
+  calcMinutos.addEventListener('input', calcular);
+  calcular();
 
   // --- Cabeçalho, scrollspy e WhatsApp fixo: um leitor de rolagem só ----------
   // Ligado ao Lenis quando ele existe (um evento por quadro); senão, ao scroll

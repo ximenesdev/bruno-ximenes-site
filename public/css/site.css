@@ -108,6 +108,8 @@
   /* Marcador "certo": um traço em curva, no desenho do monograma. Vai como
      máscara, então a cor é sempre a do texto ao redor. */
   --marca-certo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.6Q5.2 10 6.6 12.2Q8.6 7.4 13.2 4.2' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  /* Marcador "errado": duas curvas rasas se cruzando, traço mais leve. */
+  --marca-errado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4.5Q8.5 7.5 12 12M12 4.5Q7.5 7.5 4 12' fill='none' stroke='%23000' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 /* Tema escuro: exatamente o inverso (a classe vem do script no <head>, antes da
@@ -675,6 +677,145 @@ html.intro-ativa .intro {
     gap: var(--s5);
     align-items: start;
   }
+}
+
+/* --- Com × sem ------------------------------------------------------------- */
+/* Duas colunas; a de hoje é apagada (--tinta-fraca, peso 400, marca leve), a
+   do site tem contraste cheio (peso 500, marca sólida). Diferença por peso e
+   opacidade, nunca por cor. */
+.comparativo__colunas {
+  display: grid;
+  gap: var(--s4);
+}
+
+.comparativo__rotulo {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: var(--tracking-rotulo);
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.comparativo__lista {
+  display: grid;
+  gap: var(--s2);
+  margin: var(--s3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comparativo__lista li {
+  position: relative;
+  max-width: 44ch;
+  padding-left: calc(16px + var(--s2));
+  line-height: 1.5;
+}
+
+.comparativo__lista li::before {
+  content: "";
+  position: absolute;
+  top: 0.25em;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+}
+
+.comparativo__coluna--hoje {
+  color: var(--tinta-fraca);
+}
+
+.comparativo__coluna--hoje li::before {
+  -webkit-mask: var(--marca-errado) center / contain no-repeat;
+  mask: var(--marca-errado) center / contain no-repeat;
+}
+
+.comparativo__coluna--com {
+  padding-top: var(--s4);
+  border-top: 1px solid var(--filete);
+  font-weight: 500;
+}
+
+.comparativo__coluna--com li::before {
+  -webkit-mask: var(--marca-certo) center / contain no-repeat;
+  mask: var(--marca-certo) center / contain no-repeat;
+}
+
+@media (min-width: 700px) {
+  .comparativo__colunas {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s5);
+  }
+
+  .comparativo__coluna--com {
+    padding-top: 0;
+    padding-left: var(--s5);
+    border-top: 0;
+    border-left: 1px solid var(--filete);
+  }
+}
+
+/* Calculadora: controles nativos pintados com a tinta (accent-color), resultado
+   grande. Nada anima; o número só muda. */
+.calculo {
+  max-width: 560px;
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--filete);
+}
+
+.calculo__pergunta {
+  font-weight: 600;
+}
+
+.calculo__controles {
+  display: grid;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+
+.calculo__campo {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--s1) var(--s2);
+  align-items: center;
+  font-size: var(--t-small);
+}
+
+.calculo__rotulo {
+  grid-column: 1 / -1;
+}
+
+.calculo__campo input {
+  width: 100%;
+  height: var(--toque); /* alvo de toque cheio; o trilho continua fino */
+  margin: 0;
+  accent-color: var(--tinta);
+  cursor: pointer;
+}
+
+.calculo__campo output {
+  min-width: 2ch;
+  font-weight: 700;
+  text-align: right;
+}
+
+.calculo__resultado {
+  margin-top: var(--s3);
+  line-height: 1.3;
+}
+
+.calculo__horas {
+  display: block;
+  font-size: var(--t-preco);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.calculo .small {
+  margin-top: var(--s2);
+  color: var(--tinta-fraca);
 }
 
 /* --- Cartões (serviços e mensalidades) ------------------------------------ */

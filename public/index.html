@@ -112,6 +112,57 @@
       </p>
     </section>
 
+    <!-- Com × sem: a seção que vende. A diferença entre as colunas é peso e
+         opacidade, nunca cor. No celular "Com o site funcionando" fica por
+         último — é o argumento de fechamento, logo antes do botão. -->
+    <section class="secao comparativo" id="com-e-sem">
+      <h2 class="secao__titulo">O cliente chega sabendo. Você só fecha.</h2>
+      <div class="comparativo__colunas">
+        <div class="comparativo__coluna comparativo__coluna--hoje">
+          <h3 class="comparativo__rotulo">Como está hoje</h3>
+          <ul class="comparativo__lista" role="list">
+            <li>"Quanto custa?" chega no WhatsApp o dia inteiro e você responde um por um.</li>
+            <li>Foto solta do cardápio ou do serviço, cortada e desatualizada.</li>
+            <li>Endereço, horário e forma de pagamento explicados de novo a cada cliente.</li>
+            <li>Estoque, agenda e caixa no caderno ou numa planilha que só uma pessoa entende.</li>
+            <li>Se algo sai do ar ou dá erro, não tem para quem ligar.</li>
+          </ul>
+        </div>
+        <div class="comparativo__coluna comparativo__coluna--com">
+          <h3 class="comparativo__rotulo">Com o site funcionando</h3>
+          <ul class="comparativo__lista" role="list">
+            <li>Preço, serviço e horário na tela. A conversa já começa pelo pedido.</li>
+            <li>Um link seu, com endereço .com.br, que abre bonito no WhatsApp.</li>
+            <li>O link responde por você: endereço, horário, mapa, formas de pagamento.</li>
+            <li>Sistema feito para a sua rotina, que a equipe aprende no mesmo dia.</li>
+            <li>Hospedagem, backup, correções e suporte de segunda a sexta, comigo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Calculadora de tempo: aritmética com os números da própria pessoa
+           (mensagens × minutos × 26 dias de loja aberta). Nenhuma promessa. -->
+      <div class="calculo">
+        <p class="calculo__pergunta">Faz a conta com os seus números:</p>
+        <div class="calculo__controles">
+          <label class="calculo__campo">
+            <span class="calculo__rotulo">Mensagens de "quanto custa?" por dia</span>
+            <input type="range" id="calc-mensagens" min="1" max="60" value="20">
+            <output for="calc-mensagens" id="calc-mensagens-valor">20</output>
+          </label>
+          <label class="calculo__campo">
+            <span class="calculo__rotulo">Minutos para responder cada uma</span>
+            <input type="range" id="calc-minutos" min="1" max="10" value="2">
+            <output for="calc-minutos" id="calc-minutos-valor">2</output>
+          </label>
+        </div>
+        <p class="calculo__resultado" aria-live="polite"><strong class="calculo__horas" id="calc-horas">17 h</strong> <span>por mês respondendo a mesma coisa.</span></p>
+        <p class="small">Conta: mensagens × minutos × 26 dias de loja aberta.</p>
+      </div>
+
+      <p class="secao__acao"><a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a></p>
+    </section>
+
     <section class="secao" id="servicos">
       <h2 class="secao__titulo">O que eu faço</h2>
       <!-- Cada serviço é um cartão: nome, preço, o que entra, prazo e pagamento.
