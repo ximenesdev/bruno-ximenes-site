@@ -36,7 +36,7 @@
     const alvoMonograma = document.getElementById('topo-monograma');
     const alvoNome = document.getElementById('topo-nome');
 
-    const trackingFinal = getComputedStyle(html).getPropertyValue('--tracking-marca').trim() || '0.18em';
+    const trackingFinal = getComputedStyle(html).getPropertyValue('--tracking-marca').trim() || '0.08em';
     let voando = false;
 
     // O conjunto começa 2% maior e assenta quando a tinta entra. Os pingos nascem
