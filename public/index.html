@@ -29,7 +29,10 @@
   <script>
     // Antes da primeira pintura, sem flash de tema errado:
     // 1. tema — escolha salva > preferência do sistema > claro;
-    // 2. intro — só na primeira abertura da sessão e nunca com prefers-reduced-motion.
+    // 2. intro — só na primeira abertura da sessão e nunca com prefers-reduced-motion;
+    // 3. anima — o CSS esconde o que vai animar ao rolar; entra aqui, antes do primeiro
+    //    cálculo de estilo, para nada transicionar do estado final ao inicial na carga.
+    //    O site.js tira a classe se o GSAP não carregar.
     (function () {
       var raiz = document.documentElement;
       raiz.classList.add('js');
@@ -40,8 +43,9 @@
         }
       } catch (e) {}
       try {
-        if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('bx-intro')) {
-          raiz.classList.add('intro-ativa');
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          raiz.classList.add('anima');
+          if (!sessionStorage.getItem('bx-intro')) raiz.classList.add('intro-ativa');
         }
       } catch (e) {}
     })();
@@ -83,17 +87,23 @@
 </head>
 <body>
 
-  <!-- Ícones: Phosphor Icons (MIT, phosphoricons.com), pesos Bold/Fill, copiados
-       como <symbol> e usados com <use>. Todos em viewBox 0 0 256 256 e currentColor.
-       (display:none via classe: o atributo hidden não vale para <svg> inline.) -->
+  <!-- Ícones: Phosphor Icons (MIT, phosphoricons.com), peso Bold (a estrela em Fill),
+       copiados como <symbol> e usados com <use>. Todos em viewBox 0 0 256 256, em
+       currentColor e com pathLength="1": qualquer um pode se desenhar por
+       stroke-dashoffset (os das etapas fazem isso). O sprite fica fora do fluxo por
+       classe — o atributo hidden não vale para <svg> inline. -->
   <svg class="icones" xmlns="http://www.w3.org/2000/svg">
-    <symbol id="ph-lupa" viewBox="0 0 256 256"><path d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"/></symbol>
-    <symbol id="ph-estrela" viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"/></symbol>
-    <symbol id="ph-relogio" viewBox="0 0 256 256"><path d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm68-84a12,12,0,0,1-12,12H128a12,12,0,0,1-12-12V72a12,12,0,0,1,24,0v44h44A12,12,0,0,1,196,128Z"/></symbol>
-    <symbol id="ph-telefone" viewBox="0 0 256 256"><path d="M224,154.8l-47.09-21.11-.18-.08a19.94,19.94,0,0,0-19,1.75,13.08,13.08,0,0,0-1.12.84l-22.31,19c-13-7.05-26.43-20.37-33.49-33.21l19.06-22.66a11.76,11.76,0,0,0,.85-1.15,20,20,0,0,0,1.66-18.83,1.42,1.42,0,0,1-.08-.18L101.2,32A20.06,20.06,0,0,0,80.42,20.15,60.27,60.27,0,0,0,28,80c0,81.61,66.39,148,148,148a60.27,60.27,0,0,0,59.85-52.42A20.06,20.06,0,0,0,224,154.8ZM176,204A124.15,124.15,0,0,1,52,80,36.29,36.29,0,0,1,80.48,44.46l18.82,42L80.14,109.28a12,12,0,0,0-.86,1.16A20,20,0,0,0,78,130.08c9.42,19.28,28.83,38.56,48.31,48A20,20,0,0,0,146,176.63a11.63,11.63,0,0,0,1.11-.85l22.43-19.07,42,18.81A36.29,36.29,0,0,1,176,204Z"/></symbol>
-    <symbol id="ph-rota" viewBox="0 0 256 256"><path d="M238.7,102.46,62.81,37.21l-.25-.09A20,20,0,0,0,37.12,62.56l.09.25L102.46,238.7A20,20,0,0,0,121.3,252h.35a20,20,0,0,0,18.77-14.12l.09-.29,21.23-75.85,75.85-21.23.29-.09a20,20,0,0,0,.82-38Zm-89.93,38a12,12,0,0,0-8.32,8.32l-19.68,70.29L62.8,62.8l156.26,58Z"/></symbol>
-    <symbol id="ph-whatsapp" viewBox="0 0 256 256"><path d="M187.3,159.06A36.09,36.09,0,0,1,152,188a84.09,84.09,0,0,1-84-84A36.09,36.09,0,0,1,96.94,68.7,12,12,0,0,1,110,75.1l11.48,23a12,12,0,0,1-.75,12l-8.52,12.78a44.56,44.56,0,0,0,20.91,20.91l12.78-8.52a12,12,0,0,1,12-.75l23,11.48A12,12,0,0,1,187.3,159.06ZM236,128A108,108,0,0,1,78.77,224.15L46.34,235A20,20,0,0,1,21,209.66l10.81-32.43A108,108,0,1,1,236,128Zm-24,0A84,84,0,1,0,55.27,170.06a12,12,0,0,1,1,9.81l-9.93,29.79,29.79-9.93a12.1,12.1,0,0,1,3.8-.62,12,12,0,0,1,6,1.62A84,84,0,0,0,212,128Z"/></symbol>
-    <symbol id="ph-foto" viewBox="0 0 256 256"><path d="M144,96a16,16,0,1,1,16,16A16,16,0,0,1,144,96Zm92-40V200a20,20,0,0,1-20,20H40a20,20,0,0,1-20-20V56A20,20,0,0,1,40,36H216A20,20,0,0,1,236,56ZM44,60v79.72l33.86-33.86a20,20,0,0,1,28.28,0L147.31,147l17.18-17.17a20,20,0,0,1,28.28,0L212,149.09V60Zm0,136H162.34L92,125.66l-48,48Zm168,0V183l-33.37-33.37L164.28,164l32,32Z"/></symbol>
+    <symbol id="ph-lupa" viewBox="0 0 256 256"><path pathLength="1" d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"/></symbol>
+    <symbol id="ph-estrela" viewBox="0 0 256 256"><path pathLength="1" d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"/></symbol>
+    <symbol id="ph-relogio" viewBox="0 0 256 256"><path pathLength="1" d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm68-84a12,12,0,0,1-12,12H128a12,12,0,0,1-12-12V72a12,12,0,0,1,24,0v44h44A12,12,0,0,1,196,128Z"/></symbol>
+    <symbol id="ph-telefone" viewBox="0 0 256 256"><path pathLength="1" d="M224,154.8l-47.09-21.11-.18-.08a19.94,19.94,0,0,0-19,1.75,13.08,13.08,0,0,0-1.12.84l-22.31,19c-13-7.05-26.43-20.37-33.49-33.21l19.06-22.66a11.76,11.76,0,0,0,.85-1.15,20,20,0,0,0,1.66-18.83,1.42,1.42,0,0,1-.08-.18L101.2,32A20.06,20.06,0,0,0,80.42,20.15,60.27,60.27,0,0,0,28,80c0,81.61,66.39,148,148,148a60.27,60.27,0,0,0,59.85-52.42A20.06,20.06,0,0,0,224,154.8ZM176,204A124.15,124.15,0,0,1,52,80,36.29,36.29,0,0,1,80.48,44.46l18.82,42L80.14,109.28a12,12,0,0,0-.86,1.16A20,20,0,0,0,78,130.08c9.42,19.28,28.83,38.56,48.31,48A20,20,0,0,0,146,176.63a11.63,11.63,0,0,0,1.11-.85l22.43-19.07,42,18.81A36.29,36.29,0,0,1,176,204Z"/></symbol>
+    <symbol id="ph-rota" viewBox="0 0 256 256"><path pathLength="1" d="M238.7,102.46,62.81,37.21l-.25-.09A20,20,0,0,0,37.12,62.56l.09.25L102.46,238.7A20,20,0,0,0,121.3,252h.35a20,20,0,0,0,18.77-14.12l.09-.29,21.23-75.85,75.85-21.23.29-.09a20,20,0,0,0,.82-38Zm-89.93,38a12,12,0,0,0-8.32,8.32l-19.68,70.29L62.8,62.8l156.26,58Z"/></symbol>
+    <symbol id="ph-whatsapp" viewBox="0 0 256 256"><path pathLength="1" d="M187.3,159.06A36.09,36.09,0,0,1,152,188a84.09,84.09,0,0,1-84-84A36.09,36.09,0,0,1,96.94,68.7,12,12,0,0,1,110,75.1l11.48,23a12,12,0,0,1-.75,12l-8.52,12.78a44.56,44.56,0,0,0,20.91,20.91l12.78-8.52a12,12,0,0,1,12-.75l23,11.48A12,12,0,0,1,187.3,159.06ZM236,128A108,108,0,0,1,78.77,224.15L46.34,235A20,20,0,0,1,21,209.66l10.81-32.43A108,108,0,1,1,236,128Zm-24,0A84,84,0,1,0,55.27,170.06a12,12,0,0,1,1,9.81l-9.93,29.79,29.79-9.93a12.1,12.1,0,0,1,3.8-.62,12,12,0,0,1,6,1.62A84,84,0,0,0,212,128Z"/></symbol>
+    <symbol id="ph-foto" viewBox="0 0 256 256"><path pathLength="1" d="M144,96a16,16,0,1,1,16,16A16,16,0,0,1,144,96Zm92-40V200a20,20,0,0,1-20,20H40a20,20,0,0,1-20-20V56A20,20,0,0,1,40,36H216A20,20,0,0,1,236,56ZM44,60v79.72l33.86-33.86a20,20,0,0,1,28.28,0L147.31,147l17.18-17.17a20,20,0,0,1,28.28,0L212,149.09V60Zm0,136H162.34L92,125.66l-48,48Zm168,0V183l-33.37-33.37L164.28,164l32,32Z"/></symbol>
+    <symbol id="ph-loja" viewBox="0 0 256 256"><path pathLength="1" d="M236,96a12,12,0,0,0-.44-3.3L221.2,42.51A20.08,20.08,0,0,0,202,28H54A20.08,20.08,0,0,0,34.8,42.51L20.46,92.7A12,12,0,0,0,20,96h0v16a43.94,43.94,0,0,0,16,33.92V216a12,12,0,0,0,12,12H208a12,12,0,0,0,12-12V145.92A43.94,43.94,0,0,0,236,112V96ZM57.05,52H199l9.14,32H47.91Zm91,56v4a20,20,0,0,1-40,0v-4ZM53,128.71A20,20,0,0,1,44,112v-4H84v4a20,20,0,0,1-20,20,19.76,19.76,0,0,1-9.07-2.2A11.54,11.54,0,0,0,53,128.71ZM196,204H60V155.81c1.32.12,2.65.19,4,.19a43.86,43.86,0,0,0,32-13.85,43.89,43.89,0,0,0,64,0A43.86,43.86,0,0,0,192,156c1.35,0,2.68-.07,4-.19Zm16-92a20,20,0,0,1-9,16.71,11.66,11.66,0,0,0-1.88,1.09A20,20,0,0,1,172,112v-4h40Z"/></symbol>
+    <symbol id="ph-recibo" viewBox="0 0 256 256"><path pathLength="1" d="M68,100A12,12,0,0,1,80,88h96a12,12,0,0,1,0,24H80A12,12,0,0,1,68,100Zm12,52h96a12,12,0,0,0,0-24H80a12,12,0,0,0,0,24ZM236,56V208a12,12,0,0,1-17.37,10.73L192,205.42l-26.63,13.31a12,12,0,0,1-10.74,0L128,205.42l-26.63,13.31a12,12,0,0,1-10.74,0L64,205.42,37.37,218.73A12,12,0,0,1,20,208V56A20,20,0,0,1,40,36H216A20,20,0,0,1,236,56Zm-24,4H44V188.58l14.63-7.31a12,12,0,0,1,10.74,0L96,194.58l26.63-13.31a12,12,0,0,1,10.74,0L160,194.58l26.63-13.31a12,12,0,0,1,10.74,0L212,188.58Z"/></symbol>
+    <symbol id="ph-headset" viewBox="0 0 256 256"><path pathLength="1" d="M204.73,51.85A108.07,108.07,0,0,0,20,128v56a28,28,0,0,0,28,28H64a28,28,0,0,0,28-28V144a28,28,0,0,0-28-28H44.84A84.05,84.05,0,0,1,128,44h.64a83.7,83.7,0,0,1,82.52,72H192a28,28,0,0,0-28,28v40a28,28,0,0,0,28,28h19.6A20,20,0,0,1,192,228H136a12,12,0,0,0,0,24h56a44.05,44.05,0,0,0,44-44V128A107.34,107.34,0,0,0,204.73,51.85ZM64,140a4,4,0,0,1,4,4v40a4,4,0,0,1-4,4H48a4,4,0,0,1-4-4V140Zm124,44V144a4,4,0,0,1,4-4h20v48H192A4,4,0,0,1,188,184Z"/></symbol>
+    <symbol id="ph-meio-disco" viewBox="0 0 256 256"><path pathLength="1" d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm12,24.87a83.53,83.53,0,0,1,24,7.25V203.88a83.53,83.53,0,0,1-24,7.25ZM44,128a84.12,84.12,0,0,1,72-83.13V211.13A84.12,84.12,0,0,1,44,128Zm144,58.71V69.29a83.81,83.81,0,0,1,0,117.42Z"/></symbol>
   </svg>
 
   <!-- Intro da marca: só existe visualmente com html.intro-ativa (ver script no head).
@@ -168,12 +178,9 @@
         <span class="nav__indicador" aria-hidden="true"></span>
       </nav>
       <div class="topo__acoes">
-        <!-- Troca de tema: meio disco em currentColor, vira 180° no escuro. O rótulo vem de site.js. -->
+        <!-- Troca de tema: meio disco (Phosphor) em currentColor, vira 180° no escuro. O rótulo vem de site.js. -->
         <button class="tema" id="tema" type="button" aria-label="Mudar para o tema escuro">
-          <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
-            <circle cx="10" cy="10" r="8.75" fill="none" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M10 1.25a8.75 8.75 0 0 1 0 17.5z" fill="currentColor"/>
-          </svg>
+          <svg width="22" height="22" fill="currentColor" aria-hidden="true"><use href="#ph-meio-disco"/></svg>
         </button>
         <a class="botao" data-wa="topo" href="#">Chamar no WhatsApp</a>
       </div>
@@ -335,8 +342,8 @@
     <section class="secao" id="como-funciona">
       <!-- Trilha vertical: a linha se desenha com a rolagem (scrub, site.js), o
            marcador de cada etapa acende ao ser alcançado e fica aceso; o rótulo
-           e a barra acompanham a etapa atual. Ícones: trajeto, círculo que fecha,
-           linha que continua — traço único, no desenho do monograma. -->
+           e a barra acompanham a etapa atual. Ícones (Phosphor): loja, recibo e
+           headset — cada um nasce como traço do contorno e ganha tinta ao ativar. -->
       <div class="etapas__cabeca">
         <h2 class="secao__titulo">Como funciona</h2>
         <p class="etapas__progresso">
@@ -353,7 +360,7 @@
           <span class="etapa__marcador" aria-hidden="true"></span>
           <div class="etapa__cabeca" aria-hidden="true">
             <span class="etapa__numero">1</span>
-            <svg class="etapa__icone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 40Q6 24 22 26Q38 28 36 12"/><circle cx="37" cy="9" r="3" fill="currentColor" stroke="none"/></svg>
+            <svg class="etapa__icone" aria-hidden="true"><use href="#ph-loja"/></svg>
           </div>
           <div class="etapa__corpo">
             <h3 class="etapa__titulo">Eu vou até você.</h3>
@@ -364,7 +371,7 @@
           <span class="etapa__marcador" aria-hidden="true"></span>
           <div class="etapa__cabeca" aria-hidden="true">
             <span class="etapa__numero">2</span>
-            <svg class="etapa__icone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 9A15 15 0 1 1 23.98 9"/></svg>
+            <svg class="etapa__icone" aria-hidden="true"><use href="#ph-recibo"/></svg>
           </div>
           <div class="etapa__corpo">
             <h3 class="etapa__titulo">Preço fechado antes de começar.</h3>
@@ -375,7 +382,7 @@
           <span class="etapa__marcador" aria-hidden="true"></span>
           <div class="etapa__cabeca" aria-hidden="true">
             <span class="etapa__numero">3</span>
-            <svg class="etapa__icone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 32Q14 32 18 26Q22 18 30 16L46 16"/><path d="M30 26Q38 26 46 26"/></svg>
+            <svg class="etapa__icone" aria-hidden="true"><use href="#ph-headset"/></svg>
           </div>
           <div class="etapa__corpo">
             <h3 class="etapa__titulo">Entrega, treino e suporte.</h3>
@@ -479,16 +486,15 @@
   </footer>
 
   <!-- CTA fixo: entra uma vez quando o hero sai da tela, se apresenta com o rótulo
-       aberto e recolhe ao glifo; hover/foco reabrem o rótulo (site.js + CSS).
-       O glifo é o único ícone do site (funcional). -->
+       aberto e recolhe ao glifo; hover/foco reabrem o rótulo (site.js + CSS). -->
   <a class="whats-fixo" id="whats-fixo" data-wa="topo" href="#" aria-label="Chamar no WhatsApp">
-    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <svg width="24" height="24" fill="currentColor" aria-hidden="true"><use href="#ph-whatsapp"/></svg>
     <span class="whats-fixo__rotulo"><span aria-live="polite">WhatsApp</span></span>
   </a>
 
   <!-- Todos deferidos e em ordem: config.js roda antes de intro.js e site.js. -->
   <script src="js/config.js" defer></script>
-  <script src="js/vendor/gsap.min.js" defer onerror="document.documentElement.classList.remove('intro-ativa')"></script>
+  <script src="js/vendor/gsap.min.js" defer onerror="document.documentElement.classList.remove('intro-ativa', 'anima')"></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/lenis.min.js" defer></script>
   <script src="js/intro.js" defer></script>

@@ -143,11 +143,10 @@
 
   // --- Movimento fora da intro: uma regra só ---------------------------------
 
+  // html.anima vem do script do <head> (sem reduced-motion); sem quem anime, sai.
   const animar = window.gsap && window.ScrollTrigger && !reduz;
-  if (animar) {
-    gsap.registerPlugin(ScrollTrigger);
-    html.classList.add('anima'); // o CSS só esconde o que vai animar quando há quem anime
-  }
+  if (animar) gsap.registerPlugin(ScrollTrigger);
+  else html.classList.remove('anima');
 
   // Rolagem suave só com mouse/trackpad; no toque fica o nativo (e as âncoras
   // usam scroll-behavior do CSS). O offset das âncoras é a altura do cabeçalho.

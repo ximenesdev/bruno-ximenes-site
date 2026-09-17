@@ -105,11 +105,10 @@
   --topo-monograma: 36px; /* caixa com 6 u de margem por lado: o símbolo fica com ~32px */
   --intro-monograma: clamp(237px, 43vw, 323px);
 
-  /* Marcador "certo": um traço em curva, no desenho do monograma. Vai como
-     máscara, então a cor é sempre a do texto ao redor. */
-  --marca-certo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.6Q5.2 10 6.6 12.2Q8.6 7.4 13.2 4.2' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  /* Marcador "errado": duas curvas rasas se cruzando, traço mais leve. */
-  --marca-errado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4.5Q8.5 7.5 12 12M12 4.5Q7.5 7.5 4 12' fill='none' stroke='%23000' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E");
+  /* Marcadores "certo" e "errado": check e x da Phosphor (Bold), como máscara —
+     a cor é sempre a do texto ao redor; a coluna de hoje já é apagada. */
+  --marca-certo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+  --marca-errado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z'/%3E%3C/svg%3E");
 }
 
 /* Tema escuro: exatamente o inverso (a classe vem do script no <head>, antes da
@@ -748,32 +747,29 @@ html:not(.anima) .etapa__numero {
   opacity: 1;
 }
 
-/* Ícone em traço único: se desenha ao ativar (o círculo "fecha"). */
+/* Ícone (Phosphor, cheio): como o monograma da intro, nasce como traço do
+   contorno (pathLength="1" no sprite, dashoffset 1 → 0) e ganha tinta no fim;
+   o traço some quando a tinta entra. As propriedades são herdadas pelo <use>. */
 .etapa__icone {
   width: 56px;
   height: 56px;
   overflow: visible;
-}
-
-.etapa__icone path {
+  fill: currentColor;
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 900ms var(--ease) 150ms;
+  transition: stroke-dashoffset 900ms var(--ease) 150ms, fill-opacity 350ms var(--ease) 900ms, stroke-opacity 350ms var(--ease) 900ms;
 }
 
-.etapa__icone circle {
-  opacity: 0;
-  transition: opacity 300ms var(--ease) 900ms;
-}
-
-.etapa--ativa .etapa__icone path,
-html:not(.anima) .etapa__icone path {
+.etapa--ativa .etapa__icone,
+html:not(.anima) .etapa__icone {
+  fill-opacity: 1;
+  stroke-opacity: 0;
   stroke-dashoffset: 0;
-}
-
-.etapa--ativa .etapa__icone circle,
-html:not(.anima) .etapa__icone circle {
-  opacity: 1;
 }
 
 .etapa__corpo {
