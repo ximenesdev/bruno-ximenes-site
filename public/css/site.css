@@ -102,8 +102,8 @@
   --raio: 10px; /* token único de raio: o --radius-sm do portfólio */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --topo-altura: 56px;
-  --topo-monograma: 32px;
-  --intro-monograma: clamp(220px, 40vw, 300px);
+  --topo-monograma: 36px; /* caixa com 6 u de margem por lado: o símbolo fica com ~32px */
+  --intro-monograma: clamp(237px, 43vw, 323px);
 
   /* Marcador "certo": um traço em curva, no desenho do monograma. Vai como
      máscara, então a cor é sempre a do texto ao redor. */
@@ -126,7 +126,7 @@ html.tema-escuro {
   :root {
     --gutter: 40px;
     --topo-altura: 64px;
-    --topo-monograma: 34px;
+    --topo-monograma: 38px;
   }
 }
 
@@ -266,7 +266,7 @@ html.intro-ativa {
 .marca__nome {
   display: none;
   font-size: var(--t-marca);
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: var(--tracking-marca);
   line-height: 1;
 }
@@ -446,7 +446,7 @@ html.intro-ativa .intro {
 
 .intro__monograma {
   width: var(--intro-monograma);
-  aspect-ratio: 155.4 / 100;
+  aspect-ratio: 167.4 / 112;
   will-change: transform;
 }
 
@@ -463,7 +463,7 @@ html.intro-ativa .intro {
 .intro__nome {
   visibility: hidden;
   font-size: clamp(1rem, 2.6vw, 1.25rem);
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.6em;
   line-height: 1;
   white-space: nowrap;
@@ -574,7 +574,7 @@ html.intro-ativa .intro {
 }
 
 .logo--vertical {
-  aspect-ratio: 229.4 / 203.5;
+  aspect-ratio: 229.4 / 193.5;
   -webkit-mask-image: url("../assets/logo/bx-logo-vertical.svg");
   mask-image: url("../assets/logo/bx-logo-vertical.svg");
 }
