@@ -584,13 +584,13 @@ html.intro-ativa .intro {
 }
 
 .logo--vertical {
-  aspect-ratio: 166.8 / 152;
+  aspect-ratio: 229.4 / 203.5;
   -webkit-mask-image: url("../assets/logo/bx-logo-vertical.svg");
   mask-image: url("../assets/logo/bx-logo-vertical.svg");
 }
 
 .logo--horizontal {
-  aspect-ratio: 330.5 / 94;
+  aspect-ratio: 430.6 / 112;
   -webkit-mask-image: url("../assets/logo/bx-logo-horizontal.svg");
   mask-image: url("../assets/logo/bx-logo-horizontal.svg");
 }
