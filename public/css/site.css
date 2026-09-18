@@ -1185,9 +1185,9 @@ html.anima .etapa--atual .etapa__corpo {
 }
 
 /* --- Cartões (serviços e mensalidades) ------------------------------------ */
-/* Caixa de linha fina; o mais completo leva borda grossa em tinta — o único
-   destaque visual do site. O traço de 2px acima do nome nasce com scaleX
-   (0 → 1) da esquerda, uma vez, ao entrar na tela (site.js põe .cartao--visto). */
+/* Caixa de linha fina, igual para todos — nenhum cartão é "o recomendado". O
+   traço de 2px acima do nome nasce com scaleX (0 → 1) da esquerda, uma vez, ao
+   entrar na tela (site.js põe .cartao--visto). */
 .cartoes {
   display: grid;
   grid-template-columns: minmax(0, 1fr); /* nunca mais largo que o contêiner */
@@ -1203,10 +1203,6 @@ html.anima .etapa--atual .etapa__corpo {
   padding: var(--s3);
   border: 1px solid var(--filete);
   border-radius: var(--raio);
-}
-
-.cartao--destaque {
-  border: 2px solid var(--tinta);
 }
 
 /* Traço de cabeça: mesma gramática do indicador da nav. */
