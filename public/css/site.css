@@ -202,9 +202,13 @@ html.intro-ativa {
   transition: background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
 }
 
-.botao:hover {
-  background: var(--papel);
-  color: var(--tinta);
+/* :hover só onde existe ponteiro que paira: no toque ele fica preso depois
+   do tap (o botão voltaria invertido). Vale para todos os :hover do site. */
+@media (hover: hover) {
+  .botao:hover {
+    background: var(--papel);
+    color: var(--tinta);
+  }
 }
 
 .botao--secundario {
@@ -212,9 +216,11 @@ html.intro-ativa {
   color: var(--tinta);
 }
 
-.botao--secundario:hover {
-  background: var(--tinta);
-  color: var(--papel);
+@media (hover: hover) {
+  .botao--secundario:hover {
+    background: var(--tinta);
+    color: var(--papel);
+  }
 }
 
 /* --- Cabeçalho ------------------------------------------------------------- */
@@ -324,9 +330,14 @@ html.intro-ativa .marca__nome {
   transition: color 250ms var(--ease);
 }
 
-.nav__item:hover,
 .nav__item[aria-current="true"] {
   color: var(--tinta);
+}
+
+@media (hover: hover) {
+  .nav__item:hover {
+    color: var(--tinta);
+  }
 }
 
 .nav__item:focus-visible {
@@ -381,8 +392,10 @@ html.intro-ativa .marca__nome {
   transition: background-color 250ms var(--ease);
 }
 
-.tema:hover {
-  background: var(--filete);
+@media (hover: hover) {
+  .tema:hover {
+    background: var(--filete);
+  }
 }
 
 .tema svg {
@@ -485,10 +498,16 @@ html.intro-ativa .intro {
   transition: color 250ms var(--ease), border-color 250ms var(--ease);
 }
 
-.intro__pular:hover,
 .intro__pular:focus-visible {
   border-color: var(--tinta);
   color: var(--tinta);
+}
+
+@media (hover: hover) {
+  .intro__pular:hover {
+    border-color: var(--tinta);
+    color: var(--tinta);
+  }
 }
 
 /* --- Página e seções ------------------------------------------------------- */
@@ -548,8 +567,10 @@ html.intro-ativa .intro {
   text-underline-offset: 0.2em;
 }
 
-.link:hover {
-  text-decoration-thickness: 2px;
+@media (hover: hover) {
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
 }
 
 .visualmente-oculto {
@@ -1429,8 +1450,10 @@ html.anima .cartao--visto::before {
   text-decoration: none;
 }
 
-.rodape__contato a:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .rodape__contato a:hover {
+    text-decoration: underline;
+  }
 }
 
 .rodape__copy {
@@ -1461,11 +1484,12 @@ html.anima .cartao--visto::before {
 
 /* --- WhatsApp fixo --------------------------------------------------------- */
 /* Em repouso é só o glifo (48px). O rótulo abre em largura (grid 0fr → 1fr) no
-   hover/foco e na apresentação, uma vez, logo depois de entrar. */
+   hover/foco e na apresentação, uma vez, depois de o botão assentar (site.js).
+   A base respeita a área segura do celular (barra/indicador de início). */
 .whats-fixo {
   position: fixed;
   right: 16px;
-  bottom: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom));
   z-index: 50;
   display: inline-flex;
   align-items: center;
@@ -1483,31 +1507,22 @@ html.anima .cartao--visto::before {
   transition: transform 500ms var(--ease), background-color 250ms var(--ease), color 250ms var(--ease), border-color 250ms var(--ease);
 }
 
-.whats-fixo:hover {
-  border-color: var(--tinta);
-  background: var(--papel);
-  color: var(--tinta);
+@media (hover: hover) {
+  .whats-fixo:hover {
+    border-color: var(--tinta);
+    background: var(--papel);
+    color: var(--tinta);
+  }
 }
 
-/* Com script, começa fora da tela e entra uma vez quando o hero sai (site.js). */
+/* Com script, começa fora da tela e entra uma vez quando o hero sai (site.js):
+   um movimento só — sobe; o rótulo se apresenta depois, já parado. */
 html.js .whats-fixo {
   transform: translateY(calc(100% + 24px));
 }
 
 html.js .whats-fixo--visivel {
   transform: none;
-  animation: whats-pulso 700ms var(--ease) 600ms 1; /* um pulso só, depois da entrada */
-}
-
-@keyframes whats-pulso {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  40% {
-    transform: scale(1.06);
-  }
 }
 
 .whats-fixo__rotulo {
@@ -1535,16 +1550,51 @@ html.js .whats-fixo--visivel {
   width: 5px;
 }
 
-.whats-fixo:hover .whats-fixo__rotulo,
 .whats-fixo:focus-visible .whats-fixo__rotulo,
-.whats-fixo--apresenta .whats-fixo__rotulo,
-.whats-fixo--comanda .whats-fixo__rotulo {
+.whats-fixo--apresenta .whats-fixo__rotulo {
   grid-template-columns: 1fr;
 }
 
-/* Com itens na comanda o botão fixo entra mesmo no hero, para o total aparecer. */
+@media (hover: hover) {
+  .whats-fixo:hover .whats-fixo__rotulo {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Comanda: o botão fixo entra mesmo no hero. Com espaço (≥ 768px) o rótulo
+   fica aberto com o total ("Fechar · R$ …"); abaixo disso, aberto ele cobriria
+   um botão de cartão inteiro na base da tela, então mostra só um contador de
+   itens no canto do glifo (data-itens, site.js). O texto completo continua no
+   rótulo para o leitor de tela e abre no foco. */
 html.js .whats-fixo--comanda {
   transform: none;
+}
+
+@media (min-width: 768px) {
+  .whats-fixo--comanda .whats-fixo__rotulo {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .whats-fixo--comanda::after {
+    content: attr(data-itens);
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    display: grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border: 2px solid var(--papel);
+    border-radius: 11px;
+    background: var(--tinta);
+    color: var(--papel);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1556,7 +1606,4 @@ html.js .whats-fixo--comanda {
     transition: none;
   }
 
-  html.js .whats-fixo--visivel {
-    animation: none;
-  }
 }

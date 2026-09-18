@@ -34,6 +34,7 @@
 
     if (!marcados.length) {
       whats.classList.remove('whats-fixo--comanda');
+      delete whats.dataset.itens;
       whatsRotulo.textContent = 'WhatsApp';
       ligarWhatsApp();
       return;
@@ -54,6 +55,7 @@
     if (mensal) partes.push(reais(mensal) + '/mês');
 
     whats.classList.add('whats-fixo--comanda');
+    whats.dataset.itens = marcados.length; // contador no canto do glifo (< 768px, CSS)
     whatsRotulo.textContent = 'Fechar · ' + partes.join(' + ');
     ligarWhatsApp(cfg.MENSAGENS.comanda.replace('{itens}', itens.join(' + ')));
   }
@@ -349,12 +351,14 @@
     }
     marcar(atual ? itemPorSecao.get(atual.id) || null : null);
 
-    // WhatsApp fixo: entra uma vez quando o hero sai da tela, se apresenta com o
-    // rótulo aberto por 2,4 s e recolhe ao glifo.
+    // WhatsApp fixo: entra uma vez quando o hero sai da tela — um movimento só
+    // (sobe em 500 ms); já parado, se apresenta com o rótulo aberto de 0,5 s a
+    // 2,9 s e recolhe ao glifo.
     if (!whatsEntrou && hero.getBoundingClientRect().bottom < 0) {
       whatsEntrou = true;
-      whats.classList.add('whats-fixo--visivel', 'whats-fixo--apresenta');
-      setTimeout(() => whats.classList.remove('whats-fixo--apresenta'), 2400);
+      whats.classList.add('whats-fixo--visivel');
+      setTimeout(() => whats.classList.add('whats-fixo--apresenta'), 500);
+      setTimeout(() => whats.classList.remove('whats-fixo--apresenta'), 2900);
     }
   }
 
