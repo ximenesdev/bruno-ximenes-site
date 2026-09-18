@@ -235,8 +235,10 @@
       };
       const primeira = etapas[0];
       const ultima = etapas[etapas.length - 1];
-      gsap.fromTo('#etapa-linha', { strokeDashoffset: () => 1 - noMarcador(primeira) }, {
-        strokeDashoffset: () => 1 - noMarcador(ultima),
+      // Como atributo, não CSS: o CSSPlugin arredonda px para inteiro e a
+      // linha desenharia de uma vez.
+      gsap.fromTo('#etapa-linha', { attr: { 'stroke-dashoffset': () => 1 - noMarcador(primeira) } }, {
+        attr: { 'stroke-dashoffset': () => 1 - noMarcador(ultima) },
         ease: 'none',
         scrollTrigger: { trigger: primeira, start: 'top 60%', endTrigger: ultima, end: 'top 60%', scrub: 0.4, invalidateOnRefresh: true },
       });

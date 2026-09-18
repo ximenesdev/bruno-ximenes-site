@@ -669,7 +669,9 @@ html:not(.anima) .etapas__progresso {
    2 unidades, então o traço de 2 sai com 2px sem non-scaling-stroke — que
    faria o Chrome medir o dasharray em pixels de tela), com o trilho em filete
    e o traço em tinta desenhado por stroke-dashoffset conforme a rolagem
-   (site.js), do primeiro ao último marcador. */
+   (site.js), do primeiro ao último marcador. O dashoffset inicial é atributo
+   da <line>, não CSS: o GSAP anima o atributo (o CSSPlugin arredondaria a
+   fração para px inteiro) e CSS venceria o atributo. */
 .etapas {
   position: relative;
   display: grid;
@@ -698,7 +700,6 @@ html:not(.anima) .etapas__progresso {
   stroke: var(--tinta);
   stroke-width: 2;
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
 }
 
 html:not(.anima) .etapas__traco {
@@ -711,8 +712,10 @@ html:not(.anima) .etapas__traco {
   gap: var(--s2) var(--s3);
 }
 
-/* Marcador sobre a linha: anel vazio que se enche ao ser alcançado. */
+/* Marcador sobre a linha: anel vazio que se enche ao ser alcançado. Posicionado
+   para pintar por cima do SVG da trilha (que é absoluto e viria por cima). */
 .etapa__marcador {
+  position: relative;
   grid-row: 1 / span 2;
   width: 12px;
   height: 12px;
