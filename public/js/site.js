@@ -185,13 +185,11 @@
   if (animar) {
     const blocos = gsap.utils.toArray(BLOCOS);
     const etapas = gsap.utils.toArray('.etapa');
-    const textosEtapas = etapas.map((etapa) => Array.from(etapa.querySelectorAll('.etapa__corpo > *')));
 
     // Estado inicial já na carga, para nada piscar quando o fundo da intro sair.
     // Só opacidade (não autoAlpha): visibility:hidden tiraria os botões da
     // ordem do Tab. Se o foco chegar antes da rolagem, o bloco aparece na hora.
     gsap.set(blocos, { opacity: 0, y: 28 });
-    gsap.set(textosEtapas.flat(), { opacity: 0, y: 24 });
     document.addEventListener('focusin', (e) => {
       const bloco = e.target.closest(BLOCOS);
       if (bloco) gsap.to(bloco, { opacity: 1, y: 0, duration: 0.3, overwrite: true });
@@ -218,10 +216,11 @@
       // Como funciona. A trilha se desenha entre o primeiro e o último marcador
       // acompanhando a rolagem (scrub, via Lenis quando ele existe): chega em
       // cada marcador no instante em que a etapa acende. Uma etapa acende quando
-      // o topo dela cruza 60% da tela e apaga se a pessoa volta: marcador cheio
-      // e ícone com tinta ficam nas etapas já alcançadas (.etapa--ativa), o
-      // número em destaque é só o da etapa atual (.etapa--atual) — ganha e perde
-      // — e o texto sobe em cascata, e desce de volta. O rótulo "Etapa n de 3"
+      // o topo dela cruza 60% da tela e apaga se a pessoa volta: o marcador
+      // cheio e o texto visível ficam nas etapas já alcançadas (.etapa--ativa);
+      // número e texto em tinta cheia são só os da etapa atual (.etapa--atual)
+      // — ganha e perde. As transições do texto são CSS, nas mesmas classes:
+      // um gatilho só por etapa, nada dessincroniza. O rótulo "Etapa n de 3"
       // e a barra acompanham.
       const linha = document.querySelector('.etapas__linha');
       const etapaAtual = document.getElementById('etapa-atual');
@@ -253,19 +252,11 @@
         etapaBarra.style.transform = 'scaleX(' + (rotulo / etapas.length) + ')';
       }
       etapas.forEach((etapa, i) => {
-        gsap.to(textosEtapas[i], {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: etapa,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse',
-            onEnter: () => irPara(i),
-            onLeaveBack: () => irPara(i - 1),
-          },
+        ScrollTrigger.create({
+          trigger: etapa,
+          start: 'top 60%',
+          onEnter: () => irPara(i),
+          onLeaveBack: () => irPara(i - 1),
         });
       });
 

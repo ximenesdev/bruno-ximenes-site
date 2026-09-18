@@ -90,7 +90,7 @@
   <!-- Ícones: Phosphor Icons (MIT, phosphoricons.com), peso Bold (a estrela em Fill),
        copiados como <symbol> e usados com <use>. Todos em viewBox 0 0 256 256, em
        currentColor e com pathLength="1": qualquer um pode se desenhar por
-       stroke-dashoffset (os das etapas fazem isso). O sprite fica fora do fluxo por
+       stroke-dashoffset se um dia for preciso. O sprite fica fora do fluxo por
        classe — o atributo hidden não vale para <svg> inline. -->
   <svg class="icones" xmlns="http://www.w3.org/2000/svg">
     <symbol id="ph-lupa" viewBox="0 0 256 256"><path pathLength="1" d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"/></symbol>
@@ -100,9 +100,6 @@
     <symbol id="ph-rota" viewBox="0 0 256 256"><path pathLength="1" d="M238.7,102.46,62.81,37.21l-.25-.09A20,20,0,0,0,37.12,62.56l.09.25L102.46,238.7A20,20,0,0,0,121.3,252h.35a20,20,0,0,0,18.77-14.12l.09-.29,21.23-75.85,75.85-21.23.29-.09a20,20,0,0,0,.82-38Zm-89.93,38a12,12,0,0,0-8.32,8.32l-19.68,70.29L62.8,62.8l156.26,58Z"/></symbol>
     <symbol id="ph-whatsapp" viewBox="0 0 256 256"><path pathLength="1" d="M187.3,159.06A36.09,36.09,0,0,1,152,188a84.09,84.09,0,0,1-84-84A36.09,36.09,0,0,1,96.94,68.7,12,12,0,0,1,110,75.1l11.48,23a12,12,0,0,1-.75,12l-8.52,12.78a44.56,44.56,0,0,0,20.91,20.91l12.78-8.52a12,12,0,0,1,12-.75l23,11.48A12,12,0,0,1,187.3,159.06ZM236,128A108,108,0,0,1,78.77,224.15L46.34,235A20,20,0,0,1,21,209.66l10.81-32.43A108,108,0,1,1,236,128Zm-24,0A84,84,0,1,0,55.27,170.06a12,12,0,0,1,1,9.81l-9.93,29.79,29.79-9.93a12.1,12.1,0,0,1,3.8-.62,12,12,0,0,1,6,1.62A84,84,0,0,0,212,128Z"/></symbol>
     <symbol id="ph-foto" viewBox="0 0 256 256"><path pathLength="1" d="M144,96a16,16,0,1,1,16,16A16,16,0,0,1,144,96Zm92-40V200a20,20,0,0,1-20,20H40a20,20,0,0,1-20-20V56A20,20,0,0,1,40,36H216A20,20,0,0,1,236,56ZM44,60v79.72l33.86-33.86a20,20,0,0,1,28.28,0L147.31,147l17.18-17.17a20,20,0,0,1,28.28,0L212,149.09V60Zm0,136H162.34L92,125.66l-48,48Zm168,0V183l-33.37-33.37L164.28,164l32,32Z"/></symbol>
-    <symbol id="ph-loja" viewBox="0 0 256 256"><path pathLength="1" d="M236,96a12,12,0,0,0-.44-3.3L221.2,42.51A20.08,20.08,0,0,0,202,28H54A20.08,20.08,0,0,0,34.8,42.51L20.46,92.7A12,12,0,0,0,20,96h0v16a43.94,43.94,0,0,0,16,33.92V216a12,12,0,0,0,12,12H208a12,12,0,0,0,12-12V145.92A43.94,43.94,0,0,0,236,112V96ZM57.05,52H199l9.14,32H47.91Zm91,56v4a20,20,0,0,1-40,0v-4ZM53,128.71A20,20,0,0,1,44,112v-4H84v4a20,20,0,0,1-20,20,19.76,19.76,0,0,1-9.07-2.2A11.54,11.54,0,0,0,53,128.71ZM196,204H60V155.81c1.32.12,2.65.19,4,.19a43.86,43.86,0,0,0,32-13.85,43.89,43.89,0,0,0,64,0A43.86,43.86,0,0,0,192,156c1.35,0,2.68-.07,4-.19Zm16-92a20,20,0,0,1-9,16.71,11.66,11.66,0,0,0-1.88,1.09A20,20,0,0,1,172,112v-4h40Z"/></symbol>
-    <symbol id="ph-recibo" viewBox="0 0 256 256"><path pathLength="1" d="M68,100A12,12,0,0,1,80,88h96a12,12,0,0,1,0,24H80A12,12,0,0,1,68,100Zm12,52h96a12,12,0,0,0,0-24H80a12,12,0,0,0,0,24ZM236,56V208a12,12,0,0,1-17.37,10.73L192,205.42l-26.63,13.31a12,12,0,0,1-10.74,0L128,205.42l-26.63,13.31a12,12,0,0,1-10.74,0L64,205.42,37.37,218.73A12,12,0,0,1,20,208V56A20,20,0,0,1,40,36H216A20,20,0,0,1,236,56Zm-24,4H44V188.58l14.63-7.31a12,12,0,0,1,10.74,0L96,194.58l26.63-13.31a12,12,0,0,1,10.74,0L160,194.58l26.63-13.31a12,12,0,0,1,10.74,0L212,188.58Z"/></symbol>
-    <symbol id="ph-headset" viewBox="0 0 256 256"><path pathLength="1" d="M204.73,51.85A108.07,108.07,0,0,0,20,128v56a28,28,0,0,0,28,28H64a28,28,0,0,0,28-28V144a28,28,0,0,0-28-28H44.84A84.05,84.05,0,0,1,128,44h.64a83.7,83.7,0,0,1,82.52,72H192a28,28,0,0,0-28,28v40a28,28,0,0,0,28,28h19.6A20,20,0,0,1,192,228H136a12,12,0,0,0,0,24h56a44.05,44.05,0,0,0,44-44V128A107.34,107.34,0,0,0,204.73,51.85ZM64,140a4,4,0,0,1,4,4v40a4,4,0,0,1-4,4H48a4,4,0,0,1-4-4V140Zm124,44V144a4,4,0,0,1,4-4h20v48H192A4,4,0,0,1,188,184Z"/></symbol>
     <symbol id="ph-meio-disco" viewBox="0 0 256 256"><path pathLength="1" d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm12,24.87a83.53,83.53,0,0,1,24,7.25V203.88a83.53,83.53,0,0,1-24,7.25ZM44,128a84.12,84.12,0,0,1,72-83.13V211.13A84.12,84.12,0,0,1,44,128Zm144,58.71V69.29a83.81,83.81,0,0,1,0,117.42Z"/></symbol>
   </svg>
 
@@ -342,9 +339,9 @@
     <section class="secao" id="como-funciona">
       <!-- Trilha vertical: a linha se desenha com a rolagem entre o primeiro e o
            último marcador (scrub, site.js); o marcador de cada etapa acende ao ser
-           alcançado e apaga se a pessoa volta; só o número da etapa atual fica em
-           destaque; o rótulo e a barra acompanham. Ícones (Phosphor): loja, recibo
-           e headset — cada um nasce como traço do contorno e ganha tinta ao ativar. -->
+           alcançado e apaga se a pessoa volta; número e texto em tinta cheia só na
+           etapa atual (o texto anterior recua para o cinza, no CSS); o rótulo e a
+           barra acompanham. -->
       <div class="etapas__cabeca">
         <h2 class="secao__titulo">Como funciona</h2>
         <p class="etapas__progresso">
@@ -359,10 +356,7 @@
         </svg>
         <li class="etapa">
           <span class="etapa__marcador" aria-hidden="true"></span>
-          <div class="etapa__cabeca" aria-hidden="true">
-            <span class="etapa__numero">1</span>
-            <svg class="etapa__icone" aria-hidden="true"><use href="#ph-loja"/></svg>
-          </div>
+          <span class="etapa__numero" aria-hidden="true">1</span>
           <div class="etapa__corpo">
             <h3 class="etapa__titulo">Eu vou até você.</h3>
             <p>Visito a loja, vejo como você atende hoje e te mostro na hora o que está faltando. Sem custo, sem compromisso.</p>
@@ -370,10 +364,7 @@
         </li>
         <li class="etapa">
           <span class="etapa__marcador" aria-hidden="true"></span>
-          <div class="etapa__cabeca" aria-hidden="true">
-            <span class="etapa__numero">2</span>
-            <svg class="etapa__icone" aria-hidden="true"><use href="#ph-recibo"/></svg>
-          </div>
+          <span class="etapa__numero" aria-hidden="true">2</span>
           <div class="etapa__corpo">
             <h3 class="etapa__titulo">Preço fechado antes de começar.</h3>
             <p>Você recebe o valor final, o que entra, o que não entra e o prazo, por escrito. Não existe surpresa no fim.</p>
@@ -381,10 +372,7 @@
         </li>
         <li class="etapa">
           <span class="etapa__marcador" aria-hidden="true"></span>
-          <div class="etapa__cabeca" aria-hidden="true">
-            <span class="etapa__numero">3</span>
-            <svg class="etapa__icone" aria-hidden="true"><use href="#ph-headset"/></svg>
-          </div>
+          <span class="etapa__numero" aria-hidden="true">3</span>
           <div class="etapa__corpo">
             <h3 class="etapa__titulo">Entrega, treino e suporte.</h3>
             <p>Eu entrego funcionando, ensino você e a equipe, e continuo do outro lado do WhatsApp.</p>

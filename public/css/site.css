@@ -732,12 +732,6 @@ html:not(.anima) .etapa__marcador {
   transform: scale(1.3);
 }
 
-.etapa__cabeca {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-}
-
 /* Número grande: só o da etapa atual fica aceso — ganha ao ser alcançada e
    perde quando a próxima chega (.etapa--atual, site.js). O tamanho nunca muda. */
 .etapa__numero {
@@ -754,33 +748,29 @@ html:not(.anima) .etapa__numero {
   opacity: 1;
 }
 
-/* Ícone (Phosphor, cheio): como o monograma da intro, nasce como traço do
-   contorno (pathLength="1" no sprite, dashoffset 1 → 0) e ganha tinta no fim;
-   o traço some quando a tinta entra. As propriedades são herdadas pelo <use>. */
-.etapa__icone {
-  width: 56px;
-  height: 56px;
-  overflow: visible;
-  fill: currentColor;
-  fill-opacity: 0;
-  stroke: currentColor;
-  stroke-width: 10;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 900ms var(--ease) 150ms, fill-opacity 350ms var(--ease) 900ms, stroke-opacity 350ms var(--ease) 900ms;
-}
-
-.etapa--ativa .etapa__icone,
-html:not(.anima) .etapa__icone {
-  fill-opacity: 1;
-  stroke-opacity: 0;
-  stroke-dashoffset: 0;
-}
-
+/* Texto: aparece quando a etapa é alcançada e recua para o cinza quando a
+   próxima vira a atual — um texto só em tinta cheia por vez. Só opacidade e
+   cor, sem deslocamento: a transição parte do valor corrente, então nada pula
+   na rolagem rápida. Quem sai vai rápido (400 ms); quem entra chega devagar
+   (800 ms, depois de 100 ms). As classes são as mesmas do marcador (site.js). */
 .etapa__corpo {
   max-width: var(--medida);
+}
+
+html.anima .etapa__corpo {
+  opacity: 0;
+  color: var(--tinta-fraca);
+  transition: opacity 400ms var(--ease), color 400ms var(--ease);
+}
+
+html.anima .etapa--ativa .etapa__corpo {
+  opacity: 1;
+  transition: opacity 800ms var(--ease) 100ms, color 400ms var(--ease);
+}
+
+html.anima .etapa--atual .etapa__corpo {
+  color: var(--tinta);
+  transition: opacity 800ms var(--ease) 100ms, color 800ms var(--ease) 100ms;
 }
 
 .etapa__titulo + p {
@@ -794,7 +784,7 @@ html:not(.anima) .etapa__icone {
   }
 
   .etapa {
-    grid-template-columns: 24px 200px minmax(0, 1fr);
+    grid-template-columns: 24px 4rem minmax(0, 1fr);
     column-gap: var(--s4);
     min-height: 120px;
   }
@@ -803,7 +793,7 @@ html:not(.anima) .etapa__icone {
     grid-row: 1;
   }
 
-  .etapa__cabeca {
+  .etapa__numero {
     align-self: start;
   }
 }
