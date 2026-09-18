@@ -4,7 +4,7 @@ Site de página única para quem tem comércio ou presta serviço em Brasília:
 presença no Google, site com preço na tela e sistema sob medida — com um
 botão de WhatsApp que já leva o que a pessoa escolheu.
 
-Site publicado: _em breve_
+Site publicado: <https://bruno-ximenes.contatoxm.workers.dev>
 
 <p>
   <img src="docs/screenshots/desktop-1280.png" alt="Primeira dobra do site em tela de 1280px: cabeçalho com monograma BX, título e botão de WhatsApp" width="640">
