@@ -5,10 +5,16 @@ node_modules/
 .wrangler/
 .dev.vars
 
+# Saída de build (não há build hoje; por precaução)
+dist/
+
+# Material de trabalho: só as capturas do README são versionadas
+docs/*
+!docs/screenshots/
+
 # Sistema operacional / editores
 .DS_Store
 .vscode/
 
 # Logs
 *.log
-
